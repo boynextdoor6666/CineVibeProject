@@ -36,6 +36,9 @@ let AnalyticsController = class AnalyticsController {
         const l = limit ? parseInt(limit, 10) : 10;
         return this.analyticsService.getHypeTop(l);
     }
+    async getMLStatus() {
+        return this.analyticsService.getMLStatus();
+    }
     async getRealtimeStatus() {
         const [kafkaStatus, clickhouseStatus] = await Promise.all([
             this.kafkaService.getStatus(),
@@ -143,6 +146,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AnalyticsController.prototype, "getHypeTop", null);
+__decorate([
+    (0, common_1.Get)('ml-status'),
+    (0, swagger_1.ApiOperation)({ summary: 'Получить статус выполнения ML задач' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AnalyticsController.prototype, "getMLStatus", null);
 __decorate([
     (0, common_1.Get)('realtime/status'),
     (0, swagger_1.ApiOperation)({ summary: 'Статус подключения к Kafka и ClickHouse' }),

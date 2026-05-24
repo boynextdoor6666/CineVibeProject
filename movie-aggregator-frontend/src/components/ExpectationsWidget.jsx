@@ -17,6 +17,22 @@ const ExpectationsWidget = ({ contentId, actualRating: rawActualRating }) => {
   const [submitting, setSubmitting] = useState(false);
   const [hasWatched, setHasWatched] = useState(false);
 
+  const formatErrorMessage = (value, fallback = 'Неизвестная ошибка') => {
+    if (Array.isArray(value)) return value.join(', ')
+    if (typeof value === 'string') return value
+    if (value && typeof value === 'object') {
+      if (typeof value.message === 'string') return value.message
+      if (Array.isArray(value.message)) return value.message.join(', ')
+      if (typeof value.error === 'string') return value.error
+      try {
+        return JSON.stringify(value)
+      } catch (_) {
+        return fallback
+      }
+    }
+    return fallback
+  }
+
   // Конвертируем actualRating в число
   const actualRating = rawActualRating != null ? parseFloat(rawActualRating) : null;
   const hasActualRating = actualRating !== null && !isNaN(actualRating);
@@ -64,7 +80,7 @@ const ExpectationsWidget = ({ contentId, actualRating: rawActualRating }) => {
       fetchExpectations();
       alert('Ваши ожидания сохранены!');
     } catch (error) {
-      alert('Ошибка сохранения: ' + (error.response?.data?.message || error.message));
+      alert('Ошибка сохранения: ' + formatErrorMessage(error.response?.data, error.message));
     } finally {
       setSubmitting(false);
     }

@@ -36,6 +36,12 @@ export class AnalyticsController {
     return this.analyticsService.getHypeTop(l);
   }
 
+  @Get('ml-status')
+  @ApiOperation({ summary: 'Получить статус выполнения ML задач' })
+  async getMLStatus() {
+    return this.analyticsService.getMLStatus();
+  }
+
   // ==================== ClickHouse-based endpoints ====================
 
   @Get('realtime/status')

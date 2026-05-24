@@ -3,3 +3,5 @@ scikit-learn
 sqlalchemy
 pymysql
 python-dotenv
+transformers
+torch

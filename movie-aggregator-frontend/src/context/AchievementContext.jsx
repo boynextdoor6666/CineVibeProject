@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect, useRef } from 'react';
 import AchievementToast from '../components/AchievementToast';
 import { AnimatePresence } from 'framer-motion';
 import axios from 'axios';
@@ -6,11 +6,13 @@ import { useAuth } from './AuthContext';
 
 const AchievementContext = createContext(null);
 
+const getAchievementId = (item) => item?.achievement?.id ?? item?.id ?? null;
+
 export const AchievementProvider = ({ children }) => {
   const { user } = useAuth();
   const [queue, setQueue] = useState([]);
   const [current, setCurrent] = useState(null);
-  const [knownAchievements, setKnownAchievements] = useState(new Set());
+  const knownAchievementsRef = useRef(new Set());
 
   const playSound = () => {
     try {
@@ -26,35 +28,46 @@ export const AchievementProvider = ({ children }) => {
   const showAchievement = useCallback((achievement) => {
     setQueue((prev) => [...prev, achievement]);
     if (achievement.id) {
-      setKnownAchievements(prev => new Set(prev).add(achievement.id));
+      knownAchievementsRef.current.add(achievement.id);
     }
   }, []);
 
   // Poll for achievements
   useEffect(() => {
     if (!user) {
-      setKnownAchievements(new Set());
+      knownAchievementsRef.current = new Set();
       return;
     }
 
     const fetchAchievements = async () => {
       try {
         const res = await axios.get('/api/users/me/achievements');
-        const achievements = res.data;
+        const achievements = Array.isArray(res.data) ? res.data : [];
         
         // If first load, just populate known set without notifying
-        if (knownAchievements.size === 0) {
-          const ids = new Set(achievements.map(ua => ua.achievement.id));
-          setKnownAchievements(ids);
+        if (knownAchievementsRef.current.size === 0) {
+          const ids = new Set(
+            achievements
+              .map(getAchievementId)
+              .filter((id) => id !== null)
+          );
+          knownAchievementsRef.current = ids;
           return;
         }
 
         // Check for new ones
-        achievements.forEach(ua => {
-          if (!knownAchievements.has(ua.achievement.id)) {
+        achievements.forEach((ua) => {
+          const achievementId = getAchievementId(ua);
+          const achievement = ua?.achievement ?? ua;
+
+          if (achievementId === null || !achievement) {
+            return;
+          }
+
+          if (!knownAchievementsRef.current.has(achievementId)) {
             // New achievement!
-            showAchievement(ua.achievement);
-            setKnownAchievements(prev => new Set(prev).add(ua.achievement.id));
+            showAchievement(achievement);
+            knownAchievementsRef.current.add(achievementId);
           }
         });
       } catch (err) {
@@ -68,7 +81,7 @@ export const AchievementProvider = ({ children }) => {
     // Poll every 15 seconds
     const interval = setInterval(fetchAchievements, 15000);
     return () => clearInterval(interval);
-  }, [user, knownAchievements, showAchievement]);
+  }, [user, showAchievement]);
 
   // Process queue
   useEffect(() => {

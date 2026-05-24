@@ -9,6 +9,7 @@ export declare class AnalyticsController {
     getWorldRatings(contentId?: string): Promise<any>;
     getAntiRating(limit?: string): Promise<any>;
     getHypeTop(limit?: string): Promise<any>;
+    getMLStatus(): Promise<any>;
     getRealtimeStatus(): Promise<{
         kafka: {
             enabled: boolean;

@@ -59,6 +59,18 @@ let AnalyticsService = class AnalyticsService {
       LIMIT ?
     `, [limit]);
     }
+    async getMLStatus() {
+        try {
+            return await this.connection.query(`
+        SELECT id, task_name, status, progress, message, updated_at
+        FROM ml_task_logs
+        ORDER BY updated_at DESC
+      `);
+        }
+        catch (error) {
+            return [];
+        }
+    }
 };
 exports.AnalyticsService = AnalyticsService;
 exports.AnalyticsService = AnalyticsService = __decorate([

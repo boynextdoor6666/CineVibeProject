@@ -53,4 +53,18 @@ export class AnalyticsService {
       LIMIT ?
     `, [limit]);
   }
+
+  async getMLStatus() {
+    try {
+      // Fetch latest ML task logs
+      return await this.connection.query(`
+        SELECT id, task_name, status, progress, message, updated_at
+        FROM ml_task_logs
+        ORDER BY updated_at DESC
+      `);
+    } catch (error) {
+      // Table might not exist yet if script hasn't run
+      return [];
+    }
+  }
 }

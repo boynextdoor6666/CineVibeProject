@@ -18,7 +18,11 @@ export default function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'users' | 'content' | 'hero-carousel' | 'coming-soon' | 'reviews' | 'achievements' | 'publications'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'users' | 'content' | 'hero-carousel' | 'coming-soon' | 'reviews' | 'achievements' | 'publications' | 'ml-tasks'
+
+  // ML Status state
+  const [mlTasks, setMlTasks] = useState([]);
+  const [mlLoading, setMlLoading] = useState(false);
 
   // Reviews state
   const [reviews, setReviews] = useState([]);
@@ -189,6 +193,18 @@ export default function AdminPanel() {
     }
     fetchData();
   }, [user, navigate]);
+
+  const fetchMlTasks = async () => {
+    setMlLoading(true);
+    try {
+      const res = await axios.get('/api/analytics/ml-status');
+      setMlTasks(res.data);
+    } catch (error) {
+      console.error('Failed to fetch ML tasks:', error);
+    } finally {
+      setMlLoading(false);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -550,6 +566,7 @@ export default function AdminPanel() {
           <button onClick={() => { setActiveTab('reviews'); setTimeout(fetchReviews, 10); }} className={`px-4 py-2 rounded ${activeTab==='reviews'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Отзывы</button>
           <button onClick={() => { setActiveTab('achievements'); setTimeout(fetchAchievements, 10); }} className={`px-4 py-2 rounded ${activeTab==='achievements'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Достижения</button>
           <button onClick={() => { setActiveTab('publications'); setTimeout(fetchPublications, 10); }} className={`px-4 py-2 rounded ${activeTab==='publications'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Издания</button>
+          <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className={`px-4 py-2 rounded ${activeTab==='ml-tasks'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>ML Задачи</button>
         </div>
 
         {activeTab === 'dashboard' && stats && (
@@ -755,6 +772,11 @@ export default function AdminPanel() {
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">💬</div>
                     <div className="font-semibold text-secondary-100">Отзывы</div>
                     <div className="text-xs text-secondary-400">Проверка рецензий</div>
+                  </button>
+                  <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                    <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">🧠</div>
+                    <div className="font-semibold text-secondary-100">Автоматизация</div>
+                    <div className="text-xs text-secondary-400">Состояние ML моделей</div>
                   </button>
                   <button onClick={() => setActiveTab('coming-soon')} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">📅</div>
@@ -1807,6 +1829,54 @@ export default function AdminPanel() {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* ML TASKS TAB */}
+        {activeTab === 'ml-tasks' && (
+          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-secondary-100 flex items-center gap-2"><Server /> ML Задачи & Автоматизация</h2>
+              <button onClick={fetchMlTasks} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+            </div>
+            
+            {mlLoading ? (
+              <div className="text-center py-8">Загрузка статуса ML задач...</div>
+            ) : mlTasks.length === 0 ? (
+              <div className="text-center py-8 text-secondary-400 bg-primary-900 rounded-lg">Выполнение ML скриптов еще не началось или отсутствует таблица логов...</div>
+            ) : (
+              <div className="space-y-4">
+                {mlTasks.map(task => (
+                  <div key={task.id} className="bg-primary-900 p-4 rounded-lg border border-primary-700">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-semibold text-lg text-secondary-100">{task.task_name}</div>
+                      <span className={`px-2 py-1 text-xs rounded font-bold uppercase ${
+                        task.status === 'completed' ? 'bg-green-600 text-white' :
+                        task.status === 'running' ? 'bg-blue-600 text-white animate-pulse' :
+                        task.status === 'failed' ? 'bg-red-600 text-white' :
+                        'bg-gray-600 text-white'
+                      }`}>
+                        {task.status}
+                      </span>
+                    </div>
+                    
+                    <div className="w-full bg-dark-800 rounded-full h-2.5 mb-2">
+                       <div 
+                         className={`h-2.5 rounded-full ${task.status === 'failed' ? 'bg-red-500' : 'bg-accent-500'}`}
+                         style={{ width: `${task.progress}%` }}
+                       ></div>
+                    </div>
+                    
+                    <div className="flex justify-between text-sm">
+                       <span className="text-secondary-400">{task.message || '...'}</span>
+                       <span className="text-secondary-500">
+                         {new Date(task.updated_at).toLocaleString()}
+                       </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

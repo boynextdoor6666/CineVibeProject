@@ -5,4 +5,5 @@ export declare class AnalyticsService {
     getWorldRatings(contentId?: number): Promise<any>;
     getAntiRating(limit?: number): Promise<any>;
     getHypeTop(limit?: number): Promise<any>;
+    getMLStatus(): Promise<any>;
 }

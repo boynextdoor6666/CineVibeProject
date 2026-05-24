@@ -170,21 +170,21 @@ const Home = () => {
         {/* Filter Bar */}
         <div className="mb-8">
           {/* Modern Filter Bar */}
-          <div className="flex flex-wrap items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-md">
             
             {/* Genre Dropdown */}
             <div className="relative group">
               <select
                 value={selectedGenre}
                 onChange={(e) => setSelectedGenre(e.target.value)}
-                className="appearance-none bg-black/40 border border-white/10 rounded-xl px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-purple-500 transition-colors cursor-pointer hover:bg-black/60 min-w-[140px]"
+                className="appearance-none bg-black/40 border border-white/10 rounded-md px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-[#ff6600] transition-colors cursor-pointer hover:bg-black/60 min-w-[140px]"
               >
                 <option value="">Все жанры</option>
                 {allGenres.map(genre => (
                   <option key={genre} value={genre}>{genre}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[#ff6600] transition-colors" />
             </div>
 
             {/* Year Dropdown */}
@@ -192,14 +192,14 @@ const Home = () => {
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
-                className="appearance-none bg-black/40 border border-white/10 rounded-xl px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-purple-500 transition-colors cursor-pointer hover:bg-black/60 min-w-[120px]"
+                className="appearance-none bg-black/40 border border-white/10 rounded-md px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-[#ff6600] transition-colors cursor-pointer hover:bg-black/60 min-w-[120px]"
               >
                 <option value="">Год</option>
                 {allYears.map(year => (
                   <option key={year} value={year}>{year}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[#ff6600] transition-colors" />
             </div>
 
             {/* Rating Dropdown */}
@@ -207,14 +207,14 @@ const Home = () => {
               <select
                 value={selectedRating}
                 onChange={(e) => setSelectedRating(e.target.value)}
-                className="appearance-none bg-black/40 border border-white/10 rounded-xl px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-purple-500 transition-colors cursor-pointer hover:bg-black/60 min-w-[140px]"
+                className="appearance-none bg-black/40 border border-white/10 rounded-md px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-[#ff6600] transition-colors cursor-pointer hover:bg-black/60 min-w-[140px]"
               >
                 <option value="">Рейтинг</option>
                 <option value="high">Высокий (7+)</option>
                 <option value="medium">Средний (5-7)</option>
                 <option value="low">Низкий (&lt;5)</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[#ff6600] transition-colors" />
             </div>
 
             <div className="w-px h-8 bg-white/10 mx-2 hidden md:block"></div>
@@ -224,20 +224,20 @@ const Home = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-black/40 border border-white/10 rounded-xl px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-purple-500 transition-colors cursor-pointer hover:bg-black/60 min-w-[160px]"
+                className="appearance-none bg-black/40 border border-white/10 rounded-md px-4 py-2 pr-10 text-sm font-medium text-white focus:outline-none focus:border-[#ff6600] transition-colors cursor-pointer hover:bg-black/60 min-w-[160px]"
               >
                 <option value="newest">Сначала новые</option>
                 <option value="old">Сначала старые</option>
                 <option value="rating">По рейтингу</option>
               </select>
-              <TrendingUp className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <TrendingUp className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[#ff6600] transition-colors" />
             </div>
 
             {/* Clear Filters Button */}
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="ml-auto px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-colors flex items-center gap-2"
+                className="ml-auto px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-md transition-colors flex items-center gap-2"
               >
                 <X className="w-4 h-4" />
                 Сбросить
@@ -258,18 +258,18 @@ const Home = () => {
             <section>
               <div className="flex items-center justify-between mb-6 border-b-2 border-accent-500/30 pb-2">
                 <h2 className="text-2xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
-                  <Film className="text-accent-500" />
+                  <Film className="text-[#ff6600]" />
                   В кинотеатрах
                   {hasActiveFilters && filteredMovies.length !== movies.length && (
                     <span className="text-sm font-normal text-[#999]">({filteredMovies.length} из {movies.length})</span>
                   )}
                 </h2>
-                <Link to="/movies" className="text-sm font-bold text-accent-500 hover:text-white transition-colors uppercase tracking-wider">
+                <Link to="/movies" className="text-sm font-bold text-[#ff6600] hover:text-white transition-colors uppercase tracking-wider">
                   Все фильмы →
                 </Link>
               </div>
               
-              {loading && <div className="text-secondary-400">Загрузка...</div>}
+              {loading && <div className="text-white/40 tracking-wide font-medium">Загрузка...</div>}
               
               {!loading && filteredMovies.length === 0 && hasActiveFilters ? (
                 <div className="text-center py-12 text-[#666]">
@@ -287,15 +287,15 @@ const Home = () => {
 
             {/* Series Section */}
             <section>
-              <div className="flex items-center justify-between mb-6 border-b-2 border-purple-500/30 pb-2">
+              <div className="flex items-center justify-between mb-6 border-b-2 border-[#ff6600]/30 pb-2">
                 <h2 className="text-2xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
-                  <Tv className="text-purple-500" />
+                  <Tv className="text-[#ff6600]" />
                   Популярные сериалы
                   {hasActiveFilters && filteredSeries.length !== series.length && (
                     <span className="text-sm font-normal text-[#999]">({filteredSeries.length} из {series.length})</span>
                   )}
                 </h2>
-                <Link to="/series" className="text-sm font-bold text-purple-500 hover:text-white transition-colors uppercase tracking-wider">
+                <Link to="/series" className="text-sm font-bold text-[#ff6600] hover:text-white transition-colors uppercase tracking-wider">
                   Все сериалы →
                 </Link>
               </div>
@@ -316,15 +316,15 @@ const Home = () => {
 
             {/* Games Section */}
             <section>
-              <div className="flex items-center justify-between mb-6 border-b-2 border-blue-500/30 pb-2">
+              <div className="flex items-center justify-between mb-6 border-b-2 border-[#ff6600]/30 pb-2">
                 <h2 className="text-2xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
-                  <Gamepad2 className="text-blue-500" />
+                  <Gamepad2 className="text-[#ff6600]" />
                   Новые игры
                   {hasActiveFilters && filteredGames.length !== games.length && (
                     <span className="text-sm font-normal text-[#999]">({filteredGames.length} из {games.length})</span>
                   )}
                 </h2>
-                <Link to="/games" className="text-sm font-bold text-blue-500 hover:text-white transition-colors uppercase tracking-wider">
+                <Link to="/games" className="text-sm font-bold text-[#ff6600] hover:text-white transition-colors uppercase tracking-wider">
                   Все игры →
                 </Link>
               </div>
@@ -346,18 +346,18 @@ const Home = () => {
             {/* Features Grid (Redesigned) */}
             <section className="py-12 border-t border-white/10">
               <h2 className="text-3xl font-bold text-white mb-10 text-center">
-                Почему <span className="text-accent-500">CineVibe</span>?
+                Почему <span className="text-[#ff6600]">CineVibe</span>?
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {features.map((feature, index) => {
                   const Icon = feature.icon
                   return (
-                    <div key={index} className="bg-[#1a1a1a] p-6 rounded-xl border border-white/5 hover:border-accent-500/50 hover:bg-[#222] transition-all duration-300 group">
+                    <div key={index} className="bg-[#1a1a1a] p-6 rounded-md border border-white/5 hover:border-accent-500/50 hover:bg-[#222] transition-all duration-300 group">
                       <div className={`w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${feature.color}`}>
                         <Icon className="h-6 w-6" />
                       </div>
                       <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent-400 transition-colors">{feature.title}</h3>
-                      <p className="text-sm text-secondary-400 leading-relaxed">{feature.description}</p>
+                      <p className="text-sm text-white/40 tracking-wide font-medium leading-relaxed">{feature.description}</p>
                     </div>
                   )
                 })}
@@ -370,7 +370,7 @@ const Home = () => {
           <div className="lg:col-span-3 space-y-8">
             
             {/* Coming Soon Widget */}
-            <div className="bg-[#141414] border border-white/10 rounded-xl overflow-hidden">
+            <div className="bg-[#141414] border border-white/10 rounded-md overflow-hidden">
               <div className="bg-white/5 p-4 border-b border-white/10">
                 <h3 className="font-bold text-white uppercase tracking-wider text-sm flex items-center gap-2">
                   <Target className="w-4 h-4 text-red-500" />
@@ -380,41 +380,41 @@ const Home = () => {
               <div className="divide-y divide-white/5">
                 {comingSoon.length > 0 ? (
                   comingSoon.slice(0, 5).map((item) => (
-                    <div key={item.id} className="p-4 hover:bg-white/5 transition-colors group cursor-pointer">
+                    <Link key={item.id} to="/coming-soon" className="block p-4 hover:bg-white/5 transition-colors group">
                       <div className="flex gap-3">
-                        <div className="w-12 h-16 bg-gray-800 flex-shrink-0 rounded overflow-hidden">
+                        <div className="w-12 h-16 bg-[#0a0a0a] flex-shrink-0 rounded overflow-hidden">
                           <img src={item.poster_url} alt={item.title} className="w-full h-full object-cover" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-sm text-white group-hover:text-accent-500 transition-colors line-clamp-2">
+                          <h4 className="font-bold text-sm text-white group-hover:text-[#ff6600] transition-colors line-clamp-2">
                             {item.title}
                           </h4>
-                          <div className="text-xs text-secondary-400 mt-1">
+                          <div className="text-xs text-white/40 tracking-wide font-medium mt-1">
                             {new Date(item.release_date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}
                           </div>
-                          <div className="text-[10px] uppercase tracking-wider text-secondary-500 mt-1 border border-white/10 inline-block px-1 rounded">
+                          <div className="text-[10px] uppercase tracking-wider text-white/30 mt-1 border border-white/10 inline-block px-1 rounded">
                             {item.content_type}
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 ) : (
-                  <div className="p-4 text-sm text-secondary-500 text-center">Нет ожидаемых релизов</div>
+                  <div className="p-4 text-sm text-white/30 text-center">Нет ожидаемых релизов</div>
                 )}
               </div>
               <div className="p-3 bg-white/5 text-center border-t border-white/10">
-                <Link to="/calendar" className="text-xs font-bold text-secondary-400 hover:text-white uppercase tracking-wider">
+                <Link to="/coming-soon" className="text-xs font-bold text-white/40 tracking-wide font-medium hover:text-white uppercase tracking-wider">
                   Календарь релизов
                 </Link>
               </div>
             </div>
 
             {/* Top Rated Widget (Mocked from existing data for now) */}
-            <div className="bg-[#141414] border border-white/10 rounded-xl overflow-hidden">
+            <div className="bg-[#141414] border border-white/10 rounded-md overflow-hidden">
               <div className="bg-white/5 p-4 border-b border-white/10">
                 <h3 className="font-bold text-white uppercase tracking-wider text-sm flex items-center gap-2">
-                  <Star className="w-4 h-4 text-accent-500" />
+                  <Star className="w-4 h-4 text-[#ff6600]" />
                   Топ рейтинг
                 </h3>
               </div>
@@ -424,16 +424,16 @@ const Home = () => {
                   .slice(0, 5)
                   .map((item, idx) => (
                     <Link key={item.id} to={`/${item.content_type === 'TV_SERIES' ? 'series' : item.content_type === 'GAME' ? 'game' : 'movie'}/${item.id}`} className="p-4 hover:bg-white/5 transition-colors flex items-center gap-4 group">
-                      <div className="font-black text-2xl text-white/20 group-hover:text-accent-500/50 transition-colors w-6 text-center">
+                      <div className="font-black text-2xl text-white/20 group-hover:text-[#ff6600]/50 transition-colors w-6 text-center">
                         {idx + 1}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-bold text-sm text-white group-hover:text-accent-500 transition-colors line-clamp-1">
+                        <h4 className="font-bold text-sm text-white group-hover:text-[#ff6600] transition-colors line-clamp-1">
                           {item.title}
                         </h4>
                         <div className="flex items-center gap-2 mt-1">
                           <MetascoreBadge score={Number(item.critics_rating || item.avg_rating || 0) * 10} size="tiny" />
-                          <span className="text-xs text-secondary-400">{item.release_year}</span>
+                          <span className="text-xs text-white/40 tracking-wide font-medium">{item.release_year}</span>
                         </div>
                       </div>
                     </Link>
@@ -442,10 +442,10 @@ const Home = () => {
             </div>
 
             {/* Hype Widget */}
-            <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-white/10 rounded-xl p-6 text-center">
-              <Zap className="w-10 h-10 text-accent-500 mx-auto mb-4" />
+            <div className="bg-gradient-to-br from-[#ff6600]/10 to-transparent border border-white/10 rounded-md p-6 text-center">
+              <Zap className="w-10 h-10 text-[#ff6600] mx-auto mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">Что сейчас в хайпе?</h3>
-              <p className="text-sm text-secondary-300 mb-4">
+              <p className="text-sm text-white/50 mb-4">
                 Узнайте, что обсуждает весь интернет прямо сейчас.
               </p>
               <Link to="/hype-monitoring" className="block w-full">
@@ -469,13 +469,13 @@ const ContentCard = ({ item, type }) => {
   return (
     <ContentHoverCard item={item}>
       <Link to={link} className="group block h-full">
-        <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-800 shadow-lg">
+        <div className="relative aspect-[2/3] rounded-md overflow-hidden mb-3 bg-[#0a0a0a] shadow-lg ring-1 ring-white/5 transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_4px_12px_rgb(255,102,0,0.15)]">
           <img 
             src={item.poster_url || 'https://placehold.co/300x450/1e293b/ffffff?text=No+Poster'} 
             alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" /><div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"><div className="w-12 h-12 bg-[#ff6600]/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg shadow-[#ff6600]/50 transform scale-50 group-hover:scale-100 transition-all duration-500 ease-out delay-100"><Play className="w-5 h-5 text-white ml-1 fill-current" /></div></div>
           
           {/* Badges */}
           <div className="absolute top-2 left-2">
@@ -483,11 +483,11 @@ const ContentCard = ({ item, type }) => {
           </div>
         </div>
         
-        <h3 className="font-bold text-white text-base leading-tight group-hover:text-accent-500 transition-colors mb-1 line-clamp-2">
+        <h3 className="font-bold text-white text-base leading-tight group-hover:text-[#ff6600] transition-colors mb-1 line-clamp-2">
           {item.title}
         </h3>
         
-        <div className="flex items-center gap-2 text-xs text-secondary-400">
+        <div className="flex items-center gap-2 text-xs text-white/40 tracking-wide font-medium">
           <span>{item.release_year}</span>
           {item.genre && (
             <>

@@ -22,6 +22,35 @@ DB_NAME = os.getenv('DB_NAME', 'warehouse')
 db_url = f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 engine = create_engine(db_url)
 
+def update_ml_status(task_name, status, progress, message):
+    """Updates the ML task status in the database to make the progress visible."""
+    try:
+        with engine.begin() as conn:
+            # Create table if not exists (usually better done in migrations, but safe here)
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS ml_task_logs (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    task_name VARCHAR(255) NOT NULL,
+                    status VARCHAR(50) NOT NULL,
+                    progress INT DEFAULT 0,
+                    message TEXT,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    UNIQUE KEY unique_task (task_name)
+                )
+            """))
+            
+            # Upsert status
+            conn.execute(text("""
+                INSERT INTO ml_task_logs (task_name, status, progress, message)
+                VALUES (:task_name, :status, :progress, :message)
+                ON DUPLICATE KEY UPDATE 
+                    status = VALUES(status),
+                    progress = VALUES(progress),
+                    message = VALUES(message)
+            """), {"task_name": task_name, "status": status, "progress": progress, "message": message})
+    except Exception as e:
+        print(f"Failed to update ML status: {e}")
+
 def parse_json_feature(json_data, keys):
     """Parses JSON string or dict and extracts specific keys as a vector."""
     if not json_data:
@@ -39,11 +68,13 @@ def parse_json_feature(json_data, keys):
 
 def train_recommender():
     print("🚀 Starting Hybrid ML Recommendation Engine...")
+    update_ml_status("Hybrid Recommender", "running", 5, "Starting Hybrid ML Recommendation Engine...")
 
     # ---------------------------------------------------------
     # 1. Fetch Data
     # ---------------------------------------------------------
     print("📥 Fetching data from database...")
+    update_ml_status("Hybrid Recommender", "running", 10, "Fetching data from database...")
     
     # Fetch Reviews
     reviews_query = "SELECT user_id, content_id, rating FROM reviews WHERE rating IS NOT NULL"
@@ -55,14 +86,17 @@ def train_recommender():
     
     if content_df.empty:
         print("⚠️ No content found. Exiting.")
+        update_ml_status("Hybrid Recommender", "failed", 0, "No content found. Exiting.")
         return
 
     print(f"📊 Loaded {len(reviews_df)} reviews and {len(content_df)} content items.")
+    update_ml_status("Hybrid Recommender", "running", 20, f"Loaded {len(reviews_df)} reviews and {len(content_df)} content items.")
 
     # ---------------------------------------------------------
     # 2. Content-Based Filtering (Feature Engineering)
     # ---------------------------------------------------------
     print("🧠 Building Content-Based Model...")
+    update_ml_status("Hybrid Recommender", "running", 30, "Building Content-Based Model...")
     
     # A. Genre Features
     content_df['genre_list'] = content_df['genre'].apply(lambda x: [g.strip() for g in x.split(',')] if x else [])
@@ -100,11 +134,13 @@ def train_recommender():
     content_sim_df = pd.DataFrame(content_sim_matrix, index=content_df['id'], columns=content_df['id'])
     
     print("✅ Content-Based Similarity calculated.")
+    update_ml_status("Hybrid Recommender", "running", 50, "Content-Based Similarity calculated.")
 
     # ---------------------------------------------------------
     # 3. Collaborative Filtering (Item-Item)
     # ---------------------------------------------------------
     print("🤝 Building Collaborative Filtering Model...")
+    update_ml_status("Hybrid Recommender", "running", 60, "Building Collaborative Filtering Model...")
     
     collab_sim_df = pd.DataFrame(0, index=content_df['id'], columns=content_df['id'])
     
@@ -124,13 +160,16 @@ def train_recommender():
         collab_sim_df = pd.DataFrame(collab_sim_matrix, index=item_user_matrix.index, columns=item_user_matrix.index)
         
         print("✅ Collaborative Similarity calculated.")
+        update_ml_status("Hybrid Recommender", "running", 70, "Collaborative Similarity calculated.")
     else:
         print("⚠️ No reviews yet. Using pure Content-Based Filtering.")
+        update_ml_status("Hybrid Recommender", "running", 70, "No reviews yet. Using pure Content-Based Filtering.")
 
     # ---------------------------------------------------------
     # 4. Hybridization
     # ---------------------------------------------------------
     print("DNA Combining Models (Hybrid Approach)...")
+    update_ml_status("Hybrid Recommender", "running", 80, "Combining Models (Hybrid Approach)...")
     
     # Hybrid Weight: 70% Collaborative (if available), 30% Content
     # If no reviews, 100% Content
@@ -143,6 +182,7 @@ def train_recommender():
     # 5. Generate Recommendations
     # ---------------------------------------------------------
     print("🔮 Generating Recommendations...")
+    update_ml_status("Hybrid Recommender", "running", 90, "Generating Recommendations...")
     
     recommendations = []
     
@@ -204,6 +244,7 @@ def train_recommender():
     # ---------------------------------------------------------
     if recommendations:
         print(f"💾 Saving {len(recommendations)} recommendations to database...")
+        update_ml_status("Hybrid Recommender", "running", 95, f"Saving {len(recommendations)} recommendations to database...")
         
         recs_df = pd.DataFrame(recommendations)
         
@@ -215,8 +256,14 @@ def train_recommender():
         recs_df.to_sql('recommendations', engine, if_exists='replace', index=False)
             
         print("✅ Recommendations saved successfully!")
+        update_ml_status("Hybrid Recommender", "completed", 100, "Recommendations saved successfully!")
     else:
         print("⚠️ No recommendations generated.")
+        update_ml_status("Hybrid Recommender", "completed", 100, "No recommendations generated.")
 
 if __name__ == "__main__":
-    train_recommender()
+    try:
+        train_recommender()
+    except Exception as e:
+        update_ml_status("Hybrid Recommender", "failed", 0, f"Error: {e}")
+        print(f"Error: {e}")

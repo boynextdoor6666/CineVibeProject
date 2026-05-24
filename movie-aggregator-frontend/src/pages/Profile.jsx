@@ -62,6 +62,22 @@ const getCountryFlag = (code) => {
   return String.fromCodePoint(...codePoints)
 }
 
+const formatErrorMessage = (value, fallback) => {
+  if (Array.isArray(value)) return value.join(', ')
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') {
+    if (typeof value.message === 'string') return value.message
+    if (Array.isArray(value.message)) return value.message.join(', ')
+    if (typeof value.error === 'string') return value.error
+    try {
+      return JSON.stringify(value)
+    } catch (_) {
+      return fallback
+    }
+  }
+  return fallback
+}
+
 // Экспортируем для использования в других компонентах
 export { COUNTRIES, getCountryFlag }
 
@@ -131,7 +147,7 @@ const Profile = () => {
     } catch (err) {
       console.error('Save profile error:', err)
       // Show more detailed error message
-      const errorMsg = err.response?.data?.message || err.response?.data?.error || err.message || 'Неизвестная ошибка'
+      const errorMsg = formatErrorMessage(err.response?.data, err.message || 'Неизвестная ошибка')
       setError(`Не удалось сохранить: ${errorMsg}`)
     } finally {
       setSaving(false)

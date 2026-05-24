@@ -109,22 +109,22 @@ const Navbar = () => {
   const isActivePath = (path) => location.pathname === path
 
   return (
-    <nav className="bg-dark-800 border-b border-dark-600 sticky top-0 z-50 backdrop-blur-lg bg-opacity-95">
+    <nav className="bg-[#0a0a0a]/80 border-b border-white/10 sticky top-0 z-50 backdrop-blur-xl transition-all duration-300">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Логотип */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg shadow-accent-500/20">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#ff6600] to-[#ff4400] rounded-xl flex items-center justify-center transform group-hover:scale-105 transition-transform shadow-lg shadow-[#ff6600]/20">
                 <Film className="h-5 w-5 text-white" />
                 <Zap className="absolute -bottom-1 -right-1 h-4 w-4 text-white fill-current drop-shadow-md" />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-display font-black tracking-tight text-white group-hover:text-accent-500 transition-colors">
-                Cine<span className="text-accent-500">Vibe</span>
+              <span className="text-2xl font-display font-black tracking-tight text-white group-hover:text-white/90 transition-colors">
+                Cine<span className="text-[#ff6600]">Vibe</span>
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-dark-400 -mt-1 group-hover:text-white transition-colors">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-white/40 -mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 Feel the Content
               </span>
             </div>
@@ -132,16 +132,16 @@ const Navbar = () => {
 
           {/* Поиск */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8" ref={searchRef}>
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-dark-400 h-4 w-4 z-10" />
+            <form onSubmit={handleSearchSubmit} className="relative w-full group">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40 h-4 w-4 z-10 group-focus-within:text-[#ff6600] transition-colors" />
               <input
                 type="text"
                 placeholder="Поиск фильмов, сериалов, игр..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchResults.length > 0 && setShowSuggestions(true)}
-                className="w-full pl-11 pr-4 py-2.5 bg-dark-700 border border-dark-600 rounded text-dark-100 placeholder-dark-400
-                         focus:outline-none focus:border-imdb focus:ring-1 focus:ring-imdb transition-all"
+                className="w-full pl-11 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-white/30
+                         focus:outline-none focus:border-[#ff6600]/50 focus:bg-white/10 focus:ring-4 focus:ring-[#ff6600]/10 transition-all"
               />
               
               {/* Search Suggestions Dropdown */}

@@ -35,7 +35,7 @@ const Login = () => {
     if (result.success) {
       navigate('/');
     } else {
-      setError(result.message);
+      setError(typeof result.message === 'string' ? result.message : JSON.stringify(result.message));
     }
     
     setLoading(false);

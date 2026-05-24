@@ -61,12 +61,15 @@ const ContentHoverCard = ({ item, children }) => {
       </div>
 
       {isVisible && createPortal(
-        <div 
-          className="absolute z-[9999] w-[320px] bg-[#141414] border border-white/10 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] p-5 animate-fade-in pointer-events-none backdrop-blur-md bg-opacity-95"
+        <div
+          className="absolute z-[9999] w-[320px] bg-[#0a0a0a]/95 border border-[#ff6600]/20 rounded-2xl shadow-2xl shadow-black/80 p-5 transform transition-all animate-scale-in pointer-events-none backdrop-blur-2xl ring-1 ring-white/5"
           style={{ top: position.top, left: position.left }}
         >
+          {/* Decorative Glow */}
+          <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6600]/10 rounded-full blur-[40px] pointer-events-none"></div>
+
           {/* Header */}
-          <div className="flex justify-between items-start mb-3">
+          <div className="flex justify-between items-start mb-3 relative z-10">
             <h3 className="text-lg font-bold text-white leading-tight pr-2">{item.title}</h3>
             <div className="flex-shrink-0">
               <MetascoreBadge score={Number(item.critics_rating || item.avg_rating || 0) * 10} size="small" />

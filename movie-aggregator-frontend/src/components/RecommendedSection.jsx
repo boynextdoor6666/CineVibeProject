@@ -5,12 +5,18 @@ import { Sparkles } from 'lucide-react'
 import ContentHoverCard from './ContentHoverCard'
 import MetascoreBadge from './MetascoreBadge'
 import UserScoreBadge from './UserScoreBadge'
+import { useAuth } from '../context/AuthContext'
 
 const RecommendedSection = () => {
   const [recommendations, setRecommendations] = useState([])
   const [loading, setLoading] = useState(true)
+  const { isAuthenticated } = useAuth()
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      setLoading(false)
+      return
+    }
     const fetchRecommendations = async () => {
       try {
         const response = await axios.get('/api/recommendations')
@@ -23,7 +29,7 @@ const RecommendedSection = () => {
     }
 
     fetchRecommendations()
-  }, [])
+  }, [isAuthenticated])
 
   if (loading || recommendations.length === 0) return null
 
@@ -31,8 +37,8 @@ const RecommendedSection = () => {
     <section className="mb-12">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-purple-500/10 rounded-lg">
-            <Sparkles className="w-6 h-6 text-purple-400" />
+          <div className="p-2 bg-[#ff6600]/10 ring-1 ring-[#ff6600]/20 rounded-lg">
+            <Sparkles className="w-6 h-6 text-[#ff6600]" />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-white">Рекомендовано для вас</h2>
@@ -51,15 +57,15 @@ const RecommendedSection = () => {
           return (
             <ContentHoverCard key={rec.id} item={item}>
               <Link to={linkPath} className="group block relative">
-                <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300">
+                <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 shadow-lg group-hover:shadow-[#ff6600]/20 ring-1 ring-white/5 transition-all duration-300">
                   <img
                     src={item.poster_url}
                     alt={item.title}
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs font-medium text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                      <span className="text-xs font-medium text-[#ff6600] bg-[#ff6600]/20 border border-[#ff6600]/30 px-2 py-1 rounded-full backdrop-blur-sm">
                         {Math.round(rec.score * 100)}% match
                       </span>
                     </div>
@@ -72,7 +78,7 @@ const RecommendedSection = () => {
                   </div>
                 </div>
                 
-                <h3 className="font-bold text-gray-100 group-hover:text-purple-400 transition-colors truncate">
+                <h3 className="font-bold text-gray-100 group-hover:text-[#ff6600] transition-colors truncate">
                   {item.title}
                 </h3>
                 <div className="flex items-center justify-between text-sm text-gray-400 mt-1">
