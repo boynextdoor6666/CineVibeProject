@@ -12,6 +12,8 @@ export declare class ReviewsService implements OnModuleInit {
     private readonly logger;
     constructor(reviewRepository: Repository<Review>, connection: Connection, gamificationService: GamificationService, kafkaService: KafkaService);
     onModuleInit(): Promise<void>;
+    private isTriggerResultSetError;
+    private disableLegacyReviewTriggers;
     private ensureReviewVotesColumns;
     private ensureReviewVotesTable;
     voteReview(userId: number, reviewId: number, voteType: 'LIKE' | 'DISLIKE'): Promise<{
@@ -30,6 +32,7 @@ export declare class ReviewsService implements OnModuleInit {
     private ensureMoviesColumns;
     private buildInsertForReviews;
     private checkReviewAchievements;
+    private runReviewSideEffects;
     addViewerReview(userId: number, createDto: CreateReviewDto): Promise<any>;
     publishProReview(userId: number, publishDto: PublishProReviewDto): Promise<any>;
     deleteReview(reviewId: number, adminId: number, reason: string): Promise<any>;

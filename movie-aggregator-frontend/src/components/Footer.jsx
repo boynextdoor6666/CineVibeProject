@@ -1,112 +1,81 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Film, Zap, Github, Twitter, Instagram, Youtube, Mail, Heart } from 'lucide-react'
+import { Github, Instagram, Mail, Twitter, Youtube } from 'lucide-react'
 
 const Footer = () => {
   return (
-    <footer className="bg-dark-800 border-t border-dark-600 mt-20">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Brand Column */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center space-x-3 group w-fit">
-              <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg shadow-accent-500/20">
-                  <Film className="h-5 w-5 text-white" />
-                  <Zap className="absolute -bottom-1 -right-1 h-4 w-4 text-white fill-current drop-shadow-md" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-display font-black tracking-tight text-white group-hover:text-accent-500 transition-colors">
-                  Cine<span className="text-accent-500">Vibe</span>
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-dark-400 -mt-1 group-hover:text-white transition-colors">
-                  Feel the Content
-                </span>
-              </div>
+    <footer className="border-t border-white/10 bg-[#07080d]">
+      <div className="mx-auto max-w-7xl px-4 py-10">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+          <div>
+            <Link to="/" className="inline-flex items-center">
+              <img src="/cinevibe-logo.png" alt="CineVibe" className="h-12 w-auto max-w-[210px] object-contain" />
             </Link>
-            <p className="text-dark-300 text-sm leading-relaxed">
-              Инновационный агрегатор рецензий с эмоциональной аналитикой. 
-              Мы объединяем мнения критиков и зрителей, чтобы помочь вам найти идеальный контент.
+            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">
+              Агрегатор оценок, рецензий и настроений аудитории для фильмов, сериалов и игр.
             </p>
-            <div className="flex space-x-4 pt-2">
-              <a href="#" className="text-dark-400 hover:text-accent-500 transition-colors transform hover:scale-110">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-dark-400 hover:text-accent-500 transition-colors transform hover:scale-110">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-dark-400 hover:text-accent-500 transition-colors transform hover:scale-110">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-dark-400 hover:text-accent-500 transition-colors transform hover:scale-110">
-                <Youtube className="h-5 w-5" />
-              </a>
+            <div className="mt-5 flex gap-3">
+              {[Github, Twitter, Instagram, Youtube].map((Icon, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 text-slate-400 transition hover:border-lime-300/40 hover:text-lime-200"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="text-white font-bold mb-6 flex items-center gap-2">
-              <span className="w-1 h-4 bg-accent-500 rounded-full"></span>
-              Разделы
-            </h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/" className="text-dark-300 hover:text-accent-500 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Главная</Link></li>
-              <li><Link to="/movies" className="text-dark-300 hover:text-accent-500 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Фильмы</Link></li>
-              <li><Link to="/series" className="text-dark-300 hover:text-accent-500 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Сериалы</Link></li>
-              <li><Link to="/games" className="text-dark-300 hover:text-accent-500 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Игры</Link></li>
-              <li><Link to="/critics" className="text-dark-300 hover:text-accent-500 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Критики</Link></li>
-            </ul>
-          </div>
+          <FooterColumn title="Разделы" links={[
+            ['Главная', '/'],
+            ['Фильмы', '/movies'],
+            ['Сериалы', '/series'],
+            ['Игры', '/games'],
+            ['Критики', '/critics']
+          ]} />
 
-          {/* Features */}
-          <div>
-            <h4 className="text-white font-bold mb-6 flex items-center gap-2">
-              <span className="w-1 h-4 bg-purple-500 rounded-full"></span>
-              Возможности
-            </h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/analytics" className="text-dark-300 hover:text-purple-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Аналитика</Link></li>
-              <li><Link to="/taste-profile" className="text-dark-300 hover:text-purple-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Мой вкус</Link></li>
-              <li><Link to="/hype-monitoring" className="text-dark-300 hover:text-purple-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Хайп-монитор</Link></li>
-              <li><Link to="/coming-soon" className="text-dark-300 hover:text-purple-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Календарь релизов</Link></li>
-            </ul>
-          </div>
+          <FooterColumn title="Возможности" links={[
+            ['Аналитика', '/analytics'],
+            ['Мой вкус', '/taste-profile'],
+            ['Хайп-мониторинг', '/hype-monitoring'],
+            ['Календарь релизов', '/coming-soon']
+          ]} />
 
-          {/* Contact/Support */}
           <div>
-            <h4 className="text-white font-bold mb-6 flex items-center gap-2">
-              <span className="w-1 h-4 bg-blue-500 rounded-full"></span>
-              Поддержка
-            </h4>
-            <ul className="space-y-3 text-sm">
-              <li><a href="#" className="text-dark-300 hover:text-blue-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">О проекте</a></li>
-              <li><a href="#" className="text-dark-300 hover:text-blue-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">API Документация</a></li>
-              <li><a href="#" className="text-dark-300 hover:text-blue-400 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200">Политика конфиденциальности</a></li>
-              <li className="pt-4">
-                <a href="mailto:support@cinevibe.com" className="inline-flex items-center gap-2 px-4 py-2 bg-dark-700 hover:bg-dark-600 text-white rounded-lg transition-colors border border-dark-600">
-                  <Mail className="h-4 w-4" />
-                  <span>Связаться с нами</span>
-                </a>
-              </li>
-            </ul>
+            <h4 className="mb-4 text-sm font-black uppercase tracking-[0.18em] text-white">Поддержка</h4>
+            <a
+              href="mailto:support@cinevibe.com"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm font-bold text-slate-200 transition hover:border-lime-300/40 hover:text-lime-200"
+            >
+              <Mail className="h-4 w-4" />
+              Связаться с нами
+            </a>
           </div>
         </div>
 
-        <div className="border-t border-dark-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-dark-400 text-sm">
-            © 2025 CineVibe. Все права защищены.
-          </div>
-          <div className="flex items-center gap-2 text-sm text-dark-400">
-            <span>Сделано с</span>
-            <Heart className="h-4 w-4 text-red-500 fill-current animate-pulse" />
-            <span>для курсового проекта</span>
-          </div>
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
+          <span>© 2026 CineVibe. Все права защищены.</span>
+          <span>Курсовой проект по агрегированию медиаконтента.</span>
         </div>
       </div>
     </footer>
   )
 }
+
+const FooterColumn = ({ title, links }) => (
+  <div>
+    <h4 className="mb-4 text-sm font-black uppercase tracking-[0.18em] text-white">{title}</h4>
+    <ul className="space-y-3 text-sm">
+      {links.map(([label, path]) => (
+        <li key={path}>
+          <Link to={path} className="font-semibold text-slate-400 transition hover:text-lime-200">
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+)
 
 export default Footer

@@ -22,6 +22,27 @@ export class ReviewsService implements OnModuleInit {
     await this.ensureReviewsTable();
     await this.ensureReviewVotesTable();
     await this.ensureReviewVotesColumns();
+    await this.disableLegacyReviewTriggers();
+  }
+
+  private isTriggerResultSetError(error: any) {
+    return error?.code === 'ER_SP_NO_RETSET' || error?.errno === 1415;
+  }
+
+  private async disableLegacyReviewTriggers() {
+    const triggers = [
+      'after_viewer_review_insert',
+      'after_review_enhanced',
+      'after_pro_review_insert',
+    ];
+
+    for (const trigger of triggers) {
+      try {
+        await this.connection.query(`DROP TRIGGER IF EXISTS \`${trigger}\``);
+      } catch (e) {
+        this.logger.warn(`could not drop legacy trigger ${trigger}: ${(e as any)?.message || e}`);
+      }
+    }
   }
 
   private async ensureReviewVotesColumns() {
@@ -331,6 +352,45 @@ export class ReviewsService implements OnModuleInit {
     }
   }
 
+  private async runReviewSideEffects(
+    userId: number,
+    contentId: number,
+    reviewData: { content: string; rating?: number | null; emotions?: Record<string, number>; aspects?: Record<string, number> },
+    xp: number,
+  ) {
+    let newAchievements: any[] = [];
+
+    try {
+      newAchievements = await this.checkReviewAchievements(userId, {
+        content: reviewData.content,
+        rating: reviewData.rating ?? undefined,
+      });
+    } catch (e) {
+      this.logger.warn(`review achievements skipped: ${(e as any)?.message || e}`);
+    }
+
+    try {
+      await this.gamificationService.awardXp(userId, xp);
+    } catch (e) {
+      this.logger.warn(`review XP skipped: ${(e as any)?.message || e}`);
+    }
+
+    try {
+      await this.kafkaService.emitReviewCreated(
+        userId,
+        contentId,
+        'UNKNOWN',
+        reviewData.rating ?? 0,
+        reviewData.emotions,
+        reviewData.aspects,
+      );
+    } catch (e) {
+      this.logger.warn(`review Kafka event skipped: ${(e as any)?.message || e}`);
+    }
+
+    return newAchievements;
+  }
+
   // Добавить отзыв зрителя (вызов процедуры add_review_viewer)
   async addViewerReview(userId: number, createDto: CreateReviewDto) {
     const { content_id, content, aspects, emotions, rating } = createDto;
@@ -351,25 +411,19 @@ export class ReviewsService implements OnModuleInit {
       // Even if DB procedure updates legacy `movies`, ensure our unified `content` table stays in sync
       await this.recalcContentAggregates(content_id);
       
-      // Check achievements
-      const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating ?? undefined });
-
-      // Award base XP for activity (e.g. 5 XP for review)
-      await this.gamificationService.awardXp(userId, 5);
-
-      // Emit Kafka event for analytics
-      await this.kafkaService.emitReviewCreated(
+      const newAchievements = await this.runReviewSideEffects(
         userId,
         content_id,
-        'UNKNOWN', // content type would need to be fetched
-        rating ?? 0,
-        emotions,
-        aspects,
+        { content, rating: rating ?? null, emotions, aspects },
+        5,
       );
 
       return { ...result[0][0], newAchievements }; // { review_id, status, newAchievements }
     } catch (e) {
       this.logger.warn(`add_review_viewer failed, using fallback insert. code=${(e as any)?.code} errno=${(e as any)?.errno} msg=${(e as any)?.sqlMessage || (e as any)?.message}`);
+      if (this.isTriggerResultSetError(e)) {
+        await this.disableLegacyReviewTriggers();
+      }
       // Fallback: dynamic raw insert that only uses existing columns
       // Ensure base columns exist, then detect columns and insert
   await this.ensureReviewsTable();
@@ -394,18 +448,22 @@ export class ReviewsService implements OnModuleInit {
         this.logger.log(`fallback insert OK content=${content_id} review_id=${(res as any).insertId}`);
         await this.recalcContentAggregates(content_id);
         
-        // Check achievements
-        const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating ?? undefined });
-
-        // Award base XP for activity
-        await this.gamificationService.awardXp(userId, 5);
+        const newAchievements = await this.runReviewSideEffects(
+          userId,
+          content_id,
+          { content, rating: rating ?? null, emotions, aspects },
+          5,
+        );
 
         return { review_id: (res as any).insertId, status: 'inserted', newAchievements } as any;
       } catch (err) {
         // If trigger references content.reviews_count and it's missing, add it and retry once
         const code = (err as any)?.code; const errno = (err as any)?.errno; const msg = (err as any)?.sqlMessage || (err as any)?.message || '';
-        if (code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
+        if (this.isTriggerResultSetError(err) || code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
           try {
+            if (this.isTriggerResultSetError(err)) {
+              await this.disableLegacyReviewTriggers();
+            }
             if (/reviews_count/.test(String(msg))) {
               await this.connection.query('ALTER TABLE content ADD COLUMN reviews_count INT DEFAULT 0');
               await this.connection.query('ALTER TABLE movies ADD COLUMN reviews_count INT DEFAULT 0');
@@ -417,8 +475,12 @@ export class ReviewsService implements OnModuleInit {
             this.logger.log(`fallback retry insert OK content=${content_id} review_id=${(resRetry as any).insertId}`);
             await this.recalcContentAggregates(content_id);
             
-            // Check achievements
-            const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating ?? undefined });
+            const newAchievements = await this.runReviewSideEffects(
+              userId,
+              content_id,
+              { content, rating: rating ?? null, emotions, aspects },
+              5,
+            );
 
             return { review_id: (resRetry as any).insertId, status: 'inserted', newAchievements } as any;
           } catch (_) {
@@ -451,15 +513,19 @@ export class ReviewsService implements OnModuleInit {
       this.logger.log(`publish_pro_review OK content=${content_id} review_id=${result?.[0]?.[0]?.review_id ?? '-'}`);
       await this.recalcContentAggregates(content_id);
       
-      // Check achievements
-      const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating ?? undefined });
-
-      // Award base XP for pro review (more than regular)
-      await this.gamificationService.awardXp(userId, 15);
+      const newAchievements = await this.runReviewSideEffects(
+        userId,
+        content_id,
+        { content: review_text, rating: rating ?? null, emotions, aspects },
+        15,
+      );
 
       return { ...result[0][0], newAchievements }; // { review_id, status, newAchievements }
     } catch (e) {
       this.logger.warn(`publish_pro_review failed, using fallback insert. code=${(e as any)?.code} errno=${(e as any)?.errno} msg=${(e as any)?.sqlMessage || (e as any)?.message}`);
+      if (this.isTriggerResultSetError(e)) {
+        await this.disableLegacyReviewTriggers();
+      }
       // Fallback: dynamic raw insert
   await this.ensureReviewsTable();
   await this.ensureReviewsColumns();
@@ -482,17 +548,21 @@ export class ReviewsService implements OnModuleInit {
         this.logger.log(`fallback insert (pro) OK content=${content_id} review_id=${(res as any).insertId}`);
         await this.recalcContentAggregates(content_id);
         
-        // Check achievements
-        const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating ?? undefined });
-
-        // Award base XP for pro review
-        await this.gamificationService.awardXp(userId, 15);
+        const newAchievements = await this.runReviewSideEffects(
+          userId,
+          content_id,
+          { content: review_text, rating: rating ?? null, emotions, aspects },
+          15,
+        );
 
         return { review_id: (res as any).insertId, status: 'inserted', newAchievements } as any;
       } catch (err) {
         const code = (err as any)?.code; const errno = (err as any)?.errno; const msg = (err as any)?.sqlMessage || (err as any)?.message || '';
-        if (code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
+        if (this.isTriggerResultSetError(err) || code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
           try {
+            if (this.isTriggerResultSetError(err)) {
+              await this.disableLegacyReviewTriggers();
+            }
             if (/reviews_count/.test(String(msg))) {
               await this.connection.query('ALTER TABLE content ADD COLUMN reviews_count INT DEFAULT 0');
               await this.connection.query('ALTER TABLE movies ADD COLUMN reviews_count INT DEFAULT 0');
@@ -504,8 +574,12 @@ export class ReviewsService implements OnModuleInit {
             this.logger.log(`fallback retry insert (pro) OK content=${content_id} review_id=${(resRetry as any).insertId}`);
             await this.recalcContentAggregates(content_id);
             
-            // Check achievements
-            const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating ?? undefined });
+            const newAchievements = await this.runReviewSideEffects(
+              userId,
+              content_id,
+              { content: review_text, rating: rating ?? null, emotions, aspects },
+              15,
+            );
 
             return { review_id: (resRetry as any).insertId, status: 'inserted', newAchievements } as any;
           } catch (_) {}

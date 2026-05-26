@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Mail, Eye, EyeOff, Sparkles, Film, Check, X, ArrowRight } from 'lucide-react';
+import { User, Lock, Mail, Eye, EyeOff, Check, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 
@@ -84,9 +84,12 @@ const Register = () => {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-blue-600 mb-4 shadow-lg shadow-blue-500/20 relative group">
-            <Film className="h-8 w-8 text-white transform group-hover:scale-110 transition-transform duration-300" />
-            <Sparkles className="absolute -top-2 -right-2 h-6 w-6 text-purple-300 animate-pulse" />
+          <div className="inline-flex items-center justify-center w-20 h-20 mb-4 relative group">
+            <img
+              src="/cinevibe-icon.png"
+              alt="CineVibe"
+              className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(255,102,0,0.35)] transition-transform duration-300 group-hover:scale-105"
+            />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Присоединяйтесь</h2>
           <p className="text-gray-400">

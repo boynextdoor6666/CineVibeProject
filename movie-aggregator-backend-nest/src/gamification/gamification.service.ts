@@ -21,8 +21,36 @@ export class GamificationService {
     await this.seedAchievements();
   }
 
+  private async ensureAchievementTables() {
+    await this.achievementRepository.query(`
+      CREATE TABLE IF NOT EXISTS achievements (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        description TEXT NOT NULL,
+        icon_name VARCHAR(50) NULL,
+        xp_reward INT DEFAULT 0,
+        category VARCHAR(50) DEFAULT 'general',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+
+    await this.userAchievementRepository.query(`
+      CREATE TABLE IF NOT EXISTS user_achievements (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        achievement_id INT NOT NULL,
+        earned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uniq_user_achievement (user_id, achievement_id),
+        INDEX idx_user_achievements_user (user_id),
+        INDEX idx_user_achievements_achievement (achievement_id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+  }
+
   private async ensureAchievementsSchema() {
     try {
+      await this.ensureAchievementTables();
+
       // Check if icon_name column exists
       const resultIcon = await this.achievementRepository.query(`
         SELECT count(*) as count 
@@ -154,27 +182,35 @@ export class GamificationService {
   }
 
   async getUserAchievements(userId: number) {
-    const allAchievements = await this.achievementRepository.find();
-    const userAchievements = await this.userAchievementRepository.find({
-      where: { user_id: userId },
-    });
+    try {
+      await this.ensureAchievementsSchema();
+      await this.seedAchievements();
 
-    const unlockedMap = new Map(userAchievements.map(ua => [ua.achievement_id, ua]));
+      const allAchievements = await this.achievementRepository.find();
+      const userAchievements = await this.userAchievementRepository.find({
+        where: { user_id: userId },
+      });
 
-    return allAchievements.map(achievement => {
-      const unlocked = unlockedMap.get(achievement.id);
-      return {
-        id: achievement.id,
-        title: achievement.name, // Map name to title for frontend
-        description: achievement.description,
-        icon: achievement.icon_name, // Map icon_name to icon
-        category: achievement.category || 'general',
-        xp: achievement.xp_reward,
-        unlockedAt: unlocked ? unlocked.earned_at : undefined,
-        progress: unlocked ? 100 : 0, // Simple progress for now
-        requirement: 100, // Simple requirement
-      };
-    });
+      const unlockedMap = new Map(userAchievements.map(ua => [ua.achievement_id, ua]));
+
+      return allAchievements.map(achievement => {
+        const unlocked = unlockedMap.get(achievement.id);
+        return {
+          id: achievement.id,
+          title: achievement.name, // Map name to title for frontend
+          description: achievement.description,
+          icon: achievement.icon_name, // Map icon_name to icon
+          category: achievement.category || 'general',
+          xp: achievement.xp_reward,
+          unlockedAt: unlocked ? unlocked.earned_at : undefined,
+          progress: unlocked ? 100 : 0, // Simple progress for now
+          requirement: 100, // Simple requirement
+        };
+      });
+    } catch (e) {
+      console.error('Failed to get user achievements:', e);
+      return [];
+    }
   }
 
   // Admin methods

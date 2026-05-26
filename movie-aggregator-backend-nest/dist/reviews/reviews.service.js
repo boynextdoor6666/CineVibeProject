@@ -32,6 +32,25 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
         await this.ensureReviewsTable();
         await this.ensureReviewVotesTable();
         await this.ensureReviewVotesColumns();
+        await this.disableLegacyReviewTriggers();
+    }
+    isTriggerResultSetError(error) {
+        return (error === null || error === void 0 ? void 0 : error.code) === 'ER_SP_NO_RETSET' || (error === null || error === void 0 ? void 0 : error.errno) === 1415;
+    }
+    async disableLegacyReviewTriggers() {
+        const triggers = [
+            'after_viewer_review_insert',
+            'after_review_enhanced',
+            'after_pro_review_insert',
+        ];
+        for (const trigger of triggers) {
+            try {
+                await this.connection.query(`DROP TRIGGER IF EXISTS \`${trigger}\``);
+            }
+            catch (e) {
+                this.logger.warn(`could not drop legacy trigger ${trigger}: ${(e === null || e === void 0 ? void 0 : e.message) || e}`);
+            }
+        }
     }
     async ensureReviewVotesColumns() {
         try {
@@ -299,6 +318,32 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
             return [];
         }
     }
+    async runReviewSideEffects(userId, contentId, reviewData, xp) {
+        var _a, _b;
+        let newAchievements = [];
+        try {
+            newAchievements = await this.checkReviewAchievements(userId, {
+                content: reviewData.content,
+                rating: (_a = reviewData.rating) !== null && _a !== void 0 ? _a : undefined,
+            });
+        }
+        catch (e) {
+            this.logger.warn(`review achievements skipped: ${(e === null || e === void 0 ? void 0 : e.message) || e}`);
+        }
+        try {
+            await this.gamificationService.awardXp(userId, xp);
+        }
+        catch (e) {
+            this.logger.warn(`review XP skipped: ${(e === null || e === void 0 ? void 0 : e.message) || e}`);
+        }
+        try {
+            await this.kafkaService.emitReviewCreated(userId, contentId, 'UNKNOWN', (_b = reviewData.rating) !== null && _b !== void 0 ? _b : 0, reviewData.emotions, reviewData.aspects);
+        }
+        catch (e) {
+            this.logger.warn(`review Kafka event skipped: ${(e === null || e === void 0 ? void 0 : e.message) || e}`);
+        }
+        return newAchievements;
+    }
     async addViewerReview(userId, createDto) {
         var _a, _b, _c;
         const { content_id, content, aspects, emotions, rating } = createDto;
@@ -314,13 +359,14 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
             ]);
             this.logger.log(`add_review_viewer OK content=${content_id} review_id=${(_c = (_b = (_a = result === null || result === void 0 ? void 0 : result[0]) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.review_id) !== null && _c !== void 0 ? _c : '-'} `);
             await this.recalcContentAggregates(content_id);
-            const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating !== null && rating !== void 0 ? rating : undefined });
-            await this.gamificationService.awardXp(userId, 5);
-            await this.kafkaService.emitReviewCreated(userId, content_id, 'UNKNOWN', rating !== null && rating !== void 0 ? rating : 0, emotions, aspects);
+            const newAchievements = await this.runReviewSideEffects(userId, content_id, { content, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 5);
             return { ...result[0][0], newAchievements };
         }
         catch (e) {
             this.logger.warn(`add_review_viewer failed, using fallback insert. code=${e === null || e === void 0 ? void 0 : e.code} errno=${e === null || e === void 0 ? void 0 : e.errno} msg=${(e === null || e === void 0 ? void 0 : e.sqlMessage) || (e === null || e === void 0 ? void 0 : e.message)}`);
+            if (this.isTriggerResultSetError(e)) {
+                await this.disableLegacyReviewTriggers();
+            }
             await this.ensureReviewsTable();
             await this.ensureReviewsColumns();
             try {
@@ -347,16 +393,18 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
                 const res = await this.connection.query(sql, values);
                 this.logger.log(`fallback insert OK content=${content_id} review_id=${res.insertId}`);
                 await this.recalcContentAggregates(content_id);
-                const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating !== null && rating !== void 0 ? rating : undefined });
-                await this.gamificationService.awardXp(userId, 5);
+                const newAchievements = await this.runReviewSideEffects(userId, content_id, { content, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 5);
                 return { review_id: res.insertId, status: 'inserted', newAchievements };
             }
             catch (err) {
                 const code = err === null || err === void 0 ? void 0 : err.code;
                 const errno = err === null || err === void 0 ? void 0 : err.errno;
                 const msg = (err === null || err === void 0 ? void 0 : err.sqlMessage) || (err === null || err === void 0 ? void 0 : err.message) || '';
-                if (code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
+                if (this.isTriggerResultSetError(err) || code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
                     try {
+                        if (this.isTriggerResultSetError(err)) {
+                            await this.disableLegacyReviewTriggers();
+                        }
                         if (/reviews_count/.test(String(msg))) {
                             await this.connection.query('ALTER TABLE content ADD COLUMN reviews_count INT DEFAULT 0');
                             await this.connection.query('ALTER TABLE movies ADD COLUMN reviews_count INT DEFAULT 0');
@@ -367,7 +415,7 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
                         const resRetry = await this.connection.query(sql, values);
                         this.logger.log(`fallback retry insert OK content=${content_id} review_id=${resRetry.insertId}`);
                         await this.recalcContentAggregates(content_id);
-                        const newAchievements = await this.checkReviewAchievements(userId, { content, rating: rating !== null && rating !== void 0 ? rating : undefined });
+                        const newAchievements = await this.runReviewSideEffects(userId, content_id, { content, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 5);
                         return { review_id: resRetry.insertId, status: 'inserted', newAchievements };
                     }
                     catch (_) {
@@ -393,12 +441,14 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
             ]);
             this.logger.log(`publish_pro_review OK content=${content_id} review_id=${(_c = (_b = (_a = result === null || result === void 0 ? void 0 : result[0]) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.review_id) !== null && _c !== void 0 ? _c : '-'}`);
             await this.recalcContentAggregates(content_id);
-            const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : undefined });
-            await this.gamificationService.awardXp(userId, 15);
+            const newAchievements = await this.runReviewSideEffects(userId, content_id, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 15);
             return { ...result[0][0], newAchievements };
         }
         catch (e) {
             this.logger.warn(`publish_pro_review failed, using fallback insert. code=${e === null || e === void 0 ? void 0 : e.code} errno=${e === null || e === void 0 ? void 0 : e.errno} msg=${(e === null || e === void 0 ? void 0 : e.sqlMessage) || (e === null || e === void 0 ? void 0 : e.message)}`);
+            if (this.isTriggerResultSetError(e)) {
+                await this.disableLegacyReviewTriggers();
+            }
             await this.ensureReviewsTable();
             await this.ensureReviewsColumns();
             try {
@@ -425,16 +475,18 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
                 const res = await this.connection.query(sql, values);
                 this.logger.log(`fallback insert (pro) OK content=${content_id} review_id=${res.insertId}`);
                 await this.recalcContentAggregates(content_id);
-                const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : undefined });
-                await this.gamificationService.awardXp(userId, 15);
+                const newAchievements = await this.runReviewSideEffects(userId, content_id, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 15);
                 return { review_id: res.insertId, status: 'inserted', newAchievements };
             }
             catch (err) {
                 const code = err === null || err === void 0 ? void 0 : err.code;
                 const errno = err === null || err === void 0 ? void 0 : err.errno;
                 const msg = (err === null || err === void 0 ? void 0 : err.sqlMessage) || (err === null || err === void 0 ? void 0 : err.message) || '';
-                if (code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
+                if (this.isTriggerResultSetError(err) || code === 'ER_BAD_FIELD_ERROR' || errno === 1054) {
                     try {
+                        if (this.isTriggerResultSetError(err)) {
+                            await this.disableLegacyReviewTriggers();
+                        }
                         if (/reviews_count/.test(String(msg))) {
                             await this.connection.query('ALTER TABLE content ADD COLUMN reviews_count INT DEFAULT 0');
                             await this.connection.query('ALTER TABLE movies ADD COLUMN reviews_count INT DEFAULT 0');
@@ -445,7 +497,7 @@ let ReviewsService = ReviewsService_1 = class ReviewsService {
                         const resRetry = await this.connection.query(sql, values);
                         this.logger.log(`fallback retry insert (pro) OK content=${content_id} review_id=${resRetry.insertId}`);
                         await this.recalcContentAggregates(content_id);
-                        const newAchievements = await this.checkReviewAchievements(userId, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : undefined });
+                        const newAchievements = await this.runReviewSideEffects(userId, content_id, { content: review_text, rating: rating !== null && rating !== void 0 ? rating : null, emotions, aspects }, 15);
                         return { review_id: resRetry.insertId, status: 'inserted', newAchievements };
                     }
                     catch (_) { }

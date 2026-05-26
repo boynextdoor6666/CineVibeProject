@@ -8,6 +8,7 @@ export declare class GamificationService {
     private userRepository;
     constructor(achievementRepository: Repository<Achievement>, userAchievementRepository: Repository<UserAchievement>, userRepository: Repository<User>);
     onModuleInit(): Promise<void>;
+    private ensureAchievementTables;
     private ensureAchievementsSchema;
     seedAchievements(): Promise<void>;
     getUserAchievements(userId: number): Promise<{

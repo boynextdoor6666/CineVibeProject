@@ -28,11 +28,11 @@ import './App.css'
 
 function App() {
   return (
-    <div className="min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-[#07080d]">
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 px-4 py-8 min-w-0">
+        <main className="flex-1 min-w-0 px-4 py-6 md:py-8">
           <div className="container mx-auto max-w-7xl">
             <Routes>
               <Route path="/" element={<Home />} />

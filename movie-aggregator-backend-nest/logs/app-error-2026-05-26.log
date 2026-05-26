@@ -1,0 +1,19 @@
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_SP_NO_RETSET errno=1415 msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:38:31.480Z"}
+{"level":"error","message":"addViewerReview insert failed code=ER_SP_NO_RETSET errno=1415 msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:38:31.561Z"}
+{"level":"error","message":"× POST /api/reviews 201 193ms user=33 reqId=c0b0543d-60f0-49ac-abb7-5e600270dce9 msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:38:31.563Z"}
+{"level":"error","message":"× POST /api/reviews 500 user=33 reqId=c0b0543d-60f0-49ac-abb7-5e600270dce9 msg={\"message\":\"Not allowed to return a result set from a trigger\",\"error\":\"Internal Server Error\",\"statusCode\":500}","timestamp":"2026-05-26T09:38:31.564Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_SP_NO_RETSET errno=1415 msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:44:20.842Z"}
+{"level":"error","message":"addViewerReview insert failed code=ER_SP_NO_RETSET errno=1415 msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:44:20.908Z"}
+{"level":"error","message":"× POST /api/reviews 201 171ms user=33 reqId=687be938-0b6c-4bb9-b2db-83f8ea5ed81c msg=Not allowed to return a result set from a trigger","timestamp":"2026-05-26T09:44:20.910Z"}
+{"level":"error","message":"× POST /api/reviews 500 user=33 reqId=687be938-0b6c-4bb9-b2db-83f8ea5ed81c msg={\"message\":\"Not allowed to return a result set from a trigger\",\"error\":\"Internal Server Error\",\"statusCode\":500}","timestamp":"2026-05-26T09:44:20.911Z"}
+{"level":"error","message":"× POST /api/auth/login 200 155ms user=- reqId=72a303f7-0926-4948-bd70-767e53ecae29 msg=Invalid credentials","timestamp":"2026-05-26T09:50:10.161Z"}
+{"level":"error","message":"× POST /api/auth/login 401 user=- reqId=72a303f7-0926-4948-bd70-767e53ecae29 msg={\"message\":\"Invalid credentials\",\"error\":\"Unauthorized\",\"statusCode\":401}","timestamp":"2026-05-26T09:50:10.163Z"}
+{"level":"error","message":"× GET /api/recommendations 401 user=- reqId=898a15a2-a6d2-49a7-a4b3-3c7556f801ec msg={\"message\":\"Unauthorized\",\"statusCode\":401}","timestamp":"2026-05-26T09:50:52.309Z"}
+{"level":"error","message":"× GET /api/users/me/achievements 401 user=- reqId=40016ce7-eae9-4600-8cef-43b0925e27ed msg={\"message\":\"Unauthorized\",\"statusCode\":401}","timestamp":"2026-05-26T09:50:52.334Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T09:51:48.007Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T09:58:29.677Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T10:01:01.992Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T10:01:24.493Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T10:02:16.861Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T10:02:48.734Z"}
+{"level":"warn","message":"add_review_viewer failed, using fallback insert. code=ER_BAD_FIELD_ERROR errno=1054 msg=Unknown column 'a.title' in 'field list'","timestamp":"2026-05-26T10:03:20.733Z"}
