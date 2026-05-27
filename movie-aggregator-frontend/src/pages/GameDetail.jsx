@@ -284,7 +284,7 @@ const GameDetail = () => {
                     </span>
                   </div>
                   <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">{gameData.title}</h1>
-                  <div className="flex items-center gap-3 text-gray-400 mt-2">
+                  <div className="flex items-center gap-3 text-slate-500 mt-2">
                     <span>{gameData.year}</span>
                     <span>•</span>
                     <span>{gameData.genre.join(', ')}</span>
@@ -300,12 +300,12 @@ const GameDetail = () => {
                 {/* Платформы */}
                 {gameData.platforms.length > 0 && (
                   <div className="flex items-center gap-3">
-                    <span className="text-gray-400">Платформы:</span>
+                    <span className="text-slate-500">Платформы:</span>
                     <div className="flex gap-2">
                       {gameData.platforms.map((platform, i) => (
                         <span 
                           key={i}
-                          className="px-3 py-1 bg-[#1a1a1a] border border-gray-700 rounded text-sm text-white"
+                          className="px-3 py-1 bg-[#1a1a1a] border border-white/10 rounded text-sm text-white"
                           title={platform}
                         >
                           {getPlatformIcon(platform)} {platform}
@@ -344,7 +344,7 @@ const GameDetail = () => {
                     className={`px-6 py-3 font-bold rounded border transition flex items-center gap-2 ${
                       isInWatchlist 
                         ? 'bg-[#f5c518] text-black border-[#f5c518]' 
-                        : 'bg-[#1a1a1a] text-white border-gray-700 hover:bg-[#252525]'
+                        : 'bg-[#1a1a1a] text-white border-white/10 hover:bg-[#252525]'
                     }`}
                   >
                     <Bookmark className={`w-5 h-5 ${isInWatchlist ? 'fill-black' : ''}`} />
@@ -367,7 +367,7 @@ const GameDetail = () => {
               className={`pb-4 font-semibold transition-colors ${
                 activeTab === tab
                   ? 'text-white border-b-2 border-[#f5c518]'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-slate-500 hover:text-white'
               }`}
             >
               {tab === 'overview' && 'Обзор'}
@@ -440,8 +440,8 @@ const GameDetail = () => {
                 
                 {userReviewsList.length === 0 ? (
                   <div className="bg-[#1f1f1f] border border-[#2d2d2d] rounded-lg p-8 text-center">
-                    <Gamepad2 className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-                    <p className="text-gray-400 mb-4">Отзывов пока нет. Станьте первым!</p>
+                    <Gamepad2 className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                    <p className="text-slate-500 mb-4">Отзывов пока нет. Станьте первым!</p>
                     <button 
                       onClick={() => setShowReviewModal(true)}
                       className="px-6 py-3 bg-[#f5c518] text-black font-bold rounded-lg hover:bg-[#f5c518]/90 transition"
@@ -467,7 +467,7 @@ const GameDetail = () => {
                       
                       const scoreTextColor = review.type === 'positive' || review.type === 'negative'
                         ? 'text-white'
-                        : 'text-black';
+                        : 'text-white';
 
                       return (
                         <div 
@@ -479,7 +479,7 @@ const GameDetail = () => {
                               <img src={review.userAvatar} alt="" className="w-10 h-10 rounded-full" />
                               <div>
                                 <p className="text-white font-semibold">{review.userName}</p>
-                                <p className="text-gray-500 text-sm">{formatDate(review.date)}</p>
+                                <p className="text-slate-500 text-sm">{formatDate(review.date)}</p>
                               </div>
                             </div>
                             {review.score && (
@@ -492,13 +492,13 @@ const GameDetail = () => {
                           <div className="flex items-center gap-4">
                             <button 
                               onClick={() => handleVoteReview(review.id, 'LIKE')}
-                              className="flex items-center gap-2 text-gray-400 hover:text-green-500"
+                              className="flex items-center gap-2 text-slate-500 hover:text-green-500"
                             >
                               <ThumbsUp className="w-4 h-4" /> {review.helpful}
                             </button>
                             <button 
                               onClick={() => handleVoteReview(review.id, 'DISLIKE')}
-                              className="flex items-center gap-2 text-gray-400 hover:text-red-500"
+                              className="flex items-center gap-2 text-slate-500 hover:text-red-500"
                             >
                               <ThumbsDown className="w-4 h-4" /> {review.notHelpful}
                             </button>
@@ -529,7 +529,7 @@ const GameDetail = () => {
                     <dl className="space-y-3 text-sm">
                       {Object.entries(gameData.systemRequirements.minimum).map(([key, value]) => (
                         <div key={key}>
-                          <dt className="text-gray-500 capitalize flex items-center gap-2">
+                          <dt className="text-slate-500 capitalize flex items-center gap-2">
                             {key === 'os' && <Monitor className="w-4 h-4" />}
                             {key === 'processor' && <Cpu className="w-4 h-4" />}
                             {key === 'memory' && '💾'}
@@ -542,7 +542,7 @@ const GameDetail = () => {
                       ))}
                     </dl>
                   ) : (
-                    <p className="text-gray-500 text-sm">Требования будут добавлены позже</p>
+                    <p className="text-slate-500 text-sm">Требования будут добавлены позже</p>
                   )}
                 </div>
 
@@ -557,7 +557,7 @@ const GameDetail = () => {
                     <dl className="space-y-3 text-sm">
                       {Object.entries(gameData.systemRequirements.recommended).map(([key, value]) => (
                         <div key={key}>
-                          <dt className="text-gray-500 capitalize flex items-center gap-2">
+                          <dt className="text-slate-500 capitalize flex items-center gap-2">
                             {key === 'os' && <Monitor className="w-4 h-4" />}
                             {key === 'processor' && <Cpu className="w-4 h-4" />}
                             {key === 'memory' && '💾'}
@@ -570,7 +570,7 @@ const GameDetail = () => {
                       ))}
                     </dl>
                   ) : (
-                    <p className="text-gray-500 text-sm">Требования будут добавлены позже</p>
+                    <p className="text-slate-500 text-sm">Требования будут добавлены позже</p>
                   )}
                 </div>
               </div>
@@ -674,45 +674,45 @@ const GameDetail = () => {
             <dl className="space-y-3 text-sm">
               {gameData.developer && (
                 <div>
-                  <dt className="text-gray-500">Разработчик</dt>
+                  <dt className="text-slate-500">Разработчик</dt>
                   <dd className="text-gray-300 font-medium">{gameData.developer}</dd>
                 </div>
               )}
               {gameData.publisher && (
                 <div>
-                  <dt className="text-gray-500">Издатель</dt>
+                  <dt className="text-slate-500">Издатель</dt>
                   <dd className="text-gray-300 font-medium">{gameData.publisher}</dd>
                 </div>
               )}
               <div>
-                <dt className="text-gray-500">Дата выхода</dt>
+                <dt className="text-slate-500">Дата выхода</dt>
                 <dd className="text-gray-300 font-medium">{formatDate(gameData.releaseDate)}</dd>
               </div>
               {gameData.platforms.length > 0 && (
                 <div>
-                  <dt className="text-gray-500">Платформы</dt>
+                  <dt className="text-slate-500">Платформы</dt>
                   <dd className="text-gray-300 font-medium">{gameData.platforms.join(', ')}</dd>
                 </div>
               )}
               <div>
-                <dt className="text-gray-500">Жанр</dt>
+                <dt className="text-slate-500">Жанр</dt>
                 <dd className="text-gray-300 font-medium">{gameData.genre.join(', ') || '—'}</dd>
               </div>
               {gameData.esrbRating && (
                 <div>
-                  <dt className="text-gray-500">Возрастной рейтинг</dt>
+                  <dt className="text-slate-500">Возрастной рейтинг</dt>
                   <dd className="text-gray-300 font-medium">{gameData.esrbRating}</dd>
                 </div>
               )}
               {gameData.players && (
                 <div>
-                  <dt className="text-gray-500">Игроки</dt>
+                  <dt className="text-slate-500">Игроки</dt>
                   <dd className="text-gray-300 font-medium">{gameData.players}</dd>
                 </div>
               )}
               {gameData.fileSize && (
                 <div>
-                  <dt className="text-gray-500">Размер</dt>
+                  <dt className="text-slate-500">Размер</dt>
                   <dd className="text-gray-300 font-medium">{gameData.fileSize}</dd>
                 </div>
               )}
@@ -728,16 +728,16 @@ const GameDetail = () => {
             {/* Header */}
             <div className="bg-gradient-to-r from-[#f5c518] to-[#d4a817] p-4">
               <div className="flex items-center gap-3">
-                <Gamepad2 className="w-6 h-6 text-black" />
-                <h3 className="text-xl font-bold text-black">Написать отзыв</h3>
+                <Gamepad2 className="w-6 h-6 text-white" />
+                <h3 className="text-xl font-bold text-white">Написать отзыв</h3>
               </div>
-              <p className="text-black/70 text-sm mt-1">{content?.title}</p>
+              <p className="text-white/70 text-sm mt-1">{content?.title}</p>
             </div>
 
             <form onSubmit={handleReviewSubmit} className="p-6 space-y-6">
               {/* Rating with Slider */}
               <div>
-                <label className="block text-gray-400 mb-3">Ваша оценка</label>
+                <label className="block text-slate-500 mb-3">Ваша оценка</label>
                 <div className="space-y-3">
                   <div className="flex items-center justify-center">
                     <div className={`text-5xl font-bold ${
@@ -746,7 +746,7 @@ const GameDetail = () => {
                     }`}>
                       {reviewForm.rating}
                     </div>
-                    <span className="text-2xl text-gray-500 ml-1">/10</span>
+                    <span className="text-2xl text-slate-500 ml-1">/10</span>
                   </div>
                   <input 
                     type="range" 
@@ -757,7 +757,7 @@ const GameDetail = () => {
                     onChange={(e) => setReviewForm({...reviewForm, rating: Number(e.target.value)})}
                     className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#f5c518]"
                   />
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <div className="flex justify-between text-xs text-slate-500">
                     <span>👎 Ужасно</span>
                     <span>Средне</span>
                     <span>Шедевр 👍</span>
@@ -767,16 +767,16 @@ const GameDetail = () => {
 
               {/* Review Text */}
               <div>
-                <label className="block text-gray-400 mb-2">Текст отзыва</label>
+                <label className="block text-slate-500 mb-2">Текст отзыва</label>
                 <textarea 
                   rows="5"
                   value={reviewForm.content}
                   onChange={(e) => setReviewForm({...reviewForm, content: e.target.value})}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#f5c518] focus:outline-none transition resize-none"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg p-3 text-white focus:border-[#f5c518] focus:outline-none transition resize-none"
                   required
                   placeholder="Поделитесь своими впечатлениями от игры..."
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   Минимум 10 символов. Написано: {reviewForm.content.length}
                 </p>
               </div>

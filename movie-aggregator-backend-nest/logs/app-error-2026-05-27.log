@@ -1,0 +1,2 @@
+{"level":"error","message":"× GET /api/recommendations 401 user=- reqId=ad75a1fa-91d7-4288-ab77-727d53278cb7 msg={\"message\":\"Unauthorized\",\"statusCode\":401}","timestamp":"2026-05-27T12:05:53.322Z"}
+{"level":"error","message":"× GET /api/users/me/achievements 401 user=- reqId=4f986608-7467-4bca-814a-42075508a9f1 msg={\"message\":\"Unauthorized\",\"statusCode\":401}","timestamp":"2026-05-27T12:05:53.350Z"}

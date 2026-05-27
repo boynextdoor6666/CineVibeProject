@@ -77,7 +77,7 @@ const ContentHoverCard = ({ item, children }) => {
           </div>
 
           {/* Meta Info */}
-          <div className="flex items-center flex-wrap gap-3 text-xs text-secondary-400 mb-4">
+          <div className="flex items-center flex-wrap gap-3 text-xs text-slate-400 mb-4">
             <span className="flex items-center gap-1 bg-white/5 px-2 py-1 rounded">
               <Calendar size={12} />
               {item.release_year}
@@ -96,7 +96,7 @@ const ContentHoverCard = ({ item, children }) => {
           </div>
 
           {/* Description */}
-          <p className="text-sm text-secondary-300 line-clamp-4 mb-4 leading-relaxed border-t border-white/5 pt-3">
+          <p className="text-sm text-slate-300 line-clamp-4 mb-4 leading-relaxed border-t border-white/5 pt-3">
             {item.description || 'Описание отсутствует.'}
           </p>
 
@@ -105,19 +105,19 @@ const ContentHoverCard = ({ item, children }) => {
             {item.director && (
               <div className="flex gap-2">
                 <span className="text-secondary-500 min-w-[60px]">Режиссер:</span>
-                <span className="text-secondary-200 font-medium">{item.director}</span>
+                <span className="text-slate-100 font-medium">{item.director}</span>
               </div>
             )}
             {item.cast && (
               <div className="flex gap-2">
                 <span className="text-secondary-500 min-w-[60px]">В ролях:</span>
-                <span className="text-secondary-200 line-clamp-1">{item.cast}</span>
+                <span className="text-slate-100 line-clamp-1">{item.cast}</span>
               </div>
             )}
             {item.developer && (
               <div className="flex gap-2">
                 <span className="text-secondary-500 min-w-[60px]">Разраб.:</span>
-                <span className="text-secondary-200">{item.developer}</span>
+                <span className="text-slate-100">{item.developer}</span>
               </div>
             )}
           </div>

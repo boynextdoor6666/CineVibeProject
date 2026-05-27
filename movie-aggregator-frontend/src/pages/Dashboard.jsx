@@ -50,31 +50,31 @@ export default function Dashboard() {
     { name: 'Игры', value: contentStats.byType.games },
   ] : []
 
-  if (loading) return <div className="min-h-screen bg-primary-900 text-secondary-300 p-8">Загрузка дашборда...</div>
-  if (error) return <div className="min-h-screen bg-primary-900 text-red-400 p-8">{error}</div>
+  if (loading) return <div className="min-h-screen bg-slate-900/50 text-slate-300 p-8">Загрузка дашборда...</div>
+  if (error) return <div className="min-h-screen bg-slate-900/50 text-red-400 p-8">{error}</div>
 
   return (
-    <div className="min-h-screen bg-primary-900 text-secondary-300 p-8">
+    <div className="min-h-screen bg-slate-900/50 text-slate-300 p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold text-secondary-100">Дашборд</h1>
+        <h1 className="text-4xl font-bold text-white">Дашборд</h1>
 
         {/* Top stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="professional-card p-5">
-            <div className="text-secondary-400 text-sm">Всего контента</div>
-            <div className="text-3xl font-bold text-secondary-100">{contentStats.total}</div>
+            <div className="text-slate-400 text-sm">Всего контента</div>
+            <div className="text-3xl font-bold text-white">{contentStats.total}</div>
           </div>
           <div className="professional-card p-5">
-            <div className="text-secondary-400 text-sm">Активных слайдов</div>
+            <div className="text-slate-400 text-sm">Активных слайдов</div>
             <div className="text-3xl font-bold text-accent-400">{contentStats.heroActive}</div>
           </div>
           <div className="professional-card p-5">
-            <div className="text-secondary-400 text-sm">Скоро выйдет (актив.)</div>
+            <div className="text-slate-400 text-sm">Скоро выйдет (актив.)</div>
             <div className="text-3xl font-bold text-purple-400">{contentStats.comingActive}</div>
           </div>
           {userStats && (
             <div className="professional-card p-5">
-              <div className="text-secondary-400 text-sm">Пользователей</div>
+              <div className="text-slate-400 text-sm">Пользователей</div>
               <div className="text-3xl font-bold text-green-400">{userStats.total}</div>
             </div>
           )}
@@ -83,7 +83,7 @@ export default function Dashboard() {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="professional-card p-6">
-            <h3 className="text-secondary-100 font-semibold mb-4">Распределение по типам</h3>
+            <h3 className="text-white font-semibold mb-4">Распределение по типам</h3>
             <div className="h-64">
               <ResponsiveContainer>
                 <PieChart>
@@ -100,7 +100,7 @@ export default function Dashboard() {
 
           {userStats && userStats.users && (
             <div className="professional-card p-6">
-              <h3 className="text-secondary-100 font-semibold mb-4">Пользователи по ролям</h3>
+              <h3 className="text-white font-semibold mb-4">Пользователи по ролям</h3>
               <div className="h-64">
                 <ResponsiveContainer>
                   <BarChart data={[{

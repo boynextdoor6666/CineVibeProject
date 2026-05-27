@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { TrendingUp, Flame, Star, AlertTriangle, ThumbsUp, Eye } from 'lucide-react'
+import PosterFrame from '../components/PosterFrame'
 
 const HypeMonitoring = () => {
   const [content, setContent] = useState([])
@@ -74,23 +75,22 @@ const HypeMonitoring = () => {
       <Link
         key={item.id}
         to={`/movie/${item.id}`}
-        className="bg-primary-800 rounded-lg p-5 border border-secondary-600 hover:border-accent-500 transition-all duration-200 flex gap-4"
+        className="bg-slate-800/80 rounded-lg p-5 border border-secondary-600 hover:border-accent-500 transition-all duration-200 flex gap-4"
       >
         {/* Poster */}
-        <div className="w-24 h-36 bg-secondary-700 rounded-lg overflow-hidden flex-shrink-0">
-          {item.poster_url ? (
-            <img src={item.poster_url} alt={item.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-secondary-500">
-              <Star size={32} />
-            </div>
-          )}
-        </div>
+        <PosterFrame
+          src={item.poster_url}
+          alt={item.title}
+          title={item.title}
+          type={item.content_type === 'MOVIE' ? 'movie' : item.content_type === 'TV_SERIES' ? 'series' : 'game'}
+          className="h-36 w-24 rounded-lg overflow-hidden flex-shrink-0"
+          rounded="rounded-lg"
+        />
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-secondary-100 mb-1 truncate">{item.title}</h3>
-          <p className="text-sm text-secondary-400 mb-3">
+          <h3 className="text-lg font-bold text-white mb-1 truncate">{item.title}</h3>
+          <p className="text-sm text-slate-400 mb-3">
             {item.release_year && `${item.release_year} • `}
             {item.genre || 'Без жанра'}
           </p>
@@ -98,7 +98,7 @@ const HypeMonitoring = () => {
           <div className="grid grid-cols-2 gap-3 mb-3">
             {/* Hype Index */}
             <div>
-              <div className="flex items-center gap-2 text-xs text-secondary-400 mb-1">
+              <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
                 <Flame size={14} />
                 <span>Хайп-индекс</span>
               </div>
@@ -115,7 +115,7 @@ const HypeMonitoring = () => {
 
             {/* Quality Rating */}
             <div>
-              <div className="flex items-center gap-2 text-xs text-secondary-400 mb-1">
+              <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
                 <Star size={14} />
                 <span>Качество</span>
               </div>
@@ -155,15 +155,15 @@ const HypeMonitoring = () => {
   const filteredContent = getFilteredContent()
 
   return (
-    <div className="min-h-screen bg-primary-900 text-secondary-300 p-8">
+    <div className="min-h-screen bg-slate-900/50 text-slate-300 p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-secondary-100 mb-3 flex items-center gap-3">
+          <h1 className="text-4xl font-bold text-white mb-3 flex items-center gap-3">
             <Flame className="text-orange-500" size={40} />
             Мониторинг хайпа
           </h1>
-          <p className="text-secondary-400 text-lg">
+          <p className="text-slate-400 text-lg">
             Отслеживайте тренды и находите переоценённый или недооценённый контент
           </p>
         </div>
@@ -175,7 +175,7 @@ const HypeMonitoring = () => {
             className={`flex items-center gap-2 px-6 py-3 font-medium transition-all duration-200 ${
               filter === 'trending'
                 ? 'text-accent-400 border-b-2 border-accent-400'
-                : 'text-secondary-400 hover:text-secondary-200'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <TrendingUp size={20} />
@@ -186,7 +186,7 @@ const HypeMonitoring = () => {
             className={`flex items-center gap-2 px-6 py-3 font-medium transition-all duration-200 ${
               filter === 'overhyped'
                 ? 'text-accent-400 border-b-2 border-accent-400'
-                : 'text-secondary-400 hover:text-secondary-200'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <AlertTriangle size={20} />
@@ -197,7 +197,7 @@ const HypeMonitoring = () => {
             className={`flex items-center gap-2 px-6 py-3 font-medium transition-all duration-200 ${
               filter === 'underhyped'
                 ? 'text-accent-400 border-b-2 border-accent-400'
-                : 'text-secondary-400 hover:text-secondary-200'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <Eye size={20} />
@@ -212,7 +212,7 @@ const HypeMonitoring = () => {
               <TrendingUp className="text-orange-400" size={24} />
               <h3 className="font-semibold text-orange-400">В тренде</h3>
             </div>
-            <p className="text-sm text-secondary-300">
+            <p className="text-sm text-slate-300">
               Контент с высоким индексом хайпа независимо от качества
             </p>
           </div>
@@ -222,7 +222,7 @@ const HypeMonitoring = () => {
               <AlertTriangle className="text-red-400" size={24} />
               <h3 className="font-semibold text-red-400">Переоценённое</h3>
             </div>
-            <p className="text-sm text-secondary-300">
+            <p className="text-sm text-slate-300">
               Высокий хайп, но реальное качество разочаровывает
             </p>
           </div>
@@ -232,7 +232,7 @@ const HypeMonitoring = () => {
               <Eye className="text-green-400" size={24} />
               <h3 className="font-semibold text-green-400">Скрытые жемчужины</h3>
             </div>
-            <p className="text-sm text-secondary-300">
+            <p className="text-sm text-slate-300">
               Низкий хайп, но отличное качество - стоит внимания!
             </p>
           </div>
@@ -240,11 +240,11 @@ const HypeMonitoring = () => {
 
         {/* Content List */}
         {loading ? (
-          <div className="text-center py-12 text-secondary-400">
+          <div className="text-center py-12 text-slate-400">
             <p>Загрузка...</p>
           </div>
         ) : filteredContent.length === 0 ? (
-          <div className="text-center py-12 text-secondary-400">
+          <div className="text-center py-12 text-slate-400">
             <p className="text-xl">Контент не найден</p>
           </div>
         ) : (

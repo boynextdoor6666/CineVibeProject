@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Globe, TrendingUp, TrendingDown, Users, Star, Film, Tv, Gamepad2, ArrowUpDown, Search, ChevronDown, ChevronUp, BarChart3, MapPin } from 'lucide-react'
 import { COUNTRIES, getCountryFlag } from './Profile'
 import MetascoreBadge from '../components/MetascoreBadge'
+import PosterFrame from '../components/PosterFrame'
 
 const WorldRatings = () => {
   const [globalStats, setGlobalStats] = useState(null)
@@ -82,7 +83,7 @@ const WorldRatings = () => {
     if (diff > 0) return 'text-green-300'
     if (diff < -1) return 'text-red-400'
     if (diff < 0) return 'text-red-300'
-    return 'text-gray-400'
+    return 'text-slate-500'
   }
 
   const filteredContent = contentWithCountryRatings
@@ -230,11 +231,14 @@ const WorldRatings = () => {
                       }`}
                     >
                       <div className="flex gap-3">
-                        <div className="w-12 h-16 bg-[#333] rounded overflow-hidden flex-shrink-0">
-                          {item.poster_url && (
-                            <img src={item.poster_url} alt={item.title} className="w-full h-full object-cover" />
-                          )}
-                        </div>
+                        <PosterFrame
+                          src={item.poster_url}
+                          alt={item.title}
+                          title={item.title}
+                          type={item.content_type === 'MOVIE' ? 'movie' : item.content_type === 'TV_SERIES' ? 'series' : 'game'}
+                          className="h-16 w-12 rounded overflow-hidden flex-shrink-0"
+                          rounded="rounded"
+                        />
                         <div className="flex-1 min-w-0">
                           <h3 className="font-semibold text-sm truncate">{item.title}</h3>
                           <div className="flex items-center gap-2 mt-1">
@@ -278,11 +282,14 @@ const WorldRatings = () => {
                 {/* Selected Content Header */}
                 <div className="bg-[#1a1a1a] border border-[#333] rounded-2xl p-6">
                   <div className="flex gap-6">
-                    <div className="w-32 h-48 bg-[#333] rounded-xl overflow-hidden flex-shrink-0">
-                      {selectedContent.poster_url && (
-                        <img src={selectedContent.poster_url} alt={selectedContent.title} className="w-full h-full object-cover" />
-                      )}
-                    </div>
+                    <PosterFrame
+                      src={selectedContent.poster_url}
+                      alt={selectedContent.title}
+                      title={selectedContent.title}
+                      type={selectedContent.content_type === 'MOVIE' ? 'movie' : selectedContent.content_type === 'TV_SERIES' ? 'series' : 'game'}
+                      className="h-48 w-32 rounded-xl overflow-hidden flex-shrink-0"
+                      rounded="rounded-xl"
+                    />
                     <div className="flex-1">
                       <h2 className="text-2xl font-bold mb-2">{selectedContent.title}</h2>
                       <div className="flex items-center gap-4 mb-4">

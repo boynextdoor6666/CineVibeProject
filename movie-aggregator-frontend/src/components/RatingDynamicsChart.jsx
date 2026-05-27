@@ -5,12 +5,12 @@ import { TrendingUp, TrendingDown, Calendar } from 'lucide-react'
 const RatingDynamicsChart = ({ dynamics }) => {
   if (!dynamics || dynamics.length === 0) {
     return (
-      <div className="bg-primary-800 rounded-lg p-6 border border-secondary-600">
-        <h3 className="text-xl font-bold text-secondary-100 mb-4 flex items-center gap-2">
+      <div className="bg-slate-800/80 rounded-lg p-6 border border-secondary-600">
+        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
           <TrendingUp className="text-accent-400" size={24} />
           Динамика рейтингов
         </h3>
-        <p className="text-secondary-400 text-center py-8">
+        <p className="text-slate-400 text-center py-8">
           Недостаточно данных для отображения динамики рейтингов
         </p>
       </div>
@@ -34,8 +34,8 @@ const RatingDynamicsChart = ({ dynamics }) => {
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-primary-900 border border-accent-400 rounded-lg p-3 shadow-lg">
-          <p className="text-secondary-100 font-semibold mb-2">{payload[0].payload.name}</p>
+        <div className="bg-slate-900/50 border border-accent-400 rounded-lg p-3 shadow-lg">
+          <p className="text-white font-semibold mb-2">{payload[0].payload.name}</p>
           {payload.map((entry, index) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
               {entry.name}: <strong>{entry.value.toFixed(2)}</strong>
@@ -48,21 +48,21 @@ const RatingDynamicsChart = ({ dynamics }) => {
   }
 
   return (
-    <div className="bg-primary-800 rounded-lg p-6 border border-secondary-600">
+    <div className="bg-slate-800/80 rounded-lg p-6 border border-secondary-600">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-secondary-100 mb-2 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
             <Calendar className="text-accent-400" size={24} />
             Динамика рейтингов
           </h3>
-          <p className="text-secondary-400 text-sm">
+          <p className="text-slate-400 text-sm">
             Изменение оценок за {dynamics.length} {dynamics.length === 1 ? 'период' : 'периодов'}
           </p>
         </div>
 
         {/* Trend indicator */}
         <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-          trend > 0 ? 'bg-green-500/20 text-green-400' : trend < 0 ? 'bg-red-500/20 text-red-400' : 'bg-secondary-700 text-secondary-300'
+          trend > 0 ? 'bg-green-500/20 text-green-400' : trend < 0 ? 'bg-red-500/20 text-red-400' : 'bg-secondary-700 text-slate-300'
         }`}>
           {trend > 0 ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
           <div className="text-right">
@@ -130,17 +130,17 @@ const RatingDynamicsChart = ({ dynamics }) => {
       <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-secondary-700">
         <div className="text-center">
           <div className="text-2xl font-bold text-accent-400">{firstRating.toFixed(1)}</div>
-          <div className="text-sm text-secondary-400">Начальный рейтинг</div>
+          <div className="text-sm text-slate-400">Начальный рейтинг</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-accent-400">{lastRating.toFixed(1)}</div>
-          <div className="text-sm text-secondary-400">Текущий рейтинг</div>
+          <div className="text-sm text-slate-400">Текущий рейтинг</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-accent-400">
             {dynamics.reduce((sum, p) => sum + (p.reviewCount || p.review_count || 0), 0)}
           </div>
-          <div className="text-sm text-secondary-400">Всего отзывов</div>
+          <div className="text-sm text-slate-400">Всего отзывов</div>
         </div>
       </div>
     </div>

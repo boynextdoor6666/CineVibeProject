@@ -170,7 +170,7 @@ const Profile = () => {
   const progressPercentage = level ? (level.currentXP / level.nextLevelXP) * 100 : 0
 
   if (!user) return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-900/50 flex items-center justify-center">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-500"></div>
     </div>
   )
@@ -200,7 +200,7 @@ const Profile = () => {
         className={`group relative p-5 rounded-xl border transition-all duration-300 overflow-hidden ${
           isUnlocked
             ? 'bg-gradient-to-br from-accent-900/20 to-dark-800 border-accent-500/50 hover:border-accent-400 hover:shadow-lg hover:shadow-accent-500/10'
-            : 'bg-dark-800/50 border-dark-700 opacity-70 hover:opacity-100'
+            : 'bg-slate-800/80/50 border-white/10 opacity-70 hover:opacity-100'
         }`}
       >
         {isUnlocked && (
@@ -210,24 +210,24 @@ const Profile = () => {
         )}
         
         <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-lg ${isUnlocked ? 'bg-accent-500/20 text-accent-400' : 'bg-dark-700 text-dark-400'}`}>
+          <div className={`p-3 rounded-lg ${isUnlocked ? 'bg-accent-500/20 text-accent-400' : 'bg-slate-800 text-slate-400'}`}>
             {React.cloneElement(IconComponent, { size: 24 })}
           </div>
           
           <div className="flex-1 min-w-0">
-            <h4 className={`font-bold mb-1 truncate ${isUnlocked ? 'text-white' : 'text-dark-300'}`}>
+            <h4 className={`font-bold mb-1 truncate ${isUnlocked ? 'text-white' : 'text-slate-300'}`}>
               {achievement.title}
             </h4>
-            <p className="text-sm text-dark-400 mb-3 line-clamp-2">{achievement.description}</p>
+            <p className="text-sm text-slate-400 mb-3 line-clamp-2">{achievement.description}</p>
             
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-medium">
                 <span className={isUnlocked ? 'text-accent-400' : 'text-dark-500'}>
                   {isUnlocked ? 'Получено' : 'Прогресс'}
                 </span>
-                <span className="text-dark-400">{achievement.progress} / {achievement.requirement}</span>
+                <span className="text-slate-400">{achievement.progress} / {achievement.requirement}</span>
               </div>
-              <div className="w-full bg-dark-700 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     isUnlocked ? 'bg-accent-500' : 'bg-dark-500'
@@ -243,9 +243,9 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-dark-900 text-dark-100 pb-20">
+    <div className="min-h-screen bg-slate-900/50 text-white pb-20">
       {/* Hero Profile Header */}
-      <div className="relative bg-dark-800 border-b border-dark-700 mb-8">
+      <div className="relative bg-slate-800/80 border-b border-white/10 mb-8">
         <div className="absolute inset-0 bg-gradient-to-b from-accent-900/10 to-transparent pointer-events-none" />
         
         <div className="max-w-6xl mx-auto px-4 py-12 relative">
@@ -256,11 +256,11 @@ const Profile = () => {
                 <img
                   src={user.avatarUrl || user.avatar_url || 'https://placehold.co/150'}
                   alt={user.username}
-                  className="w-full h-full rounded-full object-cover border-4 border-dark-800 bg-dark-700"
+                  className="w-full h-full rounded-full object-cover border-4 border-dark-800 bg-slate-800"
                 />
               </div>
               {level && (
-                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-dark-900 border border-accent-500/50 text-accent-400 px-4 py-1 rounded-full text-sm font-bold shadow-lg whitespace-nowrap flex items-center gap-1">
+                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-slate-900/50 border border-accent-500/50 text-accent-400 px-4 py-1 rounded-full text-sm font-bold shadow-lg whitespace-nowrap flex items-center gap-1">
                   <Star size={12} className="fill-current" />
                   Уровень {level.level}
                 </div>
@@ -270,7 +270,7 @@ const Profile = () => {
             {/* User Info */}
             <div className="flex-1 text-center md:text-left space-y-2">
               <h1 className="text-4xl font-bold text-white tracking-tight">{user.username || user.name}</h1>
-              <p className="text-dark-400 flex items-center justify-center md:justify-start gap-2">
+              <p className="text-slate-400 flex items-center justify-center md:justify-start gap-2">
                 <Mail size={16} />
                 {user.email}
               </p>
@@ -284,17 +284,17 @@ const Profile = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-3 gap-4 w-full md:w-auto">
-              <div className="bg-dark-900/50 p-4 rounded-xl border border-dark-700 text-center min-w-[100px]">
+              <div className="bg-slate-900/50/50 p-4 rounded-xl border border-white/10 text-center min-w-[100px]">
                 <div className="text-2xl font-bold text-white">{unlockedAchievements.length}</div>
-                <div className="text-xs text-dark-400 uppercase tracking-wider mt-1">Достижения</div>
+                <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Достижения</div>
               </div>
-              <div className="bg-dark-900/50 p-4 rounded-xl border border-dark-700 text-center min-w-[100px]">
+              <div className="bg-slate-900/50/50 p-4 rounded-xl border border-white/10 text-center min-w-[100px]">
                 <div className="text-2xl font-bold text-accent-400">{level?.currentXP || 0}</div>
-                <div className="text-xs text-dark-400 uppercase tracking-wider mt-1">XP</div>
+                <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">XP</div>
               </div>
-              <div className="bg-dark-900/50 p-4 rounded-xl border border-dark-700 text-center min-w-[100px]">
+              <div className="bg-slate-900/50/50 p-4 rounded-xl border border-white/10 text-center min-w-[100px]">
                 <div className="text-2xl font-bold text-purple-400">#{leaderboard.findIndex(u => u.username === user.username) + 1 || '-'}</div>
-                <div className="text-xs text-dark-400 uppercase tracking-wider mt-1">Ранг</div>
+                <div className="text-xs text-slate-400 uppercase tracking-wider mt-1">Ранг</div>
               </div>
             </div>
           </div>
@@ -302,11 +302,11 @@ const Profile = () => {
           {/* XP Progress Bar (Full Width) */}
           {level && (
             <div className="mt-8 max-w-2xl mx-auto md:mx-0">
-              <div className="flex justify-between text-xs text-dark-400 mb-2 font-medium">
+              <div className="flex justify-between text-xs text-slate-400 mb-2 font-medium">
                 <span>Текущий опыт: {level.currentXP}</span>
                 <span>Следующий уровень: {level.nextLevelXP}</span>
               </div>
-              <div className="h-2 bg-dark-700 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-accent-600 to-purple-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]"
                   style={{ width: `${progressPercentage}%` }}
@@ -319,7 +319,7 @@ const Profile = () => {
 
       <div className="max-w-6xl mx-auto px-4">
         {/* Navigation Tabs */}
-        <div className="flex gap-1 mb-8 bg-dark-800 p-1 rounded-xl w-fit border border-dark-700">
+        <div className="flex gap-1 mb-8 bg-slate-800/80 p-1 rounded-xl w-fit border border-white/10">
           {[
             { id: 'profile', label: 'Профиль', icon: User },
             { id: 'achievements', label: 'Достижения', icon: Trophy },
@@ -331,7 +331,7 @@ const Profile = () => {
               className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all duration-200 ${
                 activeTab === tab.id
                   ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/20'
-                  : 'text-dark-400 hover:text-white hover:bg-dark-700'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <tab.icon size={18} />
@@ -346,8 +346,8 @@ const Profile = () => {
           {activeTab === 'profile' && (
             <div className="grid md:grid-cols-2 gap-8">
               {/* Personal Info Card */}
-              <div className="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden">
-                <div className="p-6 border-b border-dark-700 flex justify-between items-center">
+              <div className="bg-slate-800/80 rounded-2xl border border-white/10 overflow-hidden">
+                <div className="p-6 border-b border-white/10 flex justify-between items-center">
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <User className="text-accent-500" size={20} />
                     Личная информация
@@ -355,7 +355,7 @@ const Profile = () => {
                   {!editing ? (
                     <button 
                       onClick={() => setEditing(true)} 
-                      className="p-2 hover:bg-dark-700 rounded-lg text-dark-400 hover:text-white transition-colors"
+                      className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
                       title="Редактировать"
                     >
                       <Edit2 size={18} />
@@ -392,13 +392,13 @@ const Profile = () => {
                 <div className="p-6 space-y-6">
                   <div className="space-y-4">
                     <div className="group">
-                      <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">Имя пользователя</label>
+                      <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Имя пользователя</label>
                       {editing ? (
                         <input
                           name="username"
                           value={form.username}
                           onChange={handleChange}
-                          className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
+                          className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
                         />
                       ) : (
                         <div className="text-lg text-white font-medium">{user.username}</div>
@@ -406,13 +406,13 @@ const Profile = () => {
                     </div>
 
                     <div className="group">
-                      <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">Email</label>
+                      <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Email</label>
                       {editing ? (
                         <input
                           name="email"
                           value={form.email}
                           onChange={handleChange}
-                          className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
+                          className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
                         />
                       ) : (
                         <div className="text-lg text-white font-medium">{user.email}</div>
@@ -420,18 +420,18 @@ const Profile = () => {
                     </div>
 
                     <div className="group">
-                      <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">О себе</label>
+                      <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">О себе</label>
                       {editing ? (
                         <textarea
                           name="bio"
                           value={form.bio}
                           onChange={handleChange}
                           rows={4}
-                          className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all resize-none"
+                          className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all resize-none"
                           placeholder="Расскажите о себе..."
                         />
                       ) : (
-                        <div className="text-dark-300 leading-relaxed">
+                        <div className="text-slate-300 leading-relaxed">
                           {user.bio || <span className="text-dark-500 italic">Информация отсутствует</span>}
                         </div>
                       )}
@@ -439,12 +439,12 @@ const Profile = () => {
 
                     {editing && (
                       <div className="group">
-                        <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">URL Аватара</label>
+                        <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">URL Аватара</label>
                         <input
                           name="avatarUrl"
                           value={form.avatarUrl}
                           onChange={handleChange}
-                          className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
+                          className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
                           placeholder="https://..."
                         />
                       </div>
@@ -452,7 +452,7 @@ const Profile = () => {
 
                     {/* Country Selector */}
                     <div className="group">
-                      <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider flex items-center gap-2">
+                      <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider flex items-center gap-2">
                         <Globe size={14} />
                         Страна
                       </label>
@@ -461,7 +461,7 @@ const Profile = () => {
                           name="country"
                           value={form.country}
                           onChange={handleChange}
-                          className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all cursor-pointer"
+                          className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all cursor-pointer"
                         >
                           <option value="">Выберите страну</option>
                           {COUNTRIES.map(c => (
@@ -518,7 +518,7 @@ const Profile = () => {
                               })
                             }}
                             disabled={saving}
-                            className="px-4 py-2 bg-dark-700 hover:bg-dark-600 text-dark-200 hover:text-white rounded-lg font-medium transition-colors"
+                            className="px-4 py-2 bg-slate-800 hover:bg-dark-600 text-slate-100 hover:text-white rounded-lg font-medium transition-colors"
                           >
                             Отмена
                           </button>
@@ -530,8 +530,8 @@ const Profile = () => {
               </div>
 
               {/* Security Card */}
-              <div className="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden h-fit">
-                <div className="p-6 border-b border-dark-700">
+              <div className="bg-slate-800/80 rounded-2xl border border-white/10 overflow-hidden h-fit">
+                <div className="p-6 border-b border-white/10">
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <Key className="text-accent-500" size={20} />
                     Безопасность
@@ -539,21 +539,21 @@ const Profile = () => {
                 </div>
                 <div className="p-6 space-y-4">
                   <div>
-                    <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">Текущий пароль</label>
+                    <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Текущий пароль</label>
                     <input
                       type="password"
                       value={pwdCurrent}
                       onChange={(e) => setPwdCurrent(e.target.value)}
-                      className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
+                      className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-dark-400 mb-1.5 uppercase tracking-wider">Новый пароль</label>
+                    <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Новый пароль</label>
                     <input
                       type="password"
                       value={pwdNew}
                       onChange={(e) => setPwdNew(e.target.value)}
-                      className="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
+                      className="w-full bg-slate-900/50 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none transition-all"
                     />
                   </div>
                   
@@ -605,9 +605,9 @@ const Profile = () => {
                 const Icon = categoryIcons[category]
 
                 return (
-                  <div key={category} className="bg-dark-800/50 rounded-2xl p-6 border border-dark-700">
-                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3 pb-4 border-b border-dark-700">
-                      <div className="p-2 bg-dark-700 rounded-lg text-accent-500">
+                  <div key={category} className="bg-slate-800/80/50 rounded-2xl p-6 border border-white/10">
+                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3 pb-4 border-b border-white/10">
+                      <div className="p-2 bg-slate-800 rounded-lg text-accent-500">
                         <Icon size={24} />
                       </div>
                       {categoryNames[category]}
@@ -623,13 +623,13 @@ const Profile = () => {
 
           {/* Leaderboard Tab */}
           {activeTab === 'leaderboard' && (
-            <div className="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden max-w-4xl mx-auto">
-              <div className="p-6 border-b border-dark-700 bg-dark-800/50">
+            <div className="bg-slate-800/80 rounded-2xl border border-white/10 overflow-hidden max-w-4xl mx-auto">
+              <div className="p-6 border-b border-white/10 bg-slate-800/80/50">
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
                   <Trophy className="text-accent-500" size={24} />
                   Топ-10 участников
                 </h3>
-                <p className="text-dark-400 text-sm mt-1">Самые активные пользователи платформы</p>
+                <p className="text-slate-400 text-sm mt-1">Самые активные пользователи платформы</p>
               </div>
               
               <div className="divide-y divide-dark-700">
@@ -641,7 +641,7 @@ const Profile = () => {
                     <div
                       key={entry.userId}
                       className={`flex items-center justify-between p-5 transition-colors ${
-                        isCurrentUser ? 'bg-accent-500/10 border-l-4 border-accent-500' : 'hover:bg-dark-700/50'
+                        isCurrentUser ? 'bg-accent-500/10 border-l-4 border-accent-500' : 'hover:bg-slate-800/50'
                       }`}
                     >
                       <div className="flex items-center gap-6">
@@ -650,22 +650,22 @@ const Profile = () => {
                           ${index === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-white' : 
                             index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-500 text-white' : 
                             index === 2 ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-white' : 
-                            'bg-dark-700 text-dark-400'}
+                            'bg-slate-800 text-slate-400'}
                         `}>
                           {entry.rank}
                         </div>
                         
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-dark-700 overflow-hidden border border-dark-600">
+                          <div className="w-10 h-10 rounded-full bg-slate-800 overflow-hidden border border-dark-600">
                             {/* Placeholder for avatar if not available in leaderboard data */}
-                            <User className="w-full h-full p-2 text-dark-400" />
+                            <User className="w-full h-full p-2 text-slate-400" />
                           </div>
                           <div>
                             <div className={`font-bold text-lg ${isCurrentUser ? 'text-accent-400' : 'text-white'}`}>
                               {entry.username}
                               {isCurrentUser && <span className="ml-2 text-xs bg-accent-500 text-white px-2 py-0.5 rounded-full">Вы</span>}
                             </div>
-                            <div className="text-sm text-dark-400 flex items-center gap-3">
+                            <div className="text-sm text-slate-400 flex items-center gap-3">
                               <span className="flex items-center gap-1"><Edit2 size={12} /> {entry.reviewCount} отзывов</span>
                               <span className="flex items-center gap-1"><Star size={12} /> {entry.avgRating} ср. рейтинг</span>
                             </div>

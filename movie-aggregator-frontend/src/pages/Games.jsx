@@ -43,7 +43,7 @@ const Games = () => {
       return 0
     })
 
-  if (loading) return <div className="text-secondary-300">Загрузка...</div>
+  if (loading) return <div className="text-slate-300">Загрузка...</div>
   if (error) return <div className="text-red-400">{error}</div>
 
   return (
@@ -60,7 +60,7 @@ const Games = () => {
               <h1 className="text-3xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-accent-400 via-accent-500 to-accent-600 bg-clip-text text-transparent">
                 Игры
               </h1>
-              <p className="text-secondary-300 text-lg">
+              <p className="text-slate-300 text-lg">
                 Интерактивные миры с эмоциональным погружением
               </p>
             </div>
@@ -81,7 +81,7 @@ const Games = () => {
                 <option value="year">По году</option>
                 <option value="title">По названию</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none group-hover:text-purple-400 transition-colors" />
             </div>
 
             <div className="w-px h-8 bg-white/10 mx-2 hidden md:block"></div>
@@ -98,11 +98,11 @@ const Games = () => {
                   <option key={genre} value={genre}>{genre}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none group-hover:text-purple-400 transition-colors" />
             </div>
 
             {/* Count Badge */}
-            <div className="ml-auto px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-sm font-medium text-gray-400">
+            <div className="ml-auto px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-sm font-medium text-slate-500">
               {filteredGames.length} {filteredGames.length === 1 ? 'игра' : filteredGames.length < 5 ? 'игры' : 'игр'}
             </div>
         </div>
@@ -121,7 +121,7 @@ const Games = () => {
       </div>
 
       {filteredGames.length === 0 && (
-        <div className="text-center text-secondary-400 py-12">
+        <div className="text-center text-slate-400 py-12">
           Нет контента для отображения
         </div>
       )}
@@ -229,9 +229,9 @@ const GameCard = ({ game, isHovered, onHover, onLeave }) => {
             <h3 className="font-bold text-sm md:text-xl line-clamp-2 drop-shadow-lg text-secondary-50 group-hover:text-accent-300 transition-colors duration-300">
               {game.title}
             </h3>
-            <div className="flex items-center gap-1.5 md:gap-3 text-xs md:text-sm text-secondary-200">
+            <div className="flex items-center gap-1.5 md:gap-3 text-xs md:text-sm text-slate-100">
               {game.release_year && (
-                <span className="font-semibold bg-primary-700/70 backdrop-blur-sm px-2 py-0.5 md:px-3 md:py-1 rounded-lg">
+                <span className="font-semibold bg-slate-800/70 backdrop-blur-sm px-2 py-0.5 md:px-3 md:py-1 rounded-lg">
                   {game.release_year}
                 </span>
               )}

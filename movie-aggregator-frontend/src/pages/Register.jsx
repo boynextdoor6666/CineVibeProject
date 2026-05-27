@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   const ValidationItem = ({ isValid, text }) => (
-    <div className={`flex items-center gap-2 text-xs transition-colors duration-300 ${isValid ? 'text-green-400' : 'text-gray-500'}`}>
+    <div className={`flex items-center gap-2 text-xs transition-colors duration-300 ${isValid ? 'text-green-400' : 'text-slate-400'}`}>
       {isValid ? <Check className="h-3 w-3" /> : <div className="h-3 w-3 rounded-full border border-gray-600" />}
       <span>{text}</span>
     </div>
@@ -80,7 +80,7 @@ const Register = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-dark-800/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 relative z-10"
+        className="max-w-md w-full bg-slate-800/80/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 relative z-10"
       >
         {/* Header */}
         <div className="text-center mb-8">
@@ -92,7 +92,7 @@ const Register = () => {
             />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Присоединяйтесь</h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             Создайте аккаунт и станьте частью сообщества
           </p>
         </div>
@@ -107,7 +107,7 @@ const Register = () => {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
+                  <User className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                 </div>
                 <input
                   name="username"
@@ -115,7 +115,7 @@ const Register = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="block w-full pl-10 pr-3 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                   placeholder="Придумайте никнейм"
                 />
               </div>
@@ -128,7 +128,7 @@ const Register = () => {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
+                  <Mail className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                 </div>
                 <input
                   name="email"
@@ -136,7 +136,7 @@ const Register = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="block w-full pl-10 pr-3 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                   placeholder="example@mail.com"
                 />
               </div>
@@ -152,13 +152,13 @@ const Register = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none cursor-pointer"
+                  className="block w-full px-4 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none cursor-pointer"
                 >
                   <option value="USER">👤 Зритель</option>
                   <option value="CRITIC">🎭 Критик</option>
                   <option value="ADMIN">👑 Администратор</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500">
+                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                 </div>
               </div>
@@ -172,7 +172,7 @@ const Register = () => {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
+                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                   </div>
                   <input
                     name="password"
@@ -180,13 +180,13 @@ const Register = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="block w-full pl-10 pr-8 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm"
+                    className="block w-full pl-10 pr-8 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm"
                     placeholder="Пароль"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-gray-300 transition-colors"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-slate-400 hover:text-gray-300 transition-colors"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -199,7 +199,7 @@ const Register = () => {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
+                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                   </div>
                   <input
                     name="confirmPassword"
@@ -207,13 +207,13 @@ const Register = () => {
                     required
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="block w-full pl-10 pr-8 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm"
+                    className="block w-full pl-10 pr-8 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm"
                     placeholder="Повтор"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-gray-300 transition-colors"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-slate-400 hover:text-gray-300 transition-colors"
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -222,7 +222,7 @@ const Register = () => {
             </div>
 
             {/* Password Validation */}
-            <div className="bg-dark-900/30 border border-gray-700/50 rounded-xl p-3 grid grid-cols-2 gap-2">
+            <div className="bg-slate-900/50/30 border border-white/10/50 rounded-xl p-3 grid grid-cols-2 gap-2">
               <ValidationItem isValid={passwordValidation.minLength} text="6+ символов" />
               <ValidationItem isValid={passwordValidation.hasNumber} text="Цифра" />
               <ValidationItem isValid={passwordValidation.hasLetter} text="Буква" />
@@ -261,7 +261,7 @@ const Register = () => {
           </button>
 
           <div className="text-center mt-6">
-            <p className="text-gray-400">
+            <p className="text-slate-500">
               Уже есть аккаунт?{' '}
               <Link to="/login" className="text-blue-400 hover:text-blue-300 font-semibold transition-colors">
                 Войти

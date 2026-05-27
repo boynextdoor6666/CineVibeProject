@@ -50,9 +50,9 @@ const Movies = () => {
       laughter: 'bg-green-400 text-green-900',
       nostalgia: 'bg-pink-400 text-pink-900',
       surprise: 'bg-indigo-400 text-indigo-900',
-      anxiety: 'bg-gray-400 text-gray-900'
+      anxiety: 'bg-slate-600 text-slate-100'
     }
-    return colors[emotion] || 'bg-gray-400 text-gray-900'
+    return colors[emotion] || 'bg-slate-600 text-slate-100'
   }
 
   const filteredAndSortedMovies = items
@@ -67,7 +67,7 @@ const Movies = () => {
       }
     })
 
-  if (loading) return <div className="text-secondary-300">Загрузка...</div>
+  if (loading) return <div className="text-slate-300">Загрузка...</div>
   if (error) return <div className="text-red-400">{error}</div>
 
   return (
@@ -84,7 +84,7 @@ const Movies = () => {
               <h1 className="text-3xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-accent-400 via-accent-500 to-accent-600 bg-clip-text text-transparent">
                 Фильмы
               </h1>
-              <p className="text-secondary-300 text-lg">
+              <p className="text-slate-300 text-lg">
                 Исследуйте кинематограф с эмоциональной аналитикой
               </p>
             </div>
@@ -92,7 +92,7 @@ const Movies = () => {
         </div>
 
         {/* Фильтры - современный дизайн */}
-        <div className="flex flex-wrap items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-3 p-4 bg-slate-900/50/5 border border-white/10 rounded-2xl backdrop-blur-md">
             
             {/* Sort Dropdown */}
             <div className="relative group">
@@ -105,10 +105,10 @@ const Movies = () => {
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none group-hover:text-purple-400 transition-colors" />
             </div>
 
-            <div className="w-px h-8 bg-white/10 mx-2 hidden md:block"></div>
+            <div className="w-px h-8 bg-slate-900/50/10 mx-2 hidden md:block"></div>
 
             {/* Genre Dropdown */}
             <div className="relative group">
@@ -122,11 +122,11 @@ const Movies = () => {
                   <option key={genre} value={genre}>{genre}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-purple-400 transition-colors" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none group-hover:text-purple-400 transition-colors" />
             </div>
 
             {/* Count Badge */}
-            <div className="ml-auto px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-sm font-medium text-gray-400">
+            <div className="ml-auto px-4 py-2 bg-slate-900/50/5 rounded-xl border border-white/10 text-sm font-medium text-slate-500">
               {filteredAndSortedMovies.length} {filteredAndSortedMovies.length === 1 ? 'фильм' : filteredAndSortedMovies.length < 5 ? 'фильма' : 'фильмов'}
             </div>
         </div>
@@ -146,7 +146,7 @@ const Movies = () => {
       </div>
 
       {filteredAndSortedMovies.length === 0 && (
-        <div className="text-center text-secondary-400 py-12">
+        <div className="text-center text-slate-400 py-12">
           Нет контента для отображения
         </div>
       )}
@@ -263,9 +263,9 @@ const MovieCard = ({ movie, isHovered, onHover, onLeave }) => {
             <h3 className="font-bold text-sm md:text-xl line-clamp-2 drop-shadow-lg text-secondary-50 group-hover:text-accent-300 transition-colors duration-300">
               {movie.title}
             </h3>
-            <div className="flex items-center gap-1.5 md:gap-3 text-xs md:text-sm text-secondary-200">
+            <div className="flex items-center gap-1.5 md:gap-3 text-xs md:text-sm text-slate-100">
               {movie.release_year && (
-                <span className="font-semibold bg-primary-700/70 backdrop-blur-sm px-2 py-0.5 md:px-3 md:py-1 rounded-lg">
+                <span className="font-semibold bg-slate-800/70 backdrop-blur-sm px-2 py-0.5 md:px-3 md:py-1 rounded-lg">
                   {movie.release_year}
                 </span>
               )}

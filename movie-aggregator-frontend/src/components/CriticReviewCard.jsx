@@ -28,15 +28,15 @@ const CriticReviewCard = ({ review }) => {
   };
 
   // Determine background color based on score (Kinopoisk style)
-  let bgColor = 'bg-[#1f1f1f]'; // Neutral
+  let bgColor = 'bg-slate-900/50'; // Neutral
   if (score >= 70) {
-    bgColor = 'bg-[#1f2d22]'; // Positive
+    bgColor = 'bg-emerald-50'; // Positive
   } else if (score <= 40) {
-    bgColor = 'bg-[#2d1f1f]'; // Negative
+    bgColor = 'bg-rose-50'; // Negative
   }
 
   return (
-    <div className={`${bgColor} rounded-lg p-6 transition-colors`}>
+    <div className={`${bgColor} rounded-3xl border border-slate-800 p-6 shadow-sm transition-colors`}>
       <div className="flex gap-4">
         {/* Metascore Badge */}
         <div className="flex-shrink-0">
@@ -56,21 +56,21 @@ const CriticReviewCard = ({ review }) => {
                     className="h-5 w-auto"
                   />
                 )}
-                <h4 className="font-semibold text-white">
+                <h4 className="font-semibold text-slate-100">
                   {publicationName}
                 </h4>
               </div>
               {criticName && (
-                <p className="text-sm text-gray-400">by {criticName}</p>
+                <p className="text-sm text-slate-400">by {criticName}</p>
               )}
             </div>
-            <span className="text-xs text-gray-500 whitespace-nowrap">
+            <span className="text-xs text-slate-500 whitespace-nowrap">
               {formatDate(publishDate)}
             </span>
           </div>
 
           {/* Цитата из рецензии */}
-          <blockquote className="text-gray-300 text-sm leading-relaxed border-l-2 border-gray-700 pl-4 italic">
+          <blockquote className="border-l-2 border-slate-800 pl-4 text-sm leading-relaxed italic text-slate-400">
             "{excerpt}"
           </blockquote>
 
@@ -80,7 +80,7 @@ const CriticReviewCard = ({ review }) => {
               href={fullReviewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-[#f5c518] hover:text-[#f5c518]/80 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
             >
               Читать полную рецензию
               <ExternalLink className="w-3 h-3" />

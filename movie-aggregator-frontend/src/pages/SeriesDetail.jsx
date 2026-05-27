@@ -277,9 +277,9 @@ const SeriesDetail = () => {
                   </div>
                   <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">{seriesData.title}</h1>
                   {seriesData.originalTitle && (
-                    <p className="text-gray-400 text-lg">{seriesData.originalTitle}</p>
+                    <p className="text-slate-500 text-lg">{seriesData.originalTitle}</p>
                   )}
-                  <div className="flex items-center gap-3 text-gray-400 mt-2">
+                  <div className="flex items-center gap-3 text-slate-500 mt-2">
                     <span>{seriesData.year}{seriesData.endYear ? ` - ${seriesData.endYear}` : ' - ...'}</span>
                     <span>•</span>
                     <span>{seriesData.genre.join(', ')}</span>
@@ -335,7 +335,7 @@ const SeriesDetail = () => {
                     className={`px-6 py-3 font-bold rounded border transition flex items-center gap-2 ${
                       isInWatchlist 
                         ? 'bg-[#f5c518] text-black border-[#f5c518]' 
-                        : 'bg-[#1a1a1a] text-white border-gray-700 hover:bg-[#252525]'
+                        : 'bg-[#1a1a1a] text-white border-white/10 hover:bg-[#252525]'
                     }`}
                   >
                     <Bookmark className={`w-5 h-5 ${isInWatchlist ? 'fill-black' : ''}`} />
@@ -358,7 +358,7 @@ const SeriesDetail = () => {
               className={`pb-4 font-semibold transition-colors ${
                 activeTab === tab
                   ? 'text-white border-b-2 border-[#f5c518]'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-slate-500 hover:text-white'
               }`}
             >
               {tab === 'overview' && 'Обзор'}
@@ -435,12 +435,12 @@ const SeriesDetail = () => {
                       <div key={season.season_number} className="bg-[#141414] border border-gray-800 rounded-lg p-6 space-y-4">
                         <div className="flex items-center justify-between">
                           <h3 className="text-xl font-bold text-white">Сезон {season.season_number}</h3>
-                          <span className="text-gray-400">
+                          <span className="text-slate-500">
                             {season.episode_count} эпизодов
                           </span>
                         </div>
                         {season.release_date && (
-                          <p className="text-gray-400 text-sm">
+                          <p className="text-slate-500 text-sm">
                             Дата выхода: {formatDate(season.release_date)}
                           </p>
                         )}
@@ -452,11 +452,11 @@ const SeriesDetail = () => {
                 </>
               ) : (
                 <div className="bg-[#141414] border border-gray-800 rounded-lg p-8 text-center">
-                  <Tv className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400">
+                  <Tv className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+                  <p className="text-slate-500">
                     Информация о сезонах будет добавлена позже
                   </p>
-                  <p className="text-gray-500 text-sm mt-2">
+                  <p className="text-slate-500 text-sm mt-2">
                     Всего: {seriesData.totalSeasons} сезонов, {seriesData.totalEpisodes} эпизодов
                   </p>
                 </div>
@@ -482,7 +482,7 @@ const SeriesDetail = () => {
                 <h2 className="text-2xl font-bold text-white">Отзывы пользователей</h2>
                 
                 {userReviewsList.length === 0 ? (
-                  <p className="text-gray-400">Отзывов пока нет. Напишите первый!</p>
+                  <p className="text-slate-500">Отзывов пока нет. Напишите первый!</p>
                 ) : (
                   <div className="space-y-4">
                     {userReviewsList.map((review) => (
@@ -492,7 +492,7 @@ const SeriesDetail = () => {
                             <img src={review.userAvatar} alt="" className="w-10 h-10 rounded-full" />
                             <div>
                               <p className="text-white font-semibold">{review.userName}</p>
-                              <p className="text-gray-500 text-sm">{formatDate(review.date)}</p>
+                              <p className="text-slate-500 text-sm">{formatDate(review.date)}</p>
                             </div>
                           </div>
                           {review.score && (
@@ -505,13 +505,13 @@ const SeriesDetail = () => {
                         <div className="flex items-center gap-4">
                           <button 
                             onClick={() => handleVoteReview(review.id, 'LIKE')}
-                            className="flex items-center gap-2 text-gray-400 hover:text-green-500"
+                            className="flex items-center gap-2 text-slate-500 hover:text-green-500"
                           >
                             <ThumbsUp className="w-4 h-4" /> {review.helpful}
                           </button>
                           <button 
                             onClick={() => handleVoteReview(review.id, 'DISLIKE')}
-                            className="flex items-center gap-2 text-gray-400 hover:text-red-500"
+                            className="flex items-center gap-2 text-slate-500 hover:text-red-500"
                           >
                             <ThumbsDown className="w-4 h-4" /> {review.notHelpful}
                           </button>
@@ -538,7 +538,7 @@ const SeriesDetail = () => {
               
               {seriesData.creator && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-400 mb-2">Создатель</h3>
+                  <h3 className="text-lg font-semibold text-slate-500 mb-2">Создатель</h3>
                   <p className="text-white">{seriesData.creator}</p>
                 </div>
               )}
@@ -548,19 +548,19 @@ const SeriesDetail = () => {
                   {seriesData.cast.map((actor, index) => (
                     <div key={index} className="bg-[#141414] border border-gray-800 rounded-lg p-4 text-center">
                       <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-gray-700 flex items-center justify-center">
-                        <Users className="w-8 h-8 text-gray-500" />
+                        <Users className="w-8 h-8 text-slate-500" />
                       </div>
                       <p className="text-white font-semibold text-sm">
                         {typeof actor === 'string' ? actor : actor.name}
                       </p>
                       {typeof actor === 'object' && actor.role && (
-                        <p className="text-gray-500 text-xs">{actor.role}</p>
+                        <p className="text-slate-500 text-xs">{actor.role}</p>
                       )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-400">Информация об актёрах будет добавлена позже.</p>
+                <p className="text-slate-500">Информация об актёрах будет добавлена позже.</p>
               )}
             </div>
           )}
@@ -636,41 +636,41 @@ const SeriesDetail = () => {
             <dl className="space-y-3 text-sm">
               {seriesData.network && (
                 <div>
-                  <dt className="text-gray-500">Канал / Платформа</dt>
+                  <dt className="text-slate-500">Канал / Платформа</dt>
                   <dd className="text-gray-300 font-medium">{seriesData.network}</dd>
                 </div>
               )}
               {seriesData.creator && (
                 <div>
-                  <dt className="text-gray-500">Создатель</dt>
+                  <dt className="text-slate-500">Создатель</dt>
                   <dd className="text-gray-300 font-medium">{seriesData.creator}</dd>
                 </div>
               )}
               <div>
-                <dt className="text-gray-500">Год выхода</dt>
+                <dt className="text-slate-500">Год выхода</dt>
                 <dd className="text-gray-300 font-medium">
                   {seriesData.year}{seriesData.endYear ? ` - ${seriesData.endYear}` : ' - наст. время'}
                 </dd>
               </div>
               {seriesData.country && (
                 <div>
-                  <dt className="text-gray-500">Страна</dt>
+                  <dt className="text-slate-500">Страна</dt>
                   <dd className="text-gray-300 font-medium">{seriesData.country}</dd>
                 </div>
               )}
               {seriesData.language && (
                 <div>
-                  <dt className="text-gray-500">Язык</dt>
+                  <dt className="text-slate-500">Язык</dt>
                   <dd className="text-gray-300 font-medium">{seriesData.language}</dd>
                 </div>
               )}
               <div>
-                <dt className="text-gray-500">Жанр</dt>
+                <dt className="text-slate-500">Жанр</dt>
                 <dd className="text-gray-300 font-medium">{seriesData.genre.join(', ') || '—'}</dd>
               </div>
               {seriesData.ageRating && (
                 <div>
-                  <dt className="text-gray-500">Возрастной рейтинг</dt>
+                  <dt className="text-slate-500">Возрастной рейтинг</dt>
                   <dd className="text-gray-300 font-medium">{seriesData.ageRating}</dd>
                 </div>
               )}
@@ -686,24 +686,24 @@ const SeriesDetail = () => {
             <h3 className="text-2xl font-bold text-white mb-4">Написать отзыв</h3>
             <form onSubmit={handleReviewSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-400 mb-2">Оценка (1-10)</label>
+                <label className="block text-slate-500 mb-2">Оценка (1-10)</label>
                 <input 
                   type="number" 
                   min="1" 
                   max="10" 
                   value={reviewForm.rating}
                   onChange={(e) => setReviewForm({...reviewForm, rating: e.target.value})}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-2 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white"
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-400 mb-2">Текст отзыва</label>
+                <label className="block text-slate-500 mb-2">Текст отзыва</label>
                 <textarea 
                   rows="5"
                   value={reviewForm.content}
                   onChange={(e) => setReviewForm({...reviewForm, content: e.target.value})}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-2 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white"
                   required
                   placeholder="Поделитесь своими впечатлениями..."
                 />

@@ -36,7 +36,7 @@ const Analytics = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900/50 flex items-center justify-center">
         <div className="animate-spin h-12 w-12 border-4 border-imdb border-t-transparent rounded-full"></div>
       </div>
     );
@@ -44,7 +44,7 @@ const Analytics = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-dark-900 flex items-center justify-center text-red-500">
+      <div className="min-h-screen bg-slate-900/50 flex items-center justify-center text-red-500">
         <AlertTriangle className="mr-2" /> {error}
       </div>
     );
@@ -59,16 +59,16 @@ const Analytics = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#F5C518'];
 
   return (
-    <div className="min-h-screen bg-dark-900 text-dark-100 p-8">
+    <div className="min-h-screen bg-slate-900/50 text-white p-8">
       <div className="max-w-7xl mx-auto space-y-12">
         
         <header className="mb-8">
           <h1 className="text-4xl font-display font-bold text-imdb mb-2">Аналитика Киномира</h1>
-          <p className="text-dark-400">Глобальные тренды, анти-рейтинги и хайп-индекс</p>
+          <p className="text-slate-400">Глобальные тренды, анти-рейтинги и хайп-индекс</p>
         </header>
 
         {/* World Ratings Section */}
-        <section className="bg-dark-800 rounded-xl p-6 border border-dark-700 shadow-lg">
+        <section className="bg-slate-800/80 rounded-xl p-6 border border-white/10 shadow-lg">
           <div className="flex items-center gap-3 mb-6">
             <Globe className="text-blue-400 h-8 w-8" />
             <h2 className="text-2xl font-bold">Мировой Рейтинг</h2>
@@ -88,24 +88,24 @@ const Analytics = () => {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-sm text-dark-400 mt-4 text-center">Средняя оценка контента пользователями из разных стран</p>
+          <p className="text-sm text-slate-400 mt-4 text-center">Средняя оценка контента пользователями из разных стран</p>
         </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Anti-Rating Section */}
-          <section className="bg-dark-800 rounded-xl p-6 border border-dark-700 shadow-lg">
+          <section className="bg-slate-800/80 rounded-xl p-6 border border-white/10 shadow-lg">
             <div className="flex items-center gap-3 mb-6">
               <TrendingDown className="text-red-500 h-8 w-8" />
               <h2 className="text-2xl font-bold">Анти-Рейтинг</h2>
             </div>
             <div className="space-y-4">
               {antiRating.map((item, index) => (
-                <div key={item.id} className="flex items-center gap-4 p-3 bg-dark-700/50 rounded-lg hover:bg-dark-700 transition-colors">
+                <div key={item.id} className="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors">
                   <div className="text-2xl font-bold text-dark-500 w-8">#{index + 1}</div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg text-dark-100">{item.title}</h3>
-                    <div className="text-xs text-dark-400">{item.release_year}</div>
+                    <h3 className="font-bold text-lg text-white">{item.title}</h3>
+                    <div className="text-xs text-slate-400">{item.release_year}</div>
                   </div>
                   <div className="flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
                     <span className="text-red-500 font-bold">{Number(item.avg_rating).toFixed(1)}</span>
@@ -116,18 +116,18 @@ const Analytics = () => {
           </section>
 
           {/* Hype Top Section */}
-          <section className="bg-dark-800 rounded-xl p-6 border border-dark-700 shadow-lg">
+          <section className="bg-slate-800/80 rounded-xl p-6 border border-white/10 shadow-lg">
             <div className="flex items-center gap-3 mb-6">
               <Flame className="text-orange-500 h-8 w-8" />
               <h2 className="text-2xl font-bold">Топ Хайпа</h2>
             </div>
             <div className="space-y-4">
               {hypeTop.map((item, index) => (
-                <div key={item.id} className="flex items-center gap-4 p-3 bg-dark-700/50 rounded-lg hover:bg-dark-700 transition-colors border-l-4 border-orange-500">
+                <div key={item.id} className="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors border-l-4 border-orange-500">
                   <div className="text-2xl font-bold text-orange-500 w-8">#{index + 1}</div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg text-dark-100">{item.title}</h3>
-                    <div className="text-xs text-dark-400">Ожидают: {item.waiting_count} чел.</div>
+                    <h3 className="font-bold text-lg text-white">{item.title}</h3>
+                    <div className="text-xs text-slate-400">Ожидают: {item.waiting_count} чел.</div>
                   </div>
                   <div className="flex flex-col items-end">
                     <div className="text-orange-400 font-bold text-sm">Hype Index</div>

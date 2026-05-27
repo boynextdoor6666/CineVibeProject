@@ -54,8 +54,8 @@ const MetascoreBadge = ({ score, size = 'medium' }) => {
       </div>
       {size === 'large' && (
         <div className="text-center">
-          <p className="text-xs font-semibold text-gray-400">METASCORE</p>
-          <p className="text-xs text-gray-500">{getScoreDescription()}</p>
+          <p className="text-xs font-semibold text-slate-500">METASCORE</p>
+          <p className="text-xs text-slate-400">{getScoreDescription()}</p>
         </div>
       )}
     </div>

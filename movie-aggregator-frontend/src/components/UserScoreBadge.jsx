@@ -73,15 +73,15 @@ const UserScoreBadge = ({ score, reviewCount = 0, size = 'medium' }) => {
       </div>
       {size === 'large' && (
         <div className="text-center">
-          <p className="text-xs font-semibold text-gray-400">USER SCORE</p>
-          <div className="flex items-center gap-1 text-xs text-gray-500">
+          <p className="text-xs font-semibold text-slate-500">USER SCORE</p>
+          <div className="flex items-center gap-1 text-xs text-slate-400">
             <Star className="w-3 h-3 fill-gray-500" />
             <span>{formatReviewCount(reviewCount)} Ratings</span>
           </div>
         </div>
       )}
       {size !== 'large' && reviewCount > 0 && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-slate-400">
           {formatReviewCount(reviewCount)} ratings
         </p>
       )}

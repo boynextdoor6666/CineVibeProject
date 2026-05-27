@@ -53,7 +53,7 @@ const Login = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-md w-full bg-dark-800/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 relative z-10"
+        className="max-w-md w-full bg-slate-800/80/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 relative z-10"
       >
         {/* Header */}
         <div className="text-center mb-8">
@@ -65,7 +65,7 @@ const Login = () => {
             />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">С возвращением!</h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             Войдите, чтобы продолжить путешествие
           </p>
         </div>
@@ -79,7 +79,7 @@ const Login = () => {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-500 group-focus-within:text-yellow-500 transition-colors" />
+                  <User className="h-5 w-5 text-slate-400 group-focus-within:text-yellow-500 transition-colors" />
                 </div>
                 <input
                   name="username"
@@ -87,7 +87,7 @@ const Login = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500 transition-all"
+                  className="block w-full pl-10 pr-3 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500 transition-all"
                   placeholder="Ваш никнейм"
                 />
               </div>
@@ -99,7 +99,7 @@ const Login = () => {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-yellow-500 transition-colors" />
+                  <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-yellow-500 transition-colors" />
                 </div>
                 <input
                   name="password"
@@ -107,13 +107,13 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-10 py-3 bg-dark-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500 transition-all"
+                  className="block w-full pl-10 pr-10 py-3 bg-slate-900/50/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500 transition-all"
                   placeholder="Ваш пароль"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-gray-300 transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -150,20 +150,20 @@ const Login = () => {
           </button>
 
           <div className="text-center space-y-4">
-            <Link to="/forgot-password" className="text-sm text-gray-400 hover:text-yellow-400 transition-colors">
+            <Link to="/forgot-password" className="text-sm text-slate-500 hover:text-yellow-400 transition-colors">
               Забыли пароль?
             </Link>
             
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-700"></div>
+                <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-dark-800 text-gray-500">или</span>
+                <span className="px-2 bg-slate-800/80 text-slate-400">или</span>
               </div>
             </div>
 
-            <p className="text-gray-400">
+            <p className="text-slate-500">
               Нет аккаунта?{' '}
               <Link to="/register" className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors">
                 Создать аккаунт
@@ -173,9 +173,9 @@ const Login = () => {
         </form>
 
         {/* Demo Credentials */}
-        <div className="mt-8 p-4 bg-dark-900/50 border border-gray-700/50 rounded-xl backdrop-blur-sm">
-          <p className="text-xs text-gray-500 text-center mb-2 uppercase tracking-wider font-semibold">Демо-доступ</p>
-          <div className="flex justify-center gap-4 text-xs text-gray-400 font-mono">
+        <div className="mt-8 p-4 bg-slate-900/50/50 border border-white/10/50 rounded-xl backdrop-blur-sm">
+          <p className="text-xs text-slate-400 text-center mb-2 uppercase tracking-wider font-semibold">Демо-доступ</p>
+          <div className="flex justify-center gap-4 text-xs text-slate-500 font-mono">
             <span>user: <span className="text-white">demo</span></span>
             <span>pass: <span className="text-white">demo123</span></span>
           </div>

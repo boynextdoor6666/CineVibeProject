@@ -544,7 +544,7 @@ export default function AdminPanel() {
     }
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-primary-900 text-secondary-300">Загрузка...</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-900/50 text-slate-300">Загрузка...</div>;
 
   function parseSafeJSON(txt) {
     try {
@@ -553,20 +553,20 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-primary-900 text-secondary-300 p-6">
+    <div className="min-h-screen bg-slate-900/50 text-slate-300 p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-secondary-100">Панель администратора</h1>
+        <h1 className="text-3xl font-bold mb-8 text-white">Панель администратора</h1>
 
         <div className="mb-6 flex gap-2 flex-wrap">
-          <button onClick={() => setActiveTab('dashboard')} className={`px-4 py-2 rounded ${activeTab==='dashboard'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Дашборд</button>
-          <button onClick={() => setActiveTab('users')} className={`px-4 py-2 rounded ${activeTab==='users'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Пользователи</button>
-          <button onClick={() => { setActiveTab('content'); fetchContents(); }} className={`px-4 py-2 rounded ${activeTab==='content'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Контент</button>
-          <button onClick={() => { setActiveTab('hero-carousel'); setTimeout(() => { fetchHeroItems(); fetchContents(); }, 10); }} className={`px-4 py-2 rounded ${activeTab==='hero-carousel'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Hero Карусель</button>
-          <button onClick={() => { setActiveTab('coming-soon'); setTimeout(fetchComingItems, 10); }} className={`px-4 py-2 rounded ${activeTab==='coming-soon'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Скоро выйдет</button>
-          <button onClick={() => { setActiveTab('reviews'); setTimeout(fetchReviews, 10); }} className={`px-4 py-2 rounded ${activeTab==='reviews'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Отзывы</button>
-          <button onClick={() => { setActiveTab('achievements'); setTimeout(fetchAchievements, 10); }} className={`px-4 py-2 rounded ${activeTab==='achievements'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Достижения</button>
-          <button onClick={() => { setActiveTab('publications'); setTimeout(fetchPublications, 10); }} className={`px-4 py-2 rounded ${activeTab==='publications'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>Издания</button>
-          <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className={`px-4 py-2 rounded ${activeTab==='ml-tasks'?'bg-accent-500 text-white':'bg-primary-800 text-secondary-200 hover:bg-primary-700'}`}>ML Задачи</button>
+          <button onClick={() => setActiveTab('dashboard')} className={`px-4 py-2 rounded ${activeTab==='dashboard'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Дашборд</button>
+          <button onClick={() => setActiveTab('users')} className={`px-4 py-2 rounded ${activeTab==='users'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Пользователи</button>
+          <button onClick={() => { setActiveTab('content'); fetchContents(); }} className={`px-4 py-2 rounded ${activeTab==='content'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Контент</button>
+          <button onClick={() => { setActiveTab('hero-carousel'); setTimeout(() => { fetchHeroItems(); fetchContents(); }, 10); }} className={`px-4 py-2 rounded ${activeTab==='hero-carousel'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Hero Карусель</button>
+          <button onClick={() => { setActiveTab('coming-soon'); setTimeout(fetchComingItems, 10); }} className={`px-4 py-2 rounded ${activeTab==='coming-soon'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Скоро выйдет</button>
+          <button onClick={() => { setActiveTab('reviews'); setTimeout(fetchReviews, 10); }} className={`px-4 py-2 rounded ${activeTab==='reviews'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Отзывы</button>
+          <button onClick={() => { setActiveTab('achievements'); setTimeout(fetchAchievements, 10); }} className={`px-4 py-2 rounded ${activeTab==='achievements'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Достижения</button>
+          <button onClick={() => { setActiveTab('publications'); setTimeout(fetchPublications, 10); }} className={`px-4 py-2 rounded ${activeTab==='publications'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>Издания</button>
+          <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className={`px-4 py-2 rounded ${activeTab==='ml-tasks'?'bg-accent-500 text-white':'bg-slate-800/80 text-slate-100 hover:bg-slate-800'}`}>ML Задачи</button>
         </div>
 
         {activeTab === 'dashboard' && stats && (
@@ -574,11 +574,11 @@ export default function AdminPanel() {
             {/* 1. Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Users */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700 relative overflow-hidden">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10 relative overflow-hidden">
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-secondary-400 text-sm mb-1">Пользователи</div>
-                    <div className="text-3xl font-bold text-secondary-100">{stats.users?.total || 0}</div>
+                    <div className="text-slate-400 text-sm mb-1">Пользователи</div>
+                    <div className="text-3xl font-bold text-white">{stats.users?.total || 0}</div>
                     <div className="text-xs text-green-400 mt-1 flex items-center gap-1">
                       <Activity size={12} /> {stats.users?.active || 0} активных
                     </div>
@@ -590,12 +590,12 @@ export default function AdminPanel() {
               </div>
 
               {/* Content */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700 relative overflow-hidden">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10 relative overflow-hidden">
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-secondary-400 text-sm mb-1">Контент</div>
-                    <div className="text-3xl font-bold text-secondary-100">{stats.content?.total || 0}</div>
-                    <div className="text-xs text-secondary-400 mt-1">
+                    <div className="text-slate-400 text-sm mb-1">Контент</div>
+                    <div className="text-3xl font-bold text-white">{stats.content?.total || 0}</div>
+                    <div className="text-xs text-slate-400 mt-1">
                       Фильмы, сериалы, игры
                     </div>
                   </div>
@@ -606,11 +606,11 @@ export default function AdminPanel() {
               </div>
 
               {/* Reviews */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700 relative overflow-hidden">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10 relative overflow-hidden">
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-secondary-400 text-sm mb-1">Рецензии</div>
-                    <div className="text-3xl font-bold text-secondary-100">{stats.reviews?.total || 0}</div>
+                    <div className="text-slate-400 text-sm mb-1">Рецензии</div>
+                    <div className="text-3xl font-bold text-white">{stats.reviews?.total || 0}</div>
                     <div className="text-xs text-yellow-400 mt-1 flex items-center gap-1">
                       ⭐ {stats.reviews?.avgRating || 0} ср. оценка
                     </div>
@@ -622,14 +622,14 @@ export default function AdminPanel() {
               </div>
 
               {/* System */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700 relative overflow-hidden">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10 relative overflow-hidden">
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-secondary-400 text-sm mb-1">Система</div>
+                    <div className="text-slate-400 text-sm mb-1">Система</div>
                     <div className="text-lg font-bold text-green-400 flex items-center gap-2">
                       <CheckCircle size={18} /> Stable
                     </div>
-                    <div className="text-xs text-secondary-400 mt-1">
+                    <div className="text-xs text-slate-400 mt-1">
                       v{stats.system?.version || '1.0.0'}
                     </div>
                   </div>
@@ -643,8 +643,8 @@ export default function AdminPanel() {
             {/* 2. Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Activity Chart */}
-              <div className="lg:col-span-2 bg-dark-800 p-6 rounded-lg border border-dark-700">
-                <h3 className="text-lg font-bold text-secondary-100 mb-6 flex items-center gap-2">
+              <div className="lg:col-span-2 bg-slate-800/80 p-6 rounded-lg border border-white/10">
+                <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
                   <TrendingUp size={20} className="text-accent-500" />
                   Активность рецензий (7 дней)
                 </h3>
@@ -671,8 +671,8 @@ export default function AdminPanel() {
               </div>
 
               {/* Content Distribution */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700">
-                <h3 className="text-lg font-bold text-secondary-100 mb-6 flex items-center gap-2">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
+                <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
                   <Database size={20} className="text-accent-500" />
                   Распределение контента
                 </h3>
@@ -706,8 +706,8 @@ export default function AdminPanel() {
                   </ResponsiveContainer>
                   {/* Center Text */}
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none pb-8">
-                    <div className="text-2xl font-bold text-secondary-100">{stats.content?.total || 0}</div>
-                    <div className="text-xs text-secondary-400">Всего</div>
+                    <div className="text-2xl font-bold text-white">{stats.content?.total || 0}</div>
+                    <div className="text-xs text-slate-400">Всего</div>
                   </div>
                 </div>
               </div>
@@ -716,35 +716,35 @@ export default function AdminPanel() {
             {/* 3. System & Quick Actions */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* System Status */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700">
-                <h3 className="text-lg font-bold text-secondary-100 mb-4 flex items-center gap-2">
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <Server size={20} className="text-accent-500" />
                   Статус сервисов
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-dark-900 rounded border border-dark-600">
+                  <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded border border-dark-600">
                     <div className="flex items-center gap-3">
                       <Database size={18} className="text-blue-400" />
-                      <span className="text-secondary-200">База данных (MySQL)</span>
+                      <span className="text-slate-100">База данных (MySQL)</span>
                     </div>
                     <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full flex items-center gap-1">
                       <CheckCircle size={12} /> Connected
                     </span>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-dark-900 rounded border border-dark-600">
+                  <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded border border-dark-600">
                     <div className="flex items-center gap-3">
                       <Film size={18} className="text-cyan-400" />
-                      <span className="text-secondary-200">TMDB API</span>
+                      <span className="text-slate-100">TMDB API</span>
                     </div>
                     <span className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${stats.system?.tmdb === 'configured' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                       {stats.system?.tmdb === 'configured' ? <CheckCircle size={12} /> : <AlertCircle size={12} />}
                       {stats.system?.tmdb === 'configured' ? 'Active' : 'Missing Key'}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-dark-900 rounded border border-dark-600">
+                  <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded border border-dark-600">
                     <div className="flex items-center gap-3">
                       <Gamepad2 size={18} className="text-purple-400" />
-                      <span className="text-secondary-200">IGDB API</span>
+                      <span className="text-slate-100">IGDB API</span>
                     </div>
                     <span className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${stats.system?.igdb === 'configured' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                       {stats.system?.igdb === 'configured' ? <CheckCircle size={12} /> : <AlertCircle size={12} />}
@@ -755,55 +755,55 @@ export default function AdminPanel() {
               </div>
 
               {/* Quick Actions (Existing but styled) */}
-              <div className="bg-dark-800 p-6 rounded-lg border border-dark-700">
-                <h3 className="text-lg font-bold text-secondary-100 mb-4">Быстрые действия</h3>
+              <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
+                <h3 className="text-lg font-bold text-white mb-4">Быстрые действия</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <button onClick={() => setActiveTab('content')} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                  <button onClick={() => setActiveTab('content')} className="p-4 bg-slate-900/50 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">🎬</div>
-                    <div className="font-semibold text-secondary-100">Добавить контент</div>
-                    <div className="text-xs text-secondary-400">Фильмы, сериалы, игры</div>
+                    <div className="font-semibold text-white">Добавить контент</div>
+                    <div className="text-xs text-slate-400">Фильмы, сериалы, игры</div>
                   </button>
-                  <button onClick={() => setActiveTab('users')} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                  <button onClick={() => setActiveTab('users')} className="p-4 bg-slate-900/50 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">👥</div>
-                    <div className="font-semibold text-secondary-100">Пользователи</div>
-                    <div className="text-xs text-secondary-400">Модерация и роли</div>
+                    <div className="font-semibold text-white">Пользователи</div>
+                    <div className="text-xs text-slate-400">Модерация и роли</div>
                   </button>
-                  <button onClick={() => setActiveTab('reviews')} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                  <button onClick={() => setActiveTab('reviews')} className="p-4 bg-slate-900/50 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">💬</div>
-                    <div className="font-semibold text-secondary-100">Отзывы</div>
-                    <div className="text-xs text-secondary-400">Проверка рецензий</div>
+                    <div className="font-semibold text-white">Отзывы</div>
+                    <div className="text-xs text-slate-400">Проверка рецензий</div>
                   </button>
-                  <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                  <button onClick={() => { setActiveTab('ml-tasks'); setTimeout(fetchMlTasks, 10); }} className="p-4 bg-slate-900/50 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">🧠</div>
-                    <div className="font-semibold text-secondary-100">Автоматизация</div>
-                    <div className="text-xs text-secondary-400">Состояние ML моделей</div>
+                    <div className="font-semibold text-white">Автоматизация</div>
+                    <div className="text-xs text-slate-400">Состояние ML моделей</div>
                   </button>
-                  <button onClick={() => setActiveTab('coming-soon')} className="p-4 bg-dark-900 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
+                  <button onClick={() => setActiveTab('coming-soon')} className="p-4 bg-slate-900/50 rounded border border-dark-600 hover:border-accent-500 transition-colors text-left group">
                     <div className="text-accent-500 mb-2 text-2xl group-hover:scale-110 transition-transform">📅</div>
-                    <div className="font-semibold text-secondary-100">Скоро выйдет</div>
-                    <div className="text-xs text-secondary-400">Управление релизами</div>
+                    <div className="font-semibold text-white">Скоро выйдет</div>
+                    <div className="text-xs text-slate-400">Управление релизами</div>
                   </button>
                 </div>
               </div>
             </div>
 
             {/* 4. Recent Users Table (Existing) */}
-            <div className="bg-dark-800 p-6 rounded-lg border border-dark-700">
-              <h3 className="text-lg font-bold mb-4 text-secondary-100">Последние регистрации</h3>
+            <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
+              <h3 className="text-lg font-bold mb-4 text-white">Последние регистрации</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full">
-                  <thead className="bg-dark-900">
+                  <thead className="bg-slate-900/50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Пользователь</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Email</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-secondary-400 uppercase">Роль</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Пользователь</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Email</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase">Роль</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-dark-700">
                     {users.slice(0, 5).map(u => (
-                      <tr key={u.id} className="hover:bg-dark-700/50 transition-colors">
-                        <td className="px-4 py-3 text-sm text-secondary-100 font-medium">{u.username}</td>
-                        <td className="px-4 py-3 text-sm text-secondary-400">{u.email}</td>
+                      <tr key={u.id} className="hover:bg-slate-800/50 transition-colors">
+                        <td className="px-4 py-3 text-sm text-white font-medium">{u.username}</td>
+                        <td className="px-4 py-3 text-sm text-slate-400">{u.email}</td>
                         <td className="px-4 py-3 text-sm text-right">
                           <span className={`px-2 py-1 text-xs rounded-full ${u.role === 'ADMIN' ? 'bg-red-900/30 text-red-400' : u.role === 'CRITIC' ? 'bg-purple-900/30 text-purple-400' : 'bg-blue-900/30 text-blue-400'}`}>
                             {u.role}
@@ -821,12 +821,12 @@ export default function AdminPanel() {
         {activeTab === 'users' && (
         <>
         {/* Filters */}
-        <div className="bg-dark-800 p-4 rounded-lg border border-dark-700 mb-6">
+        <div className="bg-slate-800/80 p-4 rounded-lg border border-white/10 mb-6">
           <label className="block text-sm font-medium mb-2">Фильтр по роли</label>
           <select
             value={filter}
             onChange={(e) => { setFilter(e.target.value); setTimeout(fetchData, 100); }}
-            className="px-4 py-2 bg-dark-900 border border-dark-600 rounded-lg text-secondary-100"
+            className="px-4 py-2 bg-slate-900/50 border border-dark-600 rounded-lg text-white"
           >
             <option value="">Все пользователи</option>
             <option value="USER">Зрители</option>
@@ -836,33 +836,33 @@ export default function AdminPanel() {
         </div>
 
         {/* Users Table */}
-        <div className="bg-dark-800 rounded-lg border border-dark-700 overflow-hidden">
+        <div className="bg-slate-800/80 rounded-lg border border-white/10 overflow-hidden">
           <table className="min-w-full divide-y divide-dark-700">
-            <thead className="bg-dark-900">
+            <thead className="bg-slate-900/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Пользователь</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Роль</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Репутация</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Статус</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Пользователь</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Роль</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Репутация</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Статус</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
               </tr>
             </thead>
-            <tbody className="bg-dark-800 divide-y divide-dark-700">
+            <tbody className="bg-slate-800/80 divide-y divide-dark-700">
               {users.map((u) => (
                 <tr key={u.id} className={!u.isActive ? 'bg-red-950/20' : ''}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-200">{u.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-100">{u.id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="font-medium text-secondary-100">{u.username}</div>
+                    <div className="font-medium text-white">{u.username}</div>
                     <div className="text-xs text-secondary-500">{u.level}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-200">{u.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-100">{u.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={u.role}
                       onChange={(e) => handleChangeRole(u.id, e.target.value)}
-                      className="text-sm bg-dark-900 border border-dark-600 rounded px-2 py-1 text-secondary-100"
+                      className="text-sm bg-slate-900/50 border border-dark-600 rounded px-2 py-1 text-white"
                       disabled={u.id === user.id}
                     >
                       <option value="USER">Зритель</option>
@@ -870,7 +870,7 @@ export default function AdminPanel() {
                       <option value="ADMIN">Админ</option>
                     </select>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-200">{u.reputation}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-100">{u.reputation}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs rounded-full border ${u.isActive ? 'border-green-600 text-green-300 bg-green-900/20' : 'border-red-600 text-red-300 bg-red-900/20'}`}>
                       {u.isActive ? 'Активен' : 'Забанен'}
@@ -903,11 +903,11 @@ export default function AdminPanel() {
         {activeTab === 'content' && (
         <>
           {/* Content Filters + Create Form */}
-          <div className="bg-dark-800 p-4 rounded-lg border border-dark-700 mb-6">
+          <div className="bg-slate-800/80 p-4 rounded-lg border border-white/10 mb-6">
             <div className="flex flex-col md:flex-row gap-4 items-start md:items-end">
               <div>
                 <label className="block text-sm font-medium mb-1">Фильтр по типу</label>
-                <select value={contentTypeFilter} onChange={(e)=>{ setContentTypeFilter(e.target.value); setTimeout(fetchContents, 50); }} className="px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100">
+                <select value={contentTypeFilter} onChange={(e)=>{ setContentTypeFilter(e.target.value); setTimeout(fetchContents, 50); }} className="px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white">
                   <option value="">Все</option>
                   <option value="MOVIE">Фильмы</option>
                   <option value="TV_SERIES">Сериалы</option>
@@ -919,7 +919,7 @@ export default function AdminPanel() {
                 <input
                   value={contentSearch}
                   onChange={(e)=>setContentSearch(e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100"
+                  className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white"
                   placeholder="Начните вводить..."
                 />
               </div>
@@ -927,11 +927,11 @@ export default function AdminPanel() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Название *</label>
-                    <input value={createForm.title} onChange={(e)=>setCreateForm({...createForm,title:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                    <input value={createForm.title} onChange={(e)=>setCreateForm({...createForm,title:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Тип *</label>
-                    <select value={createForm.content_type} onChange={(e)=>setCreateForm({...createForm,content_type:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100">
+                    <select value={createForm.content_type} onChange={(e)=>setCreateForm({...createForm,content_type:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white">
                       <option value="MOVIE">Фильм</option>
                       <option value="TV_SERIES">Сериал</option>
                       <option value="GAME">Игра</option>
@@ -942,32 +942,32 @@ export default function AdminPanel() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                   <div>
                     <label className="block text-sm font-medium mb-1">Год</label>
-                    <input type="number" value={createForm.release_year} onChange={(e)=>setCreateForm({...createForm,release_year:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="2025" />
+                    <input type="number" value={createForm.release_year} onChange={(e)=>setCreateForm({...createForm,release_year:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="2025" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Жанр</label>
-                    <input value={createForm.genre} onChange={(e)=>setCreateForm({...createForm,genre:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="Action" />
+                    <input value={createForm.genre} onChange={(e)=>setCreateForm({...createForm,genre:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="Action" />
                   </div>
                   {createForm.content_type !== 'GAME' ? (
                     <>
                       <div>
                         <label className="block text-sm font-medium mb-1">Режиссёр</label>
-                        <input value={createForm.director} onChange={(e)=>setCreateForm({...createForm,director:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                        <input value={createForm.director} onChange={(e)=>setCreateForm({...createForm,director:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Длительность (мин)</label>
-                        <input type="number" value={createForm.runtime} onChange={(e)=>setCreateForm({...createForm,runtime:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="120" />
+                        <input type="number" value={createForm.runtime} onChange={(e)=>setCreateForm({...createForm,runtime:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="120" />
                       </div>
                     </>
                   ) : (
                     <>
                       <div>
                         <label className="block text-sm font-medium mb-1">Разработчик</label>
-                        <input value={createForm.developer} onChange={(e)=>setCreateForm({...createForm,developer:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                        <input value={createForm.developer} onChange={(e)=>setCreateForm({...createForm,developer:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-1">Издатель</label>
-                        <input value={createForm.publisher} onChange={(e)=>setCreateForm({...createForm,publisher:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                        <input value={createForm.publisher} onChange={(e)=>setCreateForm({...createForm,publisher:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                       </div>
                     </>
                   )}
@@ -976,18 +976,18 @@ export default function AdminPanel() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium mb-1">Постер URL</label>
-                    <input value={createForm.poster_url} onChange={(e)=>setCreateForm({...createForm,poster_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://..." />
+                    <input value={createForm.poster_url} onChange={(e)=>setCreateForm({...createForm,poster_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://..." />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Трейлер URL (YouTube)</label>
-                    <input value={createForm.trailer_url} onChange={(e)=>setCreateForm({...createForm,trailer_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://youtube.com/watch?v=..." />
+                    <input value={createForm.trailer_url} onChange={(e)=>setCreateForm({...createForm,trailer_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://youtube.com/watch?v=..." />
                   </div>
                 </div>
                 
                 {createForm.content_type !== 'GAME' ? (
                   <div>
                     <label className="block text-sm font-medium mb-1">Актёрский состав (через запятую)</label>
-                    <input value={createForm.cast} onChange={(e)=>setCreateForm({...createForm,cast:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="Actor 1, Actor 2, Actor 3" />
+                    <input value={createForm.cast} onChange={(e)=>setCreateForm({...createForm,cast:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="Actor 1, Actor 2, Actor 3" />
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -995,7 +995,7 @@ export default function AdminPanel() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-sm font-medium mb-1">Фото режиссёра (URL)</label>
-                      <input value={createForm.director_photo_url} onChange={(e)=>setCreateForm({...createForm,director_photo_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://..." />
+                      <input value={createForm.director_photo_url} onChange={(e)=>setCreateForm({...createForm,director_photo_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://..." />
                       {createForm.director_photo_url && (
                         <div className="mt-2">
                           <img src={createForm.director_photo_url} alt="Director Preview" className="w-12 h-12 rounded-full object-cover border border-dark-600" onError={(e)=>e.target.style.display='none'} />
@@ -1004,7 +1004,7 @@ export default function AdminPanel() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Фото актёров (через запятую)</label>
-                      <input value={createForm.cast_photos} onChange={(e)=>setCreateForm({...createForm,cast_photos:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://img1.jpg, https://img2.jpg" />
+                      <input value={createForm.cast_photos} onChange={(e)=>setCreateForm({...createForm,cast_photos:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://img1.jpg, https://img2.jpg" />
                       {createForm.cast_photos && (
                         <div className="mt-2 flex flex-wrap gap-2">
                           {createForm.cast_photos.split(',').map((url, idx) => url.trim() && (
@@ -1017,33 +1017,33 @@ export default function AdminPanel() {
                 )}
                     <div>
                       <label className="block text-sm font-medium mb-1">Платформы (через запятую)</label>
-                      <input value={createForm.platforms} onChange={(e)=>setCreateForm({...createForm,platforms:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="PS5, Xbox Series X" />
+                      <input value={createForm.platforms} onChange={(e)=>setCreateForm({...createForm,platforms:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="PS5, Xbox Series X" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Рейтинг ESRB</label>
-                      <input value={createForm.esrb_rating} onChange={(e)=>setCreateForm({...createForm,esrb_rating:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="M (17+)" />
+                      <input value={createForm.esrb_rating} onChange={(e)=>setCreateForm({...createForm,esrb_rating:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="M (17+)" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Игроки</label>
-                      <input value={createForm.players} onChange={(e)=>setCreateForm({...createForm,players:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="1-30 Online" />
+                      <input value={createForm.players} onChange={(e)=>setCreateForm({...createForm,players:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="1-30 Online" />
                     </div>
                   </div>
                 )}
                 
                 <div>
                   <label className="block text-sm font-medium mb-1">Описание</label>
-                  <textarea value={createForm.description} onChange={(e)=>setCreateForm({...createForm,description:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" rows={3} />
+                  <textarea value={createForm.description} onChange={(e)=>setCreateForm({...createForm,description:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" rows={3} />
                 </div>
 
                 {createForm.content_type === 'GAME' && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-sm font-medium mb-1">Размер файла</label>
-                      <input value={createForm.file_size} onChange={(e)=>setCreateForm({...createForm,file_size:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="150 GB" />
+                      <input value={createForm.file_size} onChange={(e)=>setCreateForm({...createForm,file_size:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="150 GB" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Техническая информация (JSON)</label>
-                      <textarea value={createForm.technical_info} onChange={(e)=>setCreateForm({...createForm,technical_info:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" rows={3} placeholder='{"systemRequirements": {"minimum": {...}, "recommended": {...}}}' />
+                      <textarea value={createForm.technical_info} onChange={(e)=>setCreateForm({...createForm,technical_info:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" rows={3} placeholder='{"systemRequirements": {"minimum": {...}, "recommended": {...}}}' />
                       <div className="text-xs mt-1">
                         {(() => { try { JSON.parse(createForm.technical_info || '{}'); return <span className="text-green-400">JSON валиден</span>; } catch { return <span className="text-red-400">Некорректный JSON</span>; } })()}
                       </div>
@@ -1062,33 +1062,33 @@ export default function AdminPanel() {
 
           {/* Edit Form (full) */}
           {editingId && (
-            <div className="bg-dark-800 p-4 rounded-lg border border-dark-700 mb-6">
+            <div className="bg-slate-800/80 p-4 rounded-lg border border-white/10 mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-secondary-100 font-semibold">Редактирование контента #{editingId}</h3>
-                <button onClick={cancelEdit} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Закрыть</button>
+                <h3 className="text-white font-semibold">Редактирование контента #{editingId}</h3>
+                <button onClick={cancelEdit} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Закрыть</button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-1">Название</label>
-                  <input value={editForm.title} onChange={(e)=>setEditForm({...editForm,title:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.title} onChange={(e)=>setEditForm({...editForm,title:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Год</label>
-                  <input type="number" value={editForm.release_year} onChange={(e)=>setEditForm({...editForm,release_year:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input type="number" value={editForm.release_year} onChange={(e)=>setEditForm({...editForm,release_year:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">Жанр</label>
-                  <input value={editForm.genre} onChange={(e)=>setEditForm({...editForm,genre:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.genre} onChange={(e)=>setEditForm({...editForm,genre:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Постер URL</label>
-                  <input value={editForm.poster_url} onChange={(e)=>setEditForm({...editForm,poster_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.poster_url} onChange={(e)=>setEditForm({...editForm,poster_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Трейлер URL</label>
-                  <input value={editForm.trailer_url} onChange={(e)=>setEditForm({...editForm,trailer_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.trailer_url} onChange={(e)=>setEditForm({...editForm,trailer_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
               </div>
 
@@ -1096,15 +1096,15 @@ export default function AdminPanel() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">Режиссёр</label>
-                  <input value={editForm.director} onChange={(e)=>setEditForm({...editForm,director:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.director} onChange={(e)=>setEditForm({...editForm,director:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Длительность (мин)</label>
-                  <input type="number" value={editForm.runtime} onChange={(e)=>setEditForm({...editForm,runtime:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input type="number" value={editForm.runtime} onChange={(e)=>setEditForm({...editForm,runtime:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div className="md:col-span-1">
                   <label className="block text-sm font-medium mb-1">Актёрский состав</label>
-                  <input value={editForm.cast} onChange={(e)=>setEditForm({...editForm,cast:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.cast} onChange={(e)=>setEditForm({...editForm,cast:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
               </div>
 
@@ -1112,7 +1112,7 @@ export default function AdminPanel() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">Фото режиссёра (URL)</label>
-                  <input value={editForm.director_photo_url} onChange={(e)=>setEditForm({...editForm,director_photo_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.director_photo_url} onChange={(e)=>setEditForm({...editForm,director_photo_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                   {editForm.director_photo_url && (
                     <div className="mt-2">
                       <img src={editForm.director_photo_url} alt="Director Preview" className="w-12 h-12 rounded-full object-cover border border-dark-600" onError={(e)=>e.target.style.display='none'} />
@@ -1121,7 +1121,7 @@ export default function AdminPanel() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Фото актёров (через запятую)</label>
-                  <input value={editForm.cast_photos} onChange={(e)=>setEditForm({...editForm,cast_photos:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://img1.jpg, https://img2.jpg" />
+                  <input value={editForm.cast_photos} onChange={(e)=>setEditForm({...editForm,cast_photos:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://img1.jpg, https://img2.jpg" />
                   {editForm.cast_photos && (
                     <div className="mt-2 flex flex-wrap gap-2">
                       {editForm.cast_photos.split(',').map((url, idx) => url.trim() && (
@@ -1136,34 +1136,34 @@ export default function AdminPanel() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">Разработчик</label>
-                  <input value={editForm.developer} onChange={(e)=>setEditForm({...editForm,developer:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.developer} onChange={(e)=>setEditForm({...editForm,developer:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Издатель</label>
-                  <input value={editForm.publisher} onChange={(e)=>setEditForm({...editForm,publisher:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.publisher} onChange={(e)=>setEditForm({...editForm,publisher:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Платформы</label>
-                  <input value={editForm.platforms} onChange={(e)=>setEditForm({...editForm,platforms:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="PS5, Xbox Series X" />
+                  <input value={editForm.platforms} onChange={(e)=>setEditForm({...editForm,platforms:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="PS5, Xbox Series X" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">ESRB</label>
-                  <input value={editForm.esrb_rating} onChange={(e)=>setEditForm({...editForm,esrb_rating:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.esrb_rating} onChange={(e)=>setEditForm({...editForm,esrb_rating:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Игроки</label>
-                  <input value={editForm.players} onChange={(e)=>setEditForm({...editForm,players:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={editForm.players} onChange={(e)=>setEditForm({...editForm,players:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Размер файла</label>
-                  <input value={editForm.file_size} onChange={(e)=>setEditForm({...editForm,file_size:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="150 GB" />
+                  <input value={editForm.file_size} onChange={(e)=>setEditForm({...editForm,file_size:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="150 GB" />
                 </div>
               </div>
               <div className="mt-3">
                 <label className="block text-sm font-medium mb-1">Техническая информация (JSON)</label>
-                <textarea value={editForm.technical_info} onChange={(e)=>setEditForm({...editForm,technical_info:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" rows={3} />
+                <textarea value={editForm.technical_info} onChange={(e)=>setEditForm({...editForm,technical_info:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" rows={3} />
                 <div className="text-xs mt-1">
                   {(() => { try { JSON.parse(editForm.technical_info || '{}'); return <span className="text-green-400">JSON валиден</span>; } catch { return <span className="text-red-400">Некорректный JSON</span>; } })()}
                 </div>
@@ -1171,71 +1171,71 @@ export default function AdminPanel() {
 
               <div className="mt-4 flex gap-2">
                 <button onClick={()=>handleUpdateContent(editingId)} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded">Сохранить</button>
-                <button onClick={cancelEdit} className="px-4 py-2 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded">Отмена</button>
+                <button onClick={cancelEdit} className="px-4 py-2 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded">Отмена</button>
               </div>
             </div>
           )}
 
           {/* Content List */}
-          <div className="bg-dark-800 rounded-lg border border-dark-700 overflow-hidden">
+          <div className="bg-slate-800/80 rounded-lg border border-white/10 overflow-hidden">
             <table className="min-w-full divide-y divide-dark-700">
-              <thead className="bg-dark-900">
+              <thead className="bg-slate-900/50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Постер</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Название</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Тип</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Год</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Жанр</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Рейтинг</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Постер</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Название</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Тип</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Год</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Жанр</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Рейтинг</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                 </tr>
               </thead>
-              <tbody className="bg-dark-800 divide-y divide-dark-700">
+              <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                 {contentLoading ? (
-                  <tr><td className="px-4 py-3 text-secondary-300" colSpan={6}>Загрузка...</td></tr>
+                  <tr><td className="px-4 py-3 text-slate-300" colSpan={6}>Загрузка...</td></tr>
                 ) : contents.length === 0 ? (
-                  <tr><td className="px-4 py-3 text-secondary-300" colSpan={6}>Пусто</td></tr>
+                  <tr><td className="px-4 py-3 text-slate-300" colSpan={6}>Пусто</td></tr>
                 ) : contents
                   .filter((c) => !contentSearch || String(c.title || '').toLowerCase().includes(contentSearch.toLowerCase()))
                   .map((c) => (
                   <tr key={c.id}>
                     <td className="px-4 py-3">
                       {c.poster_url ? (
-                        <img src={c.poster_url} alt={c.title} className="w-10 h-14 object-cover rounded border border-dark-700" onError={(e)=>{e.currentTarget.src='https://placehold.co/60x84/1e293b/666?text=No';}} />
+                        <img src={c.poster_url} alt={c.title} className="w-10 h-14 object-cover rounded border border-white/10" onError={(e)=>{e.currentTarget.src='https://placehold.co/60x84/1e293b/666?text=No';}} />
                       ) : (
-                        <div className="w-10 h-14 bg-dark-900 rounded border border-dark-700" />
+                        <div className="w-10 h-14 bg-slate-900/50 rounded border border-white/10" />
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary-200">{c.id}</td>
+                    <td className="px-4 py-3 text-sm text-slate-100">{c.id}</td>
                     <td className="px-4 py-3">
                       {editingId === c.id ? (
-                        <input className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" value={editForm.title} onChange={(e)=>setEditForm({...editForm,title:e.target.value})} />
+                        <input className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" value={editForm.title} onChange={(e)=>setEditForm({...editForm,title:e.target.value})} />
                       ) : (
-                        <div className="font-medium text-secondary-100">{c.title}</div>
+                        <div className="font-medium text-white">{c.title}</div>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary-300">{c.content_type}</td>
+                    <td className="px-4 py-3 text-sm text-slate-300">{c.content_type}</td>
                     <td className="px-4 py-3">
                       {editingId === c.id ? (
-                        <input className="w-24 px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" value={editForm.release_year} onChange={(e)=>setEditForm({...editForm,release_year:e.target.value})} />
+                        <input className="w-24 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" value={editForm.release_year} onChange={(e)=>setEditForm({...editForm,release_year:e.target.value})} />
                       ) : (
-                        <span className="text-sm text-secondary-300">{c.release_year || '-'}</span>
+                        <span className="text-sm text-slate-300">{c.release_year || '-'}</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
                       {editingId === c.id ? (
-                        <input className="w-40 px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" value={editForm.genre} onChange={(e)=>setEditForm({...editForm,genre:e.target.value})} />
+                        <input className="w-40 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" value={editForm.genre} onChange={(e)=>setEditForm({...editForm,genre:e.target.value})} />
                       ) : (
-                        <span className="text-sm text-secondary-300">{c.genre || '-'}</span>
+                        <span className="text-sm text-slate-300">{c.genre || '-'}</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-secondary-300">{Number(c.avg_rating || 0).toFixed(1)}</td>
+                    <td className="px-4 py-3 text-sm text-slate-300">{Number(c.avg_rating || 0).toFixed(1)}</td>
                     <td className="px-4 py-3 space-x-2 whitespace-nowrap">
                       {editingId === c.id ? (
                         <>
                           <button onClick={()=>handleUpdateContent(c.id)} className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">Сохранить</button>
-                          <button onClick={cancelEdit} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded">Отмена</button>
+                          <button onClick={cancelEdit} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded">Отмена</button>
                         </>
                       ) : (
                         <>
@@ -1243,7 +1243,7 @@ export default function AdminPanel() {
                             href={`/${c.content_type === 'GAME' ? 'game' : c.content_type === 'TV_SERIES' ? 'series' : 'movie'}/${c.id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3 py-1 bg-secondary-700 hover:bg-secondary-600 text-secondary-100 rounded"
+                            className="px-3 py-1 bg-secondary-700 hover:bg-secondary-600 text-white rounded"
                           >Открыть</a>
                           <button onClick={()=>startEdit(c)} className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded">Редактировать</button>
                           <button onClick={()=>handleDeleteContent(c.id)} className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">Удалить</button>
@@ -1260,32 +1260,32 @@ export default function AdminPanel() {
 
         {/* HERO CAROUSEL TAB */}
         {activeTab === 'hero-carousel' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100">Hero Carousel Management</h2>
+              <h2 className="text-2xl font-bold text-white">Hero Carousel Management</h2>
               <div className="flex gap-2">
-                <button onClick={fetchHeroItems} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+                <button onClick={fetchHeroItems} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
               </div>
             </div>
 
             {/* Create form */}
-            <div className="bg-primary-900 p-4 rounded-lg border border-primary-700 mb-6">
-              <h3 className="text-secondary-200 font-semibold mb-3">Добавить слайд</h3>
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-white/10 mb-6">
+              <h3 className="text-slate-100 font-semibold mb-3">Добавить слайд</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="text-sm text-secondary-400">Заголовок *</label>
-                  <input value={heroCreateForm.title} onChange={(e)=>setHeroCreateForm({...heroCreateForm, title:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <label className="text-sm text-slate-400">Заголовок *</label>
+                  <input value={heroCreateForm.title} onChange={(e)=>setHeroCreateForm({...heroCreateForm, title:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Подзаголовок</label>
-                  <input value={heroCreateForm.subtitle} onChange={(e)=>setHeroCreateForm({...heroCreateForm, subtitle:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Подзаголовок</label>
+                  <input value={heroCreateForm.subtitle} onChange={(e)=>setHeroCreateForm({...heroCreateForm, subtitle:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Content ID (опц.)</label>
+                  <label className="text-sm text-slate-400">Content ID (опц.)</label>
                   <select
                     value={heroCreateForm.content_id}
                     onChange={(e)=>setHeroCreateForm({...heroCreateForm, content_id:e.target.value})}
-                    className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100"
+                    className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white"
                   >
                     <option value="">-- Без привязки --</option>
                     {contents.map(c => (
@@ -1298,21 +1298,21 @@ export default function AdminPanel() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div className="md:col-span-2">
-                  <label className="text-sm text-secondary-400">Описание</label>
-                  <input value={heroCreateForm.description} onChange={(e)=>setHeroCreateForm({...heroCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Описание</label>
+                  <input value={heroCreateForm.description} onChange={(e)=>setHeroCreateForm({...heroCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Порядок</label>
-                  <input type="number" value={heroCreateForm.display_order} onChange={(e)=>setHeroCreateForm({...heroCreateForm, display_order:Number(e.target.value)||0})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Порядок</label>
+                  <input type="number" value={heroCreateForm.display_order} onChange={(e)=>setHeroCreateForm({...heroCreateForm, display_order:Number(e.target.value)||0})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div className="md:col-span-2">
-                  <label className="text-sm text-secondary-400">Фоновое изображение (URL)</label>
-                  <input value={heroCreateForm.background_image} onChange={(e)=>setHeroCreateForm({...heroCreateForm, background_image:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://..." />
+                  <label className="text-sm text-slate-400">Фоновое изображение (URL)</label>
+                  <input value={heroCreateForm.background_image} onChange={(e)=>setHeroCreateForm({...heroCreateForm, background_image:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://..." />
                 </div>
                 <div className="flex items-end gap-2">
-                  <label className="text-sm text-secondary-400 flex items-center gap-2">
+                  <label className="text-sm text-slate-400 flex items-center gap-2">
                     <input type="checkbox" checked={heroCreateForm.is_active} onChange={(e)=>setHeroCreateForm({...heroCreateForm, is_active:e.target.checked})} />
                     Активен
                   </label>
@@ -1320,12 +1320,12 @@ export default function AdminPanel() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
                 <div>
-                  <label className="text-sm text-secondary-400">Текст кнопки</label>
-                  <input value={heroCreateForm.call_to_action_text} onChange={(e)=>setHeroCreateForm({...heroCreateForm, call_to_action_text:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="Подробнее" />
+                  <label className="text-sm text-slate-400">Текст кнопки</label>
+                  <input value={heroCreateForm.call_to_action_text} onChange={(e)=>setHeroCreateForm({...heroCreateForm, call_to_action_text:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="Подробнее" />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="text-sm text-secondary-400">Ссылка кнопки</label>
-                  <input value={heroCreateForm.call_to_action_link} onChange={(e)=>setHeroCreateForm({...heroCreateForm, call_to_action_link:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="/movie/1 или https://..." />
+                  <label className="text-sm text-slate-400">Ссылка кнопки</label>
+                  <input value={heroCreateForm.call_to_action_link} onChange={(e)=>setHeroCreateForm({...heroCreateForm, call_to_action_link:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="/movie/1 или https://..." />
                 </div>
               </div>
               <div className="mt-3">
@@ -1347,38 +1347,38 @@ export default function AdminPanel() {
             </div>
 
             {/* List */}
-            <div className="bg-primary-900 rounded-lg border border-primary-700 overflow-hidden">
+            <div className="bg-slate-900/50 rounded-lg border border-white/10 overflow-hidden">
               <table className="min-w-full divide-y divide-dark-700">
-                <thead className="bg-dark-900">
+                <thead className="bg-slate-900/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Заголовок</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Порядок</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Активен</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Заголовок</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Порядок</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Активен</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                   </tr>
                 </thead>
-                <tbody className="bg-dark-800 divide-y divide-dark-700">
+                <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                   {heroLoading ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={5}>Загрузка...</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={5}>Загрузка...</td></tr>
                   ) : heroItems.length === 0 ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={5}>Пусто</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={5}>Пусто</td></tr>
                   ) : heroItems.sort((a,b)=> (a.display_order||0)-(b.display_order||0)).map((item)=> (
                     <tr key={item.id}>
-                      <td className="px-4 py-3 text-sm text-secondary-200">{item.id}</td>
+                      <td className="px-4 py-3 text-sm text-slate-100">{item.id}</td>
                       <td className="px-4 py-3">
                         {heroEditingId===item.id ? (
-                          <input value={heroEditForm.title} onChange={(e)=>setHeroEditForm({...heroEditForm, title:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                          <input value={heroEditForm.title} onChange={(e)=>setHeroEditForm({...heroEditForm, title:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" />
                         ) : (
-                          <div className="font-medium text-secondary-100">{item.title}</div>
+                          <div className="font-medium text-white">{item.title}</div>
                         )}
                         <div className="text-xs text-secondary-500 truncate max-w-xs">{item.background_image}</div>
                       </td>
                       <td className="px-4 py-3">
                         {heroEditingId===item.id ? (
-                          <input type="number" value={heroEditForm.display_order} onChange={(e)=>setHeroEditForm({...heroEditForm, display_order: Number(e.target.value)||0})} className="w-24 px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                          <input type="number" value={heroEditForm.display_order} onChange={(e)=>setHeroEditForm({...heroEditForm, display_order: Number(e.target.value)||0})} className="w-24 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" />
                         ) : (
-                          <span className="text-sm text-secondary-300">{item.display_order||0}</span>
+                          <span className="text-sm text-slate-300">{item.display_order||0}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -1392,7 +1392,7 @@ export default function AdminPanel() {
                         {heroEditingId===item.id ? (
                           <>
                             <button onClick={async ()=>{ try{ await axios.put(`/api/content/hero-carousel/${item.id}`, { ...heroEditForm, content_id: heroEditForm.content_id? Number(heroEditForm.content_id): null }); setHeroEditingId(null); fetchHeroItems(); } catch(e){ alert('Не удалось сохранить'); } }} className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">Сохранить</button>
-                            <button onClick={()=>setHeroEditingId(null)} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded">Отмена</button>
+                            <button onClick={()=>setHeroEditingId(null)} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded">Отмена</button>
                           </>
                         ) : (
                           <>
@@ -1414,64 +1414,64 @@ export default function AdminPanel() {
 
         {/* COMING SOON TAB */}
         {activeTab === 'coming-soon' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100">Coming Soon Management</h2>
+              <h2 className="text-2xl font-bold text-white">Coming Soon Management</h2>
               <div className="flex gap-2">
-                <button onClick={fetchComingItems} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+                <button onClick={fetchComingItems} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
               </div>
             </div>
 
             {/* Create form */}
-            <div className="bg-primary-900 p-4 rounded-lg border border-primary-700 mb-6">
-              <h3 className="text-secondary-200 font-semibold mb-3">Добавить элемент</h3>
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-white/10 mb-6">
+              <h3 className="text-slate-100 font-semibold mb-3">Добавить элемент</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                 <div className="md:col-span-2">
-                  <label className="text-sm text-secondary-400">Название *</label>
-                  <input value={comingCreateForm.title} onChange={(e)=>setComingCreateForm({...comingCreateForm, title:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <label className="text-sm text-slate-400">Название *</label>
+                  <input value={comingCreateForm.title} onChange={(e)=>setComingCreateForm({...comingCreateForm, title:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Тип *</label>
-                  <select value={comingCreateForm.content_type} onChange={(e)=>setComingCreateForm({...comingCreateForm, content_type:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100">
+                  <label className="text-sm text-slate-400">Тип *</label>
+                  <select value={comingCreateForm.content_type} onChange={(e)=>setComingCreateForm({...comingCreateForm, content_type:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white">
                     <option value="MOVIE">Фильм</option>
                     <option value="TV_SERIES">Сериал</option>
                     <option value="GAME">Игра</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Дата релиза *</label>
-                  <input type="date" value={comingCreateForm.release_date} onChange={(e)=>setComingCreateForm({...comingCreateForm, release_date:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <label className="text-sm text-slate-400">Дата релиза *</label>
+                  <input type="date" value={comingCreateForm.release_date} onChange={(e)=>setComingCreateForm({...comingCreateForm, release_date:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3">
                 <div className="md:col-span-2">
-                  <label className="text-sm text-secondary-400">Описание</label>
-                  <input value={comingCreateForm.description} onChange={(e)=>setComingCreateForm({...comingCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Описание</label>
+                  <input value={comingCreateForm.description} onChange={(e)=>setComingCreateForm({...comingCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Постер URL</label>
-                  <input value={comingCreateForm.poster_url} onChange={(e)=>setComingCreateForm({...comingCreateForm, poster_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://..." />
+                  <label className="text-sm text-slate-400">Постер URL</label>
+                  <input value={comingCreateForm.poster_url} onChange={(e)=>setComingCreateForm({...comingCreateForm, poster_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://..." />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Трейлер URL</label>
-                  <input value={comingCreateForm.trailer_url} onChange={(e)=>setComingCreateForm({...comingCreateForm, trailer_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://youtube.com/..." />
+                  <label className="text-sm text-slate-400">Трейлер URL</label>
+                  <input value={comingCreateForm.trailer_url} onChange={(e)=>setComingCreateForm({...comingCreateForm, trailer_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://youtube.com/..." />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3">
                 <div>
-                  <label className="text-sm text-secondary-400">Ожидаемый счёт</label>
-                  <input type="number" value={comingCreateForm.expected_score} onChange={(e)=>setComingCreateForm({...comingCreateForm, expected_score:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="90" />
+                  <label className="text-sm text-slate-400">Ожидаемый счёт</label>
+                  <input type="number" value={comingCreateForm.expected_score} onChange={(e)=>setComingCreateForm({...comingCreateForm, expected_score:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="90" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Жанр</label>
-                  <input value={comingCreateForm.genre} onChange={(e)=>setComingCreateForm({...comingCreateForm, genre:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Жанр</label>
+                  <input value={comingCreateForm.genre} onChange={(e)=>setComingCreateForm({...comingCreateForm, genre:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Платформы (через запятую)</label>
-                  <input value={comingCreateForm.platforms} onChange={(e)=>setComingCreateForm({...comingCreateForm, platforms:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="PS5, Xbox Series X, PC" />
+                  <label className="text-sm text-slate-400">Платформы (через запятую)</label>
+                  <input value={comingCreateForm.platforms} onChange={(e)=>setComingCreateForm({...comingCreateForm, platforms:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="PS5, Xbox Series X, PC" />
                 </div>
                 <div className="flex items-end gap-2">
-                  <label className="text-sm text-secondary-400 flex items-center gap-2">
+                  <label className="text-sm text-slate-400 flex items-center gap-2">
                     <input type="checkbox" checked={comingCreateForm.is_active} onChange={(e)=>setComingCreateForm({...comingCreateForm, is_active:e.target.checked})} />
                     Активен
                   </label>
@@ -1479,26 +1479,26 @@ export default function AdminPanel() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3">
                 <div>
-                  <label className="text-sm text-secondary-400">Режиссёр (фильм)</label>
-                  <input value={comingCreateForm.director} onChange={(e)=>setComingCreateForm({...comingCreateForm, director:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Режиссёр (фильм)</label>
+                  <input value={comingCreateForm.director} onChange={(e)=>setComingCreateForm({...comingCreateForm, director:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Создатель (сериал)</label>
-                  <input value={comingCreateForm.creator} onChange={(e)=>setComingCreateForm({...comingCreateForm, creator:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Создатель (сериал)</label>
+                  <input value={comingCreateForm.creator} onChange={(e)=>setComingCreateForm({...comingCreateForm, creator:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Студия/Сеть</label>
-                  <input value={comingCreateForm.studio} onChange={(e)=>setComingCreateForm({...comingCreateForm, studio:e.target.value})} placeholder="Studio" className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Студия/Сеть</label>
+                  <input value={comingCreateForm.studio} onChange={(e)=>setComingCreateForm({...comingCreateForm, studio:e.target.value})} placeholder="Studio" className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
-                  <label className="text-sm text-secondary-400">Издатель/Разработчик</label>
-                  <input value={comingCreateForm.publisher} onChange={(e)=>setComingCreateForm({...comingCreateForm, publisher:e.target.value})} placeholder="Publisher / Developer" className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <label className="text-sm text-slate-400">Издатель/Разработчик</label>
+                  <input value={comingCreateForm.publisher} onChange={(e)=>setComingCreateForm({...comingCreateForm, publisher:e.target.value})} placeholder="Publisher / Developer" className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                 <div>
-                  <label className="text-sm text-secondary-400">Скриншоты (через запятую)</label>
-                  <input value={comingCreateForm.screenshots} onChange={(e)=>setComingCreateForm({...comingCreateForm, screenshots:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://img1.jpg, https://img2.jpg" />
+                  <label className="text-sm text-slate-400">Скриншоты (через запятую)</label>
+                  <input value={comingCreateForm.screenshots} onChange={(e)=>setComingCreateForm({...comingCreateForm, screenshots:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://img1.jpg, https://img2.jpg" />
                 </div>
                 <div className="flex items-end">
                   <button
@@ -1522,48 +1522,48 @@ export default function AdminPanel() {
             </div>
 
             {/* List */}
-            <div className="bg-primary-900 rounded-lg border border-primary-700 overflow-hidden">
+            <div className="bg-slate-900/50 rounded-lg border border-white/10 overflow-hidden">
               <table className="min-w-full divide-y divide-dark-700">
-                <thead className="bg-dark-900">
+                <thead className="bg-slate-900/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Название</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Тип</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Релиз</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Счёт</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Активен</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Название</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Тип</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Релиз</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Счёт</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Активен</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                   </tr>
                 </thead>
-                <tbody className="bg-dark-800 divide-y divide-dark-700">
+                <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                   {comingLoading ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={7}>Загрузка...</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={7}>Загрузка...</td></tr>
                   ) : comingItems.length === 0 ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={7}>Пусто</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={7}>Пусто</td></tr>
                   ) : comingItems.sort((a,b)=> new Date(a.release_date) - new Date(b.release_date)).map((item)=> (
                     <tr key={item.id}>
-                      <td className="px-4 py-3 text-sm text-secondary-200">{item.id}</td>
+                      <td className="px-4 py-3 text-sm text-slate-100">{item.id}</td>
                       <td className="px-4 py-3">
                         {comingEditingId===item.id ? (
-                          <input value={comingEditForm.title} onChange={(e)=>setComingEditForm({...comingEditForm, title:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                          <input value={comingEditForm.title} onChange={(e)=>setComingEditForm({...comingEditForm, title:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" />
                         ) : (
-                          <div className="font-medium text-secondary-100">{item.title}</div>
+                          <div className="font-medium text-white">{item.title}</div>
                         )}
                         <div className="text-xs text-secondary-500 truncate max-w-xs">{item.poster_url}</div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-secondary-300">{item.content_type}</td>
+                      <td className="px-4 py-3 text-sm text-slate-300">{item.content_type}</td>
                       <td className="px-4 py-3">
                         {comingEditingId===item.id ? (
-                          <input type="date" value={(comingEditForm.release_date||'').slice(0,10)} onChange={(e)=>setComingEditForm({...comingEditForm, release_date:e.target.value})} className="w-40 px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                          <input type="date" value={(comingEditForm.release_date||'').slice(0,10)} onChange={(e)=>setComingEditForm({...comingEditForm, release_date:e.target.value})} className="w-40 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" />
                         ) : (
-                          <span className="text-sm text-secondary-300">{(item.release_date||'').slice(0,10)}</span>
+                          <span className="text-sm text-slate-300">{(item.release_date||'').slice(0,10)}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
                         {comingEditingId===item.id ? (
-                          <input type="number" value={comingEditForm.expected_score||''} onChange={(e)=>setComingEditForm({...comingEditForm, expected_score:e.target.value})} className="w-24 px-2 py-1 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                          <input type="number" value={comingEditForm.expected_score||''} onChange={(e)=>setComingEditForm({...comingEditForm, expected_score:e.target.value})} className="w-24 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded text-white" />
                         ) : (
-                          <span className="text-sm text-secondary-300">{item.expected_score ?? '-'}</span>
+                          <span className="text-sm text-slate-300">{item.expected_score ?? '-'}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -1577,7 +1577,7 @@ export default function AdminPanel() {
                         {comingEditingId===item.id ? (
                           <>
                             <button onClick={async ()=>{ try{ const payload={...comingEditForm, expected_score: comingEditForm.expected_score? Number(comingEditForm.expected_score): null, platforms: comingEditForm.platforms? comingEditForm.platforms.split(',').map(s=>s.trim()).filter(Boolean): undefined, screenshots: comingEditForm.screenshots? comingEditForm.screenshots.split(',').map(s=>s.trim()).filter(Boolean): undefined }; await axios.put(`/api/content/coming-soon/${item.id}`, payload); setComingEditingId(null); fetchComingItems(); } catch(e){ alert('Не удалось сохранить'); } }} className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">Сохранить</button>
-                            <button onClick={()=>setComingEditingId(null)} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded">Отмена</button>
+                            <button onClick={()=>setComingEditingId(null)} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded">Отмена</button>
                           </>
                         ) : (
                           <>
@@ -1596,44 +1596,44 @@ export default function AdminPanel() {
 
         {/* REVIEWS TAB */}
         {activeTab === 'reviews' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100">Управление отзывами</h2>
-              <button onClick={fetchReviews} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+              <h2 className="text-2xl font-bold text-white">Управление отзывами</h2>
+              <button onClick={fetchReviews} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
             </div>
 
-            <div className="bg-primary-900 rounded-lg border border-primary-700 overflow-hidden">
+            <div className="bg-slate-900/50 rounded-lg border border-white/10 overflow-hidden">
               <table className="min-w-full divide-y divide-dark-700">
-                <thead className="bg-dark-900">
+                <thead className="bg-slate-900/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Пользователь</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Контент</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Оценка</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Текст</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Дата</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Пользователь</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Контент</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Оценка</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Текст</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Дата</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                   </tr>
                 </thead>
-                <tbody className="bg-dark-800 divide-y divide-dark-700">
+                <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                   {reviewsLoading ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={7}>Загрузка...</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={7}>Загрузка...</td></tr>
                   ) : reviews.length === 0 ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={7}>Пусто</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={7}>Пусто</td></tr>
                   ) : reviews.map((review) => (
                     <tr key={review.id}>
-                      <td className="px-4 py-3 text-sm text-secondary-200">{review.id}</td>
-                      <td className="px-4 py-3 text-sm text-secondary-100">
+                      <td className="px-4 py-3 text-sm text-slate-100">{review.id}</td>
+                      <td className="px-4 py-3 text-sm text-white">
                         {review.user ? review.user.username : 'Unknown'}
                       </td>
-                      <td className="px-4 py-3 text-sm text-secondary-100">
+                      <td className="px-4 py-3 text-sm text-white">
                         {review.content ? review.content.title : 'Unknown'}
                       </td>
                       <td className="px-4 py-3 text-sm text-yellow-400 font-bold">{review.rating}</td>
-                      <td className="px-4 py-3 text-sm text-secondary-300 max-w-xs truncate" title={review.text}>
+                      <td className="px-4 py-3 text-sm text-slate-300 max-w-xs truncate" title={review.text}>
                         {review.text}
                       </td>
-                      <td className="px-4 py-3 text-sm text-secondary-400">
+                      <td className="px-4 py-3 text-sm text-slate-400">
                         {new Date(review.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-4 py-3">
@@ -1654,35 +1654,35 @@ export default function AdminPanel() {
 
         {/* ACHIEVEMENTS TAB */}
         {activeTab === 'achievements' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100">Управление достижениями</h2>
-              <button onClick={fetchAchievements} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+              <h2 className="text-2xl font-bold text-white">Управление достижениями</h2>
+              <button onClick={fetchAchievements} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
             </div>
 
             {/* Create Form */}
-            <div className="bg-primary-900 p-4 rounded-lg border border-primary-700 mb-6">
-              <h3 className="text-secondary-200 font-semibold mb-3">Создать достижение</h3>
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-white/10 mb-6">
+              <h3 className="text-slate-100 font-semibold mb-3">Создать достижение</h3>
               <form onSubmit={handleCreateAchievement} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Название</label>
-                  <input value={achievementCreateForm.name} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, name:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <input value={achievementCreateForm.name} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, name:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Иконка (Lucide name)</label>
-                  <input value={achievementCreateForm.icon_name} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, icon_name:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="Trophy" />
+                  <input value={achievementCreateForm.icon_name} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, icon_name:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="Trophy" />
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-1">Описание</label>
-                  <input value={achievementCreateForm.description} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <input value={achievementCreateForm.description} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">XP Награда</label>
-                  <input type="number" value={achievementCreateForm.xp_reward} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, xp_reward:Number(e.target.value)})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input type="number" value={achievementCreateForm.xp_reward} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, xp_reward:Number(e.target.value)})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Категория</label>
-                  <select value={achievementCreateForm.category} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, category:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100">
+                  <select value={achievementCreateForm.category} onChange={(e)=>setAchievementCreateForm({...achievementCreateForm, category:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white">
                     <option value="general">Общее</option>
                     <option value="reviews">Отзывы</option>
                     <option value="engagement">Активность</option>
@@ -1695,43 +1695,43 @@ export default function AdminPanel() {
             </div>
 
             {/* List */}
-            <div className="bg-primary-900 rounded-lg border border-primary-700 overflow-hidden">
+            <div className="bg-slate-900/50 rounded-lg border border-white/10 overflow-hidden">
               <table className="min-w-full divide-y divide-dark-700">
-                <thead className="bg-dark-900">
+                <thead className="bg-slate-900/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Название</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Описание</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">XP</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Название</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Описание</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">XP</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                   </tr>
                 </thead>
-                <tbody className="bg-dark-800 divide-y divide-dark-700">
+                <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                   {achievementsLoading ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={5}>Загрузка...</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={5}>Загрузка...</td></tr>
                   ) : achievements.map((ach) => (
                     <tr key={ach.id}>
-                      <td className="px-4 py-3 text-sm text-secondary-200">{ach.id}</td>
-                      <td className="px-4 py-3 text-sm text-secondary-100">
+                      <td className="px-4 py-3 text-sm text-slate-100">{ach.id}</td>
+                      <td className="px-4 py-3 text-sm text-white">
                         {achievementEditingId === ach.id ? (
-                          <input value={achievementEditForm.name} onChange={(e)=>setAchievementEditForm({...achievementEditForm, name:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded" />
+                          <input value={achievementEditForm.name} onChange={(e)=>setAchievementEditForm({...achievementEditForm, name:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded" />
                         ) : ach.name}
                       </td>
-                      <td className="px-4 py-3 text-sm text-secondary-300">
+                      <td className="px-4 py-3 text-sm text-slate-300">
                         {achievementEditingId === ach.id ? (
-                          <input value={achievementEditForm.description} onChange={(e)=>setAchievementEditForm({...achievementEditForm, description:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded" />
+                          <input value={achievementEditForm.description} onChange={(e)=>setAchievementEditForm({...achievementEditForm, description:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded" />
                         ) : ach.description}
                       </td>
                       <td className="px-4 py-3 text-sm text-yellow-400">
                         {achievementEditingId === ach.id ? (
-                          <input type="number" value={achievementEditForm.xp_reward} onChange={(e)=>setAchievementEditForm({...achievementEditForm, xp_reward:Number(e.target.value)})} className="w-20 px-2 py-1 bg-dark-900 border border-dark-600 rounded" />
+                          <input type="number" value={achievementEditForm.xp_reward} onChange={(e)=>setAchievementEditForm({...achievementEditForm, xp_reward:Number(e.target.value)})} className="w-20 px-2 py-1 bg-slate-900/50 border border-dark-600 rounded" />
                         ) : ach.xp_reward}
                       </td>
                       <td className="px-4 py-3 space-x-2">
                         {achievementEditingId === ach.id ? (
                           <>
                             <button onClick={()=>handleUpdateAchievement(ach.id)} className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm">Сохранить</button>
-                            <button onClick={()=>setAchievementEditingId(null)} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded text-sm">Отмена</button>
+                            <button onClick={()=>setAchievementEditingId(null)} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded text-sm">Отмена</button>
                           </>
                         ) : (
                           <>
@@ -1750,31 +1750,31 @@ export default function AdminPanel() {
 
         {/* PUBLICATIONS TAB */}
         {activeTab === 'publications' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100">Управление изданиями</h2>
-              <button onClick={fetchPublications} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+              <h2 className="text-2xl font-bold text-white">Управление изданиями</h2>
+              <button onClick={fetchPublications} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
             </div>
 
             {/* Create Form */}
-            <div className="bg-primary-900 p-4 rounded-lg border border-primary-700 mb-6">
-              <h3 className="text-secondary-200 font-semibold mb-3">Создать издание</h3>
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-white/10 mb-6">
+              <h3 className="text-slate-100 font-semibold mb-3">Создать издание</h3>
               <form onSubmit={handleCreatePublication} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Название</label>
-                  <input value={publicationCreateForm.name} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, name:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" required />
+                  <input value={publicationCreateForm.name} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, name:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Веб-сайт</label>
-                  <input value={publicationCreateForm.website} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, website:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" placeholder="https://..." />
+                  <input value={publicationCreateForm.website} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, website:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" placeholder="https://..." />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Логотип URL</label>
-                  <input value={publicationCreateForm.logo_url} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, logo_url:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={publicationCreateForm.logo_url} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, logo_url:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Описание</label>
-                  <input value={publicationCreateForm.description} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-dark-900 border border-dark-600 rounded text-secondary-100" />
+                  <input value={publicationCreateForm.description} onChange={(e)=>setPublicationCreateForm({...publicationCreateForm, description:e.target.value})} className="w-full px-3 py-2 bg-slate-900/50 border border-dark-600 rounded text-white" />
                 </div>
                 <div className="md:col-span-2">
                   <button type="submit" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded">Создать</button>
@@ -1783,30 +1783,30 @@ export default function AdminPanel() {
             </div>
 
             {/* List */}
-            <div className="bg-primary-900 rounded-lg border border-primary-700 overflow-hidden">
+            <div className="bg-slate-900/50 rounded-lg border border-white/10 overflow-hidden">
               <table className="min-w-full divide-y divide-dark-700">
-                <thead className="bg-dark-900">
+                <thead className="bg-slate-900/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">ID</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Название</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Сайт</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Действия</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Название</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Сайт</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Действия</th>
                   </tr>
                 </thead>
-                <tbody className="bg-dark-800 divide-y divide-dark-700">
+                <tbody className="bg-slate-800/80 divide-y divide-dark-700">
                   {publicationsLoading ? (
-                    <tr><td className="px-4 py-3 text-secondary-300" colSpan={4}>Загрузка...</td></tr>
+                    <tr><td className="px-4 py-3 text-slate-300" colSpan={4}>Загрузка...</td></tr>
                   ) : publications.map((pub) => (
                     <tr key={pub.id}>
-                      <td className="px-4 py-3 text-sm text-secondary-200">{pub.id}</td>
-                      <td className="px-4 py-3 text-sm text-secondary-100">
+                      <td className="px-4 py-3 text-sm text-slate-100">{pub.id}</td>
+                      <td className="px-4 py-3 text-sm text-white">
                         {publicationEditingId === pub.id ? (
-                          <input value={publicationEditForm.name} onChange={(e)=>setPublicationEditForm({...publicationEditForm, name:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded" />
+                          <input value={publicationEditForm.name} onChange={(e)=>setPublicationEditForm({...publicationEditForm, name:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded" />
                         ) : pub.name}
                       </td>
                       <td className="px-4 py-3 text-sm text-blue-400">
                         {publicationEditingId === pub.id ? (
-                          <input value={publicationEditForm.website} onChange={(e)=>setPublicationEditForm({...publicationEditForm, website:e.target.value})} className="w-full px-2 py-1 bg-dark-900 border border-dark-600 rounded" />
+                          <input value={publicationEditForm.website} onChange={(e)=>setPublicationEditForm({...publicationEditForm, website:e.target.value})} className="w-full px-2 py-1 bg-slate-900/50 border border-dark-600 rounded" />
                         ) : (
                           <a href={pub.website} target="_blank" rel="noopener noreferrer" className="hover:underline">{pub.website}</a>
                         )}
@@ -1815,7 +1815,7 @@ export default function AdminPanel() {
                         {publicationEditingId === pub.id ? (
                           <>
                             <button onClick={()=>handleUpdatePublication(pub.id)} className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm">Сохранить</button>
-                            <button onClick={()=>setPublicationEditingId(null)} className="px-3 py-1 bg-dark-700 hover:bg-dark-600 text-secondary-200 rounded text-sm">Отмена</button>
+                            <button onClick={()=>setPublicationEditingId(null)} className="px-3 py-1 bg-slate-800 hover:bg-dark-600 text-slate-100 rounded text-sm">Отмена</button>
                           </>
                         ) : (
                           <>
@@ -1834,22 +1834,22 @@ export default function AdminPanel() {
 
         {/* ML TASKS TAB */}
         {activeTab === 'ml-tasks' && (
-          <div className="bg-primary-800 p-6 rounded-lg border border-primary-700">
+          <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-secondary-100 flex items-center gap-2"><Server /> ML Задачи & Автоматизация</h2>
-              <button onClick={fetchMlTasks} className="px-3 py-2 bg-dark-700 hover:bg-dark-600 rounded text-secondary-200">Обновить</button>
+              <h2 className="text-2xl font-bold text-white flex items-center gap-2"><Server /> ML Задачи & Автоматизация</h2>
+              <button onClick={fetchMlTasks} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
             </div>
             
             {mlLoading ? (
               <div className="text-center py-8">Загрузка статуса ML задач...</div>
             ) : mlTasks.length === 0 ? (
-              <div className="text-center py-8 text-secondary-400 bg-primary-900 rounded-lg">Выполнение ML скриптов еще не началось или отсутствует таблица логов...</div>
+              <div className="text-center py-8 text-slate-400 bg-slate-900/50 rounded-lg">Выполнение ML скриптов еще не началось или отсутствует таблица логов...</div>
             ) : (
               <div className="space-y-4">
                 {mlTasks.map(task => (
-                  <div key={task.id} className="bg-primary-900 p-4 rounded-lg border border-primary-700">
+                  <div key={task.id} className="bg-slate-900/50 p-4 rounded-lg border border-white/10">
                     <div className="flex justify-between items-start mb-2">
-                      <div className="font-semibold text-lg text-secondary-100">{task.task_name}</div>
+                      <div className="font-semibold text-lg text-white">{task.task_name}</div>
                       <span className={`px-2 py-1 text-xs rounded font-bold uppercase ${
                         task.status === 'completed' ? 'bg-green-600 text-white' :
                         task.status === 'running' ? 'bg-blue-600 text-white animate-pulse' :
@@ -1860,7 +1860,7 @@ export default function AdminPanel() {
                       </span>
                     </div>
                     
-                    <div className="w-full bg-dark-800 rounded-full h-2.5 mb-2">
+                    <div className="w-full bg-slate-800/80 rounded-full h-2.5 mb-2">
                        <div 
                          className={`h-2.5 rounded-full ${task.status === 'failed' ? 'bg-red-500' : 'bg-accent-500'}`}
                          style={{ width: `${task.progress}%` }}
@@ -1868,7 +1868,7 @@ export default function AdminPanel() {
                     </div>
                     
                     <div className="flex justify-between text-sm">
-                       <span className="text-secondary-400">{task.message || '...'}</span>
+                       <span className="text-slate-400">{task.message || '...'}</span>
                        <span className="text-secondary-500">
                          {new Date(task.updated_at).toLocaleString()}
                        </span>

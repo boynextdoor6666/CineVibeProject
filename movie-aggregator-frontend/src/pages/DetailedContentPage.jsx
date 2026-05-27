@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { 
-  Play, Calendar, Clock, Star, Users, Globe, TrendingUp, 
-  Heart, Share2, Bookmark, ChevronDown, ChevronUp, ThumbsUp, ThumbsDown 
-} from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Play, Star, Share2, Bookmark, ThumbsUp, ThumbsDown } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import PosterFrame from '../components/PosterFrame';
 import MetascoreBadge from '../components/MetascoreBadge';
 import UserScoreBadge from '../components/UserScoreBadge';
 import ReviewDistribution from '../components/ReviewDistribution';
@@ -15,22 +13,21 @@ import ExpectationsWidget from '../components/ExpectationsWidget';
 const DetailedContentPage = () => {
   const { id } = useParams();
   const { user } = useAuth();
+
   const [activeTab, setActiveTab] = useState('overview');
   const [showAllCriticReviews, setShowAllCriticReviews] = useState(false);
   const [userReviewSort, setUserReviewSort] = useState('helpful');
-  
+
   const [content, setContent] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [watchlistLoading, setWatchlistLoading] = useState(false);
 
-  // Review Modal State
-  const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 10, content: '' });
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
-  const formatErrorMessage = (value, fallback = 'Неизвестная ошибка') => {
+  const formatErrorMessage = (value, fallback = '??????????? ??????') => {
     if (Array.isArray(value)) return value.join(', ')
     if (typeof value === 'string') return value
     if (value && typeof value === 'object') {
@@ -52,801 +49,575 @@ const DetailedContentPage = () => {
         const [contentRes, reviewsRes] = await Promise.all([
           axios.get(`/api/content/${id}`),
           axios.get(`/api/reviews/content/${id}`)
-        ]);
-        setContent(contentRes.data);
-        setReviews(reviewsRes.data);
+        ])
+        setContent(contentRes.data)
+        setReviews(Array.isArray(reviewsRes.data) ? reviewsRes.data : [])
       } catch (error) {
-        console.error('Failed to fetch content:', error);
+        console.error('Failed to fetch content:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchData();
-  }, [id]);
+    }
+    fetchData()
+  }, [id])
 
   useEffect(() => {
-    if (user) {
-      checkWatchlist();
+    if (!user) return
+    const checkWatchlist = async () => {
+      try {
+        const res = await axios.get('/api/users/me/watchlist')
+        const found = Array.isArray(res.data) && res.data.some(item => (item.content_id || item.id) === Number(id))
+        setIsInWatchlist(found)
+      } catch (error) {
+        console.error('Failed to check watchlist:', error)
+      }
     }
-  }, [user, id]);
+    checkWatchlist()
+  }, [user, id])
 
-  const checkWatchlist = async () => {
-    try {
-      const res = await axios.get('/api/users/me/watchlist');
-      // Fix: backend returns content_id, not id
-      const found = res.data.some(item => (item.content_id || item.id) === Number(id));
-      setIsInWatchlist(found);
-    } catch (error) {
-      console.error('Failed to check watchlist:', error);
-    }
-  };
-
-  const handleToggleWatchlist = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!user) return alert('Войдите, чтобы добавить в список');
-    
-    setWatchlistLoading(true);
+  const handleToggleWatchlist = async () => {
+    if (!user) return alert('???????, ????? ???????? ? ??????')
+    setWatchlistLoading(true)
     try {
       if (isInWatchlist) {
-        await axios.delete(`/api/users/me/watchlist/${id}`);
-        alert('Удалено из списка');
+        await axios.delete(`/api/users/me/watchlist/${id}`)
       } else {
-        await axios.post(`/api/users/me/watchlist/${id}`);
-        alert('Добавлено в список');
+        await axios.post(`/api/users/me/watchlist/${id}`)
       }
-      setIsInWatchlist(!isInWatchlist);
+      setIsInWatchlist(!isInWatchlist)
     } catch (error) {
-      console.error(error);
-      alert('Ошибка обновления списка: ' + formatErrorMessage(error.response?.data, error.message));
+      alert('?????? ?????????? ??????: ' + formatErrorMessage(error.response?.data, error.message))
     } finally {
-      setWatchlistLoading(false);
+      setWatchlistLoading(false)
     }
-  };
+  }
 
   const handleReviewSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) return alert('Войдите, чтобы оставить отзыв');
-    setReviewSubmitting(true);
+    e.preventDefault()
+    if (!user) return alert('???????, ????? ???????? ?????')
+    if (!reviewForm.content.trim()) return alert('??????? ????? ??????')
+
+    setReviewSubmitting(true)
     try {
       await axios.post('/api/reviews', {
         content_id: Number(id),
         rating: Number(reviewForm.rating),
-        content: reviewForm.content
-      });
-      setShowReviewModal(false);
-      setReviewForm({ rating: 10, content: '' });
-      // Refresh reviews
-      const res = await axios.get(`/api/reviews/content/${id}`);
-      setReviews(res.data);
-      alert('Отзыв опубликован!');
+        content: reviewForm.content.trim()
+      })
+      setReviewForm({ rating: 10, content: '' })
+      const res = await axios.get(`/api/reviews/content/${id}`)
+      setReviews(Array.isArray(res.data) ? res.data : [])
     } catch (error) {
-      alert('Ошибка публикации отзыва: ' + formatErrorMessage(error.response?.data, error.message));
+      alert('?????? ?????????? ??????: ' + formatErrorMessage(error.response?.data, error.message))
     } finally {
-      setReviewSubmitting(false);
+      setReviewSubmitting(false)
     }
-  };
+  }
 
   const handleVoteReview = async (reviewId, type) => {
-    console.log('Voting for review:', reviewId, type);
-    if (!user) return alert('Войдите, чтобы голосовать');
-    if (!reviewId) return alert('Ошибка: ID отзыва не найден');
-
+    if (!user) return alert('???????, ????? ??????????')
     try {
-      await axios.post(`/api/reviews/${reviewId}/vote`, { type });
-      const res = await axios.get(`/api/reviews/content/${id}`);
-      setReviews(res.data);
-      // alert('Голос принят!'); // Optional feedback
+      await axios.post(`/api/reviews/${reviewId}/vote`, { type })
+      const res = await axios.get(`/api/reviews/content/${id}`)
+      setReviews(Array.isArray(res.data) ? res.data : [])
     } catch (error) {
-      console.error(error);
-      alert('Ошибка голосования: ' + formatErrorMessage(error.response?.data, error.message));
+      alert('?????? ???????????: ' + formatErrorMessage(error.response?.data, error.message))
     }
-  };
+  }
 
   const handleShareReview = (reviewId) => {
-    if (!reviewId) return;
-    const url = `${window.location.origin}/content/${id}#review-${reviewId}`;
+    if (!reviewId) return
+    const url = `${window.location.origin}/content/${id}#review-${reviewId}`
     navigator.clipboard.writeText(url).then(() => {
-      alert('Ссылка на отзыв скопирована в буфер обмена!');
+      alert('?????? ?? ????? ??????????? ? ????? ??????!')
     }).catch(() => {
-      alert('Не удалось скопировать ссылку');
-    });
-  };
+      alert('?? ??????? ??????????? ??????')
+    })
+  }
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-white">Загрузка...</div>;
-  if (!content) return <div className="min-h-screen flex items-center justify-center text-white">Контент не найден</div>;
-
-  // Map backend data to UI structure
-  const contentData = {
-    id: content.id,
-    title: content.title,
-    type: content.content_type?.toLowerCase() || 'movie',
-    year: content.release_year,
-    releaseDate: content.created_at,
-    
-    coverImage: content.poster_url || 'https://placehold.co/1920x600/1e293b/ffffff?text=No+Cover',
-    logo: null,
-    trailerUrl: content.trailer_url,
-    
-    metascore: content.critics_rating ? Math.round(content.critics_rating * 10) : 0,
-    userScore: content.audience_rating || 0,
-    
-    criticReviews: {
-      total: reviews.filter(r => r.user?.role === 'CRITIC').length,
-      positive: content.positive_reviews || 0,
-      mixed: content.mixed_reviews || 0,
-      negative: content.negative_reviews || 0
-    },
-    userReviews: {
-      total: reviews.filter(r => r.user?.role !== 'CRITIC').length,
-      positive: 0,
-      mixed: 0,
-      negative: 0
-    },
-    
-    developer: content.developer,
-    publisher: content.publisher,
-    platforms: content.platforms || [],
-    genre: content.genre ? [content.genre] : [],
-    esrbRating: content.esrb_rating,
-    players: content.players,
-    
-    summary: content.description?.slice(0, 150) + '...',
-    description: content.description,
-    
-    screenshots: [],
-    trailers: content.trailer_url ? [{ title: 'Official Trailer', url: content.trailer_url, thumbnail: 'https://placehold.co/480x270' }] : [],
-    
-    technicalInfo: content.technical_info || { systemRequirements: { minimum: {}, recommended: {} }, languages: [] },
-    
-    criticReviewsList: reviews.filter(r => r.user?.role === 'CRITIC' || r.role === 'CRITIC').map(r => ({
-      id: r.id,
-      publicationName: 'Critic',
-      publicationLogo: 'https://placehold.co/80x30?text=Critic',
-      criticName: r.username || r.user?.username || 'Unknown',
-      score: r.rating * 10,
-      excerpt: r.text,
-      fullReviewUrl: '#',
-      publishDate: r.created_at,
-      type: r.rating >= 7 ? 'positive' : r.rating >= 4 ? 'mixed' : 'negative'
-    })),
-    
-    userReviewsList: reviews.filter(r => r.user?.role !== 'CRITIC' && r.role !== 'CRITIC').map(r => ({
-      id: r.id,
-      userName: r.username || r.user?.username || 'User',
-      userAvatar: r.avatar_url || r.user?.avatar_url || 'https://placehold.co/50',
-      score: r.rating,
-      title: r.title || 'Review',
-      content: r.text || r.content,
-      helpful: Number(r.likes || 0),
-      notHelpful: Number(r.dislikes || 0),
-      containsSpoilers: false,
-      date: r.created_at,
-      type: r.rating >= 7 ? 'positive' : r.rating >= 4 ? 'neutral' : 'negative',
-      detailedRatings: {}
-    })),
-    
-    similarContent: []
-  };
-
-  // Форматирование даты
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })
+  }
+
+  const contentData = useMemo(() => {
+    if (!content) return null
+
+    const criticReviewsList = reviews
+      .filter((r) => r.user?.role === 'CRITIC' || r.role === 'CRITIC')
+      .map((r) => ({
+        id: r.id,
+        publicationName: 'Critic',
+        publicationLogo: 'https://placehold.co/80x30?text=Critic',
+        criticName: r.username || r.user?.username || 'Unknown',
+        score: Number(r.rating || 0) * 10,
+        excerpt: r.text || r.content,
+        fullReviewUrl: '#',
+        publishDate: r.created_at,
+        type: Number(r.rating || 0) >= 7 ? 'positive' : Number(r.rating || 0) >= 4 ? 'mixed' : 'negative'
+      }))
+
+    const userReviewsList = reviews
+      .filter((r) => r.user?.role !== 'CRITIC' && r.role !== 'CRITIC')
+      .map((r) => ({
+        id: r.id,
+        userName: r.username || r.user?.username || 'User',
+        userAvatar: r.avatar_url || r.user?.avatar_url || 'https://placehold.co/50',
+        score: Number(r.rating || 0),
+        title: r.title || 'Review',
+        content: r.text || r.content,
+        helpful: Number(r.likes || 0),
+        notHelpful: Number(r.dislikes || 0),
+        date: r.created_at,
+        type: Number(r.rating || 0) >= 7 ? 'positive' : Number(r.rating || 0) >= 4 ? 'neutral' : 'negative'
+      }))
+
+    return {
+      id: content.id,
+      title: content.title,
+      type: content.content_type?.toLowerCase() || 'movie',
+      year: content.release_year,
+      poster: content.poster_url || content.cover_url || null,
+      trailerUrl: content.trailer_url,
+      metascore: content.critics_rating ? Math.round(content.critics_rating * 10) : 0,
+      userScore: content.audience_rating || 0,
+      developer: content.developer || '',
+      publisher: content.publisher || '',
+      platforms: content.platforms || [],
+      genre: content.genre ? [content.genre] : [],
+      esrbRating: content.esrb_rating || '',
+      description: content.description || '',
+      criticReviews: {
+        total: reviews.filter(r => r.user?.role === 'CRITIC').length,
+        positive: content.positive_reviews || 0,
+        mixed: content.mixed_reviews || 0,
+        negative: content.negative_reviews || 0
+      },
+      userReviews: {
+        total: reviews.filter(r => r.user?.role !== 'CRITIC').length,
+        positive: 0,
+        mixed: 0,
+        negative: 0
+      },
+      criticReviewsList,
+      userReviewsList,
+      similarContent: []
+    }
+  }, [content, reviews])
+
+  const reviewDistribution = useMemo(() => {
+    const stats = { positive: 0, mixed: 0, negative: 0 }
+    reviews.forEach((review) => {
+      const rating = Number(review.rating || 0)
+      if (rating >= 7) stats.positive += 1
+      else if (rating <= 4 && rating > 0) stats.negative += 1
+      else stats.mixed += 1
+    })
+    return stats
+  }, [reviews])
+
+  const sortedUserReviews = useMemo(() => {
+    if (!contentData) return []
+    const items = [...contentData.userReviewsList]
+    switch (userReviewSort) {
+      case 'highest':
+        return items.sort((a, b) => Number(b.score || 0) - Number(a.score || 0))
+      case 'lowest':
+        return items.sort((a, b) => Number(a.score || 0) - Number(b.score || 0))
+      case 'recent':
+        return items.sort((a, b) => new Date(b.date) - new Date(a.date))
+      case 'helpful':
+      default:
+        return items.sort((a, b) => Number(b.helpful || 0) - Number(a.helpful || 0))
+    }
+  }, [contentData, userReviewSort])
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-slate-500">????????...</div>
+  if (!contentData) return <div className="min-h-screen flex items-center justify-center text-slate-500">??????? ?? ??????</div>
+
+  const detailRows = [
+    ['???', contentData.year || '?'],
+    ['?????', contentData.genre.join(', ') || '?'],
+    ['???', contentData.type],
+    ['???????', contentData.userScore || '?']
+  ]
 
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
-      <div className="relative -mx-4">
-        {/* Background Image */}
-        <div className="h-[450px] relative overflow-hidden">
-          <img
-            src={contentData.coverImage}
+    <div className="space-y-10 pb-16">
+      <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm sm:p-8">
+        <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start">
+          <PosterFrame
+            src={contentData.poster}
             alt={contentData.title}
-            className="w-full h-full object-cover object-center"
+            title={contentData.title}
+            type={contentData.type}
+            className="aspect-[2/3] shadow-lg"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
-        </div>
 
-        {/* Content */}
-        <div className="absolute bottom-8 left-0 right-0 px-8">
-          <div className="container mx-auto max-w-7xl">
-            <div className="flex flex-col md:flex-row gap-8 items-end">
-              {/* Постер */}
-              <div className="flex-shrink-0">
-                <img
-                  src={`https://placehold.co/300x450/1e293b/ffffff?text=${contentData.title}`}
-                  alt={contentData.title}
-                  className="w-48 rounded-lg shadow-2xl border border-gray-800"
-                />
+          <div className="space-y-5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-indigo-300 ring-1 ring-indigo-100">
+                {contentData.type === 'movie' ? '?????' : contentData.type === 'series' ? '??????' : contentData.type === 'game' ? '????' : '???????'}
+              </span>
+              {contentData.year && <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">{contentData.year}</span>}
+              {contentData.genre?.[0] && <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">{contentData.genre.join(', ')}</span>}
+            </div>
+
+            <div>
+              <h1 className="text-4xl font-black tracking-tight text-slate-100 sm:text-5xl">{contentData.title}</h1>
+              <p className="mt-2 text-slate-500">?????? ? ??????????? ????? ???????? ? ????????</p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <MetascoreBadge score={contentData.metascore} size="large" />
+              <UserScoreBadge score={contentData.userScore} reviewCount={contentData.userReviews.total} size="large" />
+            </div>
+
+            <p className="max-w-3xl text-base leading-7 text-slate-400">
+              {contentData.description || '???????? ????? ????????? ?????.'}
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              {contentData.trailerUrl ? (
+                <a
+                  href={contentData.trailerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-800"
+                >
+                  <Play className="w-4 h-4" />
+                  ???????? ???????
+                </a>
+              ) : null}
+
+              <button
+                onClick={handleToggleWatchlist}
+                disabled={watchlistLoading}
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition ${isInWatchlist ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+              >
+                <Bookmark className={`w-4 h-4 ${isInWatchlist ? 'fill-white' : ''}`} />
+                {isInWatchlist ? '? ??????' : '? ??????'}
+              </button>
+
+              <button
+                onClick={() => navigator.clipboard.writeText(window.location.href)}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/50 px-5 py-3 text-sm font-bold text-slate-300 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-300"
+              >
+                <Share2 className="w-4 h-4" />
+                ??????????
+              </button>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-slate-800 bg-slate-800 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">??????????</div>
+                <div className="mt-2 text-2xl font-black text-slate-100">{contentData.criticReviews.total + contentData.userReviews.total}</div>
               </div>
-
-              {/* Информация */}
-              <div className="flex-1 space-y-4">
-                {/* Logo */}
-                {contentData.logo && (
-                  <img src={contentData.logo} alt={contentData.title} className="h-16 w-auto" />
-                )}
-
-                {/* Заголовок и год */}
-                <div>
-                  <h1 className="text-5xl font-bold text-white mb-2">{contentData.title}</h1>
-                  <div className="flex items-center gap-3 text-gray-400">
-                    <span>{contentData.year}</span>
-                    <span>•</span>
-                    <span>{contentData.genre.join(', ')}</span>
-                    <span>•</span>
-                    <span>{contentData.esrbRating}</span>
-                  </div>
-                </div>
-
-                {/* Метрики */}
-                <div className="flex items-center gap-6">
-                  <MetascoreBadge score={contentData.metascore} size="large" />
-                  <UserScoreBadge 
-                    score={contentData.userScore} 
-                    reviewCount={contentData.userReviews.total}
-                    size="large"
-                  />
-                </div>
-
-                {/* Кнопки действий */}
-                <div className="flex flex-wrap gap-3">
-                  <button className="px-6 py-3 bg-[#f5c518] text-black font-bold rounded hover:bg-[#f5c518]/90 transition flex items-center gap-2">
-                    <Play className="w-5 h-5" />
-                    Смотреть трейлер
-                  </button>
-                  <button 
-                    onClick={handleToggleWatchlist}
-                    disabled={watchlistLoading}
-                    className={`px-6 py-3 font-bold rounded border transition flex items-center gap-2 ${isInWatchlist ? 'bg-[#f5c518] text-black border-[#f5c518] hover:bg-[#f5c518]/90' : 'bg-[#1a1a1a] text-white border-gray-700 hover:bg-[#252525]'}`}
-                  >
-                    <Bookmark className={`w-5 h-5 ${isInWatchlist ? 'fill-black' : ''}`} />
-                    {isInWatchlist ? 'В списке' : 'В список'}
-                  </button>
-                  <button className="px-6 py-3 bg-[#1a1a1a] text-white font-bold rounded hover:bg-[#252525] border border-gray-700 transition flex items-center gap-2">
-                    <Share2 className="w-5 h-5" />
-                    Поделиться
-                  </button>
-                </div>
+              <div className="rounded-2xl border border-slate-800 bg-slate-800 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">???????</div>
+                <div className="mt-2 text-2xl font-black text-slate-100">{contentData.criticReviews.total}</div>
+              </div>
+              <div className="rounded-2xl border border-slate-800 bg-slate-800 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">????????????</div>
+                <div className="mt-2 text-2xl font-black text-slate-100">{contentData.userReviews.total}</div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Tab Navigation */}
-      <div className="border-b border-gray-800">
-        <div className="flex gap-8">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`pb-4 font-semibold transition-colors ${
-              activeTab === 'overview'
-                ? 'text-white border-b-2 border-[#f5c518]'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            Обзор
-          </button>
-          <button
-            onClick={() => setActiveTab('reviews')}
-            className={`pb-4 font-semibold transition-colors ${
-              activeTab === 'reviews'
-                ? 'text-white border-b-2 border-[#f5c518]'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            Рецензии ({contentData.criticReviews.total + contentData.userReviews.total})
-          </button>
-          <button
-            onClick={() => setActiveTab('media')}
-            className={`pb-4 font-semibold transition-colors ${
-              activeTab === 'media'
-                ? 'text-white border-b-2 border-[#f5c518]'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            Медиа
-          </button>
-          <button
-            onClick={() => setActiveTab('details')}
-            className={`pb-4 font-semibold transition-colors ${
-              activeTab === 'details'
-                ? 'text-white border-b-2 border-[#f5c518]'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            Детали
-          </button>
-        </div>
-      </div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+        <div className="space-y-8">
+          <div className="flex flex-wrap gap-2 rounded-2xl border border-slate-800 bg-slate-900/50 p-2 shadow-sm">
+            {[
+              ['overview', '?????'],
+              ['reviews', `?????? (${contentData.criticReviews.total + contentData.userReviews.total})`],
+              ['details', '??????']
+            ].map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setActiveTab(key)}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${activeTab === key ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
 
-      {/* Tab Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Overview Tab */}
           {activeTab === 'overview' && (
-            <>
-              {/* Описание */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">О игре</h2>
-                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-                  {contentData.description}
-                </p>
-              </div>
-
-              {/* Critic Reviews Preview */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white">Рецензии критиков</h2>
-                  <button
-                    onClick={() => setActiveTab('reviews')}
-                    className="text-[#f5c518] hover:text-[#f5c518]/80 text-sm font-semibold"
-                  >
-                    Все рецензии →
+            <div className="space-y-8">
+              <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-xl font-bold text-slate-100">????????</h2>
+                  <button onClick={() => setActiveTab('reviews')} className="text-sm font-semibold text-indigo-400 hover:text-indigo-300">
+                    ??????? ? ??????? ?
                   </button>
                 </div>
-                <div className="space-y-4">
-                  {contentData.criticReviewsList.slice(0, 3).map((review) => (
-                    <CriticReviewCard key={review.id} review={review} />
-                  ))}
-                </div>
-              </div>
-            </>
+                <p className="mt-4 whitespace-pre-line leading-7 text-slate-400">{contentData.description || '???????? ????? ????????? ?????.'}</p>
+              </section>
+
+              {contentData.criticReviewsList.length > 0 && (
+                <section className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-slate-100">???????? ????????</h2>
+                    <button onClick={() => setActiveTab('reviews')} className="text-sm font-semibold text-indigo-400 hover:text-indigo-300">
+                      ??? ???????? ?
+                    </button>
+                  </div>
+                  <div className="space-y-4">
+                    {contentData.criticReviewsList.slice(0, 3).map((review) => (
+                      <CriticReviewCard key={review.id} review={review} />
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
           )}
 
-          {/* Reviews Tab */}
           {activeTab === 'reviews' && (
-            <>
-              {/* Critic Reviews */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">Рецензии критиков</h2>
-                <div className="space-y-4">
-                  {(showAllCriticReviews
-                    ? contentData.criticReviewsList
-                    : contentData.criticReviewsList.slice(0, 5)
-                  ).map((review) => (
-                    <CriticReviewCard key={review.id} review={review} />
-                  ))}
+            <div className="space-y-8">
+              <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-xl font-bold text-slate-100">???????? ?????</h2>
+                  <span className="text-sm text-slate-500">?????????? ????????????</span>
                 </div>
-                {contentData.criticReviewsList.length > 5 && (
-                  <button
-                    onClick={() => setShowAllCriticReviews(!showAllCriticReviews)}
-                    className="w-full py-3 bg-[#141414] text-white rounded hover:bg-[#1a1a1a] border border-gray-800 transition flex items-center justify-center gap-2"
-                  >
-                    {showAllCriticReviews ? (
-                      <>
-                        Скрыть <ChevronUp className="w-4 h-4" />
-                      </>
-                    ) : (
-                      <>
-                        Показать все рецензии критиков <ChevronDown className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
 
-              {/* User Reviews */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white">Отзывы пользователей</h2>
+                <form onSubmit={handleReviewSubmit} className="mt-6 space-y-5">
+                  <div className="grid gap-5 md:grid-cols-[1fr_180px]">
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold text-slate-300">?????????</label>
+                      <input
+                        value={reviewForm.title || ''}
+                        onChange={(e) => setReviewForm((prev) => ({ ...prev, title: e.target.value }))}
+                        placeholder="??????? ? ????? ??????"
+                        className="w-full rounded-2xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold text-slate-300">??????</label>
+                      <div className="rounded-2xl border border-slate-800 bg-slate-800 px-4 py-3">
+                        <div className="flex items-center justify-between text-sm text-slate-500">
+                          <span>1</span>
+                          <span className="font-bold text-indigo-400">{reviewForm.rating || 0}/10</span>
+                          <span>10</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="10"
+                          step="1"
+                          value={reviewForm.rating}
+                          onChange={(e) => setReviewForm((prev) => ({ ...prev, rating: Number(e.target.value) }))}
+                          className="mt-3 w-full accent-indigo-600"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-semibold text-slate-300">????? ??????</label>
+                    <textarea
+                      rows="6"
+                      value={reviewForm.content}
+                      onChange={(e) => setReviewForm((prev) => ({ ...prev, content: e.target.value }))}
+                      placeholder="??? ???????????, ??? ???, ??? ??? ????????? ????? ?????????..."
+                      className="w-full rounded-2xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="submit"
+                      disabled={reviewSubmitting}
+                      className="rounded-full bg-gray-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {reviewSubmitting ? '????????...' : '???????????? ?????'}
+                    </button>
+                  </div>
+                </form>
+              </section>
+
+              {contentData.criticReviewsList.length > 0 && (
+                <section className="space-y-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <h2 className="text-xl font-bold text-slate-100">???????? ????????</h2>
+                    {contentData.criticReviewsList.length > 5 && (
+                      <button
+                        onClick={() => setShowAllCriticReviews(!showAllCriticReviews)}
+                        className="rounded-full border border-slate-800 bg-slate-900/50 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-300"
+                      >
+                        {showAllCriticReviews ? '??????' : '???????? ???'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="space-y-4">
+                    {(showAllCriticReviews ? contentData.criticReviewsList : contentData.criticReviewsList.slice(0, 5)).map((review) => (
+                      <CriticReviewCard key={review.id} review={review} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              <section className="space-y-4">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-xl font-bold text-slate-100">?????? ?????????????</h2>
                   <select
                     value={userReviewSort}
                     onChange={(e) => setUserReviewSort(e.target.value)}
-                    className="px-3 py-2 bg-[#141414] text-white rounded border border-gray-800"
+                    className="rounded-2xl border border-slate-800 bg-slate-900/50 px-4 py-2 text-sm font-semibold text-slate-300 outline-none focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100"
                   >
-                    <option value="helpful">Самые полезные</option>
-                    <option value="recent">Недавние</option>
-                    <option value="highest">Высокие оценки</option>
-                    <option value="lowest">Низкие оценки</option>
+                    <option value="helpful">????? ????????</option>
+                    <option value="recent">????????</option>
+                    <option value="highest">??????? ??????</option>
+                    <option value="lowest">?????? ??????</option>
                   </select>
                 </div>
 
-                <div className="space-y-6">
-                  {/* Debug info */}
-                  {contentData.userReviewsList.length === 0 && (
-                    <div className="text-yellow-500 p-4 bg-yellow-500/10 rounded">
-                      Отзывов пока нет. Напишите первый отзыв!
+                <div className="grid gap-4">
+                  {sortedUserReviews.length === 0 ? (
+                    <div className="rounded-3xl border border-dashed border-slate-600 bg-slate-900/50 p-8 text-center text-slate-500 shadow-sm">
+                      ??????? ???? ???. ???????? ??????.
                     </div>
-                  )}
-
-                  {/* Kinopoisk-style Review Distribution Bar */}
-                  {contentData.userReviewsList.length > 0 && (
-                    <div className="flex h-2 rounded overflow-hidden mb-6">
-                      <div className="bg-[#3bb33b] h-full" style={{ width: '70%' }} title="Положительные (70%)" />
-                      <div className="bg-[#777] h-full" style={{ width: '20%' }} title="Нейтральные (20%)" />
-                      <div className="bg-[#ff0000] h-full" style={{ width: '10%' }} title="Отрицательные (10%)" />
-                    </div>
-                  )}
-
-                  {contentData.userReviewsList.map((review) => {
-                    console.log('Rendering review:', review); // Debug
-                    // Determine styles based on review type
-                    let bgClass = 'bg-[#1f1f1f]'; // Default neutral
-                    let borderClass = 'border-[#2d2d2d]';
-                    
-                    if (review.type === 'positive') {
-                      bgClass = 'bg-[#1f2d22]'; // Dark Greenish
-                      borderClass = 'border-[#2d4a33]';
-                    } else if (review.type === 'negative') {
-                      bgClass = 'bg-[#2d1f1f]'; // Dark Reddish
-                      borderClass = 'border-[#4a2d2d]';
-                    }
-
-                    return (
-                      <div
-                        key={review.id}
-                        id={`review-${review.id}`}
-                        className={`${bgClass} ${borderClass} border rounded-lg p-6 transition-colors`}
-                      >
-                        {/* Заголовок */}
-                        <div className="flex items-start justify-between gap-4 mb-4">
-                          <div className="flex items-start gap-4">
+                  ) : (
+                    sortedUserReviews.slice(0, 6).map((review) => (
+                      <article key={review.id} id={`review-${review.id}`} className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-4">
                             <img
                               src={review.userAvatar}
                               alt={review.userName}
-                              className="w-12 h-12 rounded-full border border-gray-700"
+                              className="h-12 w-12 rounded-full object-cover ring-1 ring-white/10"
                             />
                             <div>
-                              <h4 className="font-bold text-white text-lg">{review.userName}</h4>
-                              <div className="flex items-center gap-2 text-sm text-gray-400">
+                              <h4 className="font-bold text-slate-100">{review.userName}</h4>
+                              <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
                                 <span>{formatDate(review.date)}</span>
-                                {review.type === 'positive' && <span className="text-[#3bb33b] font-medium">Положительный</span>}
-                                {review.type === 'negative' && <span className="text-[#ff4d4d] font-medium">Отрицательный</span>}
-                                {review.type === 'neutral' && <span className="text-gray-400 font-medium">Нейтральный</span>}
+                                <span>?</span>
+                                <span className={review.type === 'positive' ? 'text-emerald-600' : review.type === 'negative' ? 'text-rose-600' : 'text-slate-500'}>
+                                  {review.type === 'positive' ? '?????????????' : review.type === 'negative' ? '?????????????' : '???????????'}
+                                </span>
                               </div>
                             </div>
                           </div>
-                          {review.score && (
-                            <div className="px-3 py-1 bg-black/30 rounded text-xl font-bold text-white border border-white/10">
+
+                          {review.score ? (
+                            <div className="rounded-2xl bg-slate-800 px-3 py-2 text-lg font-black text-slate-100 ring-1 ring-white/10">
                               {review.score.toFixed(0)}/10
                             </div>
-                          )}
+                          ) : null}
                         </div>
 
-                        {/* Заголовок отзыва */}
-                        <h3 className="text-xl font-bold text-white mb-3">{review.title}</h3>
+                        {review.title && <h3 className="mt-4 text-lg font-bold text-slate-100">{review.title}</h3>}
+                        <p className="mt-3 leading-7 text-slate-400">{review.content}</p>
 
-                        {/* Текст отзыва */}
-                        <div className="text-gray-200 leading-relaxed mb-6 text-[15px]">
-                          {review.content}
+                        <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-slate-800 pt-4">
+                          <button
+                            onClick={() => handleVoteReview(review.id, 'LIKE')}
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-emerald-600"
+                          >
+                            <ThumbsUp className="w-4 h-4" />
+                            {review.helpful || 0}
+                          </button>
+                          <button
+                            onClick={() => handleVoteReview(review.id, 'DISLIKE')}
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-rose-600"
+                          >
+                            <ThumbsDown className="w-4 h-4" />
+                            {review.notHelpful || 0}
+                          </button>
+                          <button
+                            onClick={() => handleShareReview(review.id)}
+                            className="ml-auto inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-indigo-400"
+                          >
+                            <Share2 className="w-4 h-4" />
+                            ??????????
+                          </button>
                         </div>
-
-                        {/* Голосование и действия */}
-                        <div style={{ position: 'relative', zIndex: 9999, backgroundColor: '#222', padding: '16px', marginTop: '16px', borderRadius: '8px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                              <span style={{ color: '#888', fontSize: '14px' }}>Полезный отзыв?</span>
-                              <button 
-                                style={{ 
-                                  backgroundColor: '#3bb33b', 
-                                  color: 'white', 
-                                  padding: '8px 16px', 
-                                  borderRadius: '4px', 
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  fontSize: '14px'
-                                }}
-                                onClick={() => {
-                                  alert('Кнопка ДА нажата! ID: ' + review.id);
-                                  handleVoteReview(review.id, 'LIKE');
-                                }}
-                              >
-                                👍 Да ({review.helpful})
-                              </button>
-                              <button 
-                                style={{ 
-                                  backgroundColor: '#ff4d4d', 
-                                  color: 'white', 
-                                  padding: '8px 16px', 
-                                  borderRadius: '4px', 
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  fontSize: '14px'
-                                }}
-                                onClick={() => {
-                                  alert('Кнопка НЕТ нажата! ID: ' + review.id);
-                                  handleVoteReview(review.id, 'DISLIKE');
-                                }}
-                              >
-                                👎 Нет ({review.notHelpful})
-                              </button>
-                            </div>
-                            <button 
-                              style={{ 
-                                backgroundColor: '#555', 
-                                color: 'white', 
-                                padding: '8px 16px', 
-                                borderRadius: '4px', 
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontSize: '14px'
-                              }}
-                              onClick={() => {
-                                alert('Кнопка КОММЕНТИРОВАТЬ нажата! ID: ' + review.id);
-                                handleShareReview(review.id);
-                              }}
-                            >
-                              💬 Комментировать
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                      </article>
+                    ))
+                  )}
                 </div>
-
-                {/* Кнопка написать отзыв */}
-                <button 
-                  onClick={() => setShowReviewModal(true)}
-                  className="w-full py-4 bg-[#f5c518] text-black font-bold rounded hover:bg-[#f5c518]/90 transition"
-                >
-                  Написать отзыв
-                </button>
-              </div>
-            </>
+              </section>
+            </div>
           )}
 
-          {/* Media Tab */}
-          {activeTab === 'media' && (
-            <>
-              {/* Трейлеры */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">Трейлеры</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {contentData.trailers.map((trailer, index) => (
-                    <div key={index} className="relative group cursor-pointer">
-                      <img
-                        src={trailer.thumbnail}
-                        alt={trailer.title}
-                        className="w-full rounded-lg"
-                      />
-                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Play className="w-16 h-16 text-white" />
-                      </div>
-                      <p className="text-sm text-gray-300 mt-2">{trailer.title}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Скриншоты */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">Скриншоты</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {contentData.screenshots.map((screenshot, index) => (
-                    <div key={index} className="group cursor-pointer">
-                      <img
-                        src={screenshot.url}
-                        alt={screenshot.caption}
-                        className="w-full rounded-lg hover:scale-105 transition-transform"
-                      />
-                      <p className="text-sm text-gray-400 mt-2">{screenshot.caption}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* Details Tab */}
           {activeTab === 'details' && (
-            <>
-              {/* Системные требования (для игр) */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">Системные требования</h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Минимальные */}
-                  <div className="bg-[#141414] border border-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Минимальные</h3>
-                    <dl className="space-y-2 text-sm">
-                      {Object.entries(contentData.technicalInfo.systemRequirements.minimum).map(
-                        ([key, value]) => (
-                          <div key={key}>
-                            <dt className="text-gray-500 capitalize">{key}:</dt>
-                            <dd className="text-gray-300">{value}</dd>
-                          </div>
-                        )
-                      )}
-                    </dl>
-                  </div>
-
-                  {/* Рекомендуемые */}
-                  <div className="bg-[#141414] border border-gray-800 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Рекомендуемые</h3>
-                    <dl className="space-y-2 text-sm">
-                      {Object.entries(contentData.technicalInfo.systemRequirements.recommended).map(
-                        ([key, value]) => (
-                          <div key={key}>
-                            <dt className="text-gray-500 capitalize">{key}:</dt>
-                            <dd className="text-gray-300">{value}</dd>
-                          </div>
-                        )
-                      )}
-                    </dl>
-                  </div>
-                </div>
-              </div>
-
-              {/* Языки */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">Поддерживаемые языки</h2>
-                <div className="flex flex-wrap gap-2">
-                  {contentData.technicalInfo.languages.map((lang, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-[#141414] text-gray-300 rounded-full text-sm border border-gray-800"
-                    >
-                      {lang}
-                    </span>
+            <div className="grid gap-6 md:grid-cols-2">
+              <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-slate-100">????????</h2>
+                <dl className="mt-4 space-y-3 text-sm">
+                  {detailRows.map(([label, value]) => (
+                    <div key={label} className="flex items-center justify-between gap-4 rounded-2xl bg-slate-800 px-4 py-3">
+                      <dt className="text-slate-500">{label}</dt>
+                      <dd className="font-semibold text-slate-100">{value}</dd>
+                    </div>
                   ))}
-                </div>
-              </div>
-            </>
+                </dl>
+              </section>
+
+              <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-slate-100">??????????? ??????????</h2>
+                <dl className="mt-4 space-y-3 text-sm">
+                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-slate-800 px-4 py-3">
+                    <dt className="text-slate-500">?????????</dt>
+                    <dd className="font-semibold text-slate-100">{contentData.platforms?.join(', ') || '?'}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-slate-800 px-4 py-3">
+                    <dt className="text-slate-500">????????</dt>
+                    <dd className="font-semibold text-slate-100">{contentData.criticReviews.total}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-slate-800 px-4 py-3">
+                    <dt className="text-slate-500">?????????????</dt>
+                    <dd className="font-semibold text-slate-100">{contentData.userReviews.total}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section className="md:col-span-2">
+                <ReviewDistribution distribution={reviewDistribution} type="user" />
+              </section>
+
+              <section className="md:col-span-2">
+                <ExpectationsWidget contentId={contentData.id} actualRating={contentData.userScore} />
+              </section>
+            </div>
           )}
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Score Summary */}
-          <div className="bg-[#141414] border border-gray-800 rounded-lg p-6 space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Оценки</h3>
-              <div className="flex justify-around items-center mb-6">
-                <div className="text-center">
-                  <MetascoreBadge score={contentData.metascore} size="large" />
-                </div>
-                <div className="text-center">
-                  <UserScoreBadge 
-                    score={contentData.userScore} 
-                    reviewCount={contentData.userReviews.total}
-                    size="large"
-                  />
-                </div>
-              </div>
+        <aside className="space-y-6 lg:sticky lg:top-24">
+          <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-100">??????? ??????</h3>
+            <div className="mt-4 space-y-3 text-sm text-slate-400">
+              <div className="flex items-center justify-between gap-4"><span>????? ????????</span><span className="font-semibold text-slate-100">{contentData.criticReviews.total + contentData.userReviews.total}</span></div>
+              <div className="flex items-center justify-between gap-4"><span>?????? ?????????????</span><span className="font-semibold text-slate-100">{contentData.userScore || '?'}</span></div>
+              <div className="flex items-center justify-between gap-4"><span>??????</span><span className="font-semibold text-slate-100">{contentData.type}</span></div>
             </div>
+          </section>
 
-            <ReviewDistribution distribution={contentData.criticReviews} type="critic" />
-            <ReviewDistribution distribution={contentData.userReviews} type="user" />
-          </div>
+          <ReviewDistribution distribution={reviewDistribution} type="user" />
 
-          {/* Expectations Widget - Hype vs Reality */}
-          <ExpectationsWidget 
-            contentId={Number(id)} 
-            actualRating={contentData.userScore} 
-          />
+          <ExpectationsWidget contentId={contentData.id} actualRating={contentData.userScore} />
 
-          {/* Информация */}
-          <div className="bg-[#141414] border border-gray-800 rounded-lg p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-white">Информация</h3>
-            <dl className="space-y-3 text-sm">
-              <div>
-                <dt className="text-gray-500">Разработчик</dt>
-                <dd className="text-gray-300 font-medium">{contentData.developer}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Издатель</dt>
-                <dd className="text-gray-300 font-medium">{contentData.publisher}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Дата выхода</dt>
-                <dd className="text-gray-300 font-medium">
-                  {formatDate(contentData.releaseDate)}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Платформы</dt>
-                <dd className="text-gray-300 font-medium">
-                  {contentData.platforms.join(', ')}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Жанр</dt>
-                <dd className="text-gray-300 font-medium">{contentData.genre.join(', ')}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Рейтинг</dt>
-                <dd className="text-gray-300 font-medium">{contentData.esrbRating}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Игроки</dt>
-                <dd className="text-gray-300 font-medium">{contentData.players}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Размер</dt>
-                <dd className="text-gray-300 font-medium">{contentData.technicalInfo.fileSize}</dd>
-              </div>
-            </dl>
-          </div>
-
-          {/* Похожие игры */}
-          <div className="bg-[#141414] border border-gray-800 rounded-lg p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-white">Похожие игры</h3>
-            <div className="space-y-4">
-              {contentData.similarContent.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/game/${item.id}`}
-                  className="flex gap-3 group"
-                >
-                  <img
-                    src={item.poster}
-                    alt={item.title}
-                    className="w-20 h-28 object-cover rounded"
-                  />
-                  <div className="flex-1 space-y-2">
-                    <h4 className="font-semibold text-white group-hover:text-[#f5c518] transition">
-                      {item.title}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <MetascoreBadge score={item.metascore} size="small" />
-                      <UserScoreBadge score={item.userScore} size="small" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+          {contentData.trailerUrl && (
+            <section className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-slate-100">?????</h3>
+              <a
+                href={contentData.trailerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-3 text-sm font-bold text-white transition hover:bg-gray-800"
+              >
+                <Play className="w-4 h-4" />
+                ???????? ???????
+              </a>
+            </section>
+          )}
+        </aside>
       </div>
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a1a1a] p-6 rounded-lg max-w-lg w-full border border-gray-800">
-            <h3 className="text-2xl font-bold text-white mb-4">Написать отзыв</h3>
-            <form onSubmit={handleReviewSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-400 mb-2">Оценка (1-10)</label>
-                <input 
-                  type="number" 
-                  min="1" 
-                  max="10" 
-                  value={reviewForm.rating}
-                  onChange={(e) => setReviewForm({...reviewForm, rating: e.target.value})}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-2 text-white"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-400 mb-2">Текст отзыва</label>
-                <textarea 
-                  rows="5"
-                  value={reviewForm.content}
-                  onChange={(e) => setReviewForm({...reviewForm, content: e.target.value})}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-2 text-white"
-                  required
-                  placeholder="Поделитесь своими впечатлениями..."
-                />
-              </div>
-              <div className="flex gap-3 justify-end">
-                <button 
-                  type="button"
-                  onClick={() => setShowReviewModal(false)}
-                  className="px-4 py-2 text-gray-300 hover:text-white"
-                >
-                  Отмена
-                </button>
-                <button 
-                  type="submit"
-                  disabled={reviewSubmitting}
-                  className="px-6 py-2 bg-[#f5c518] text-black font-bold rounded hover:bg-[#f5c518]/90 disabled:opacity-50"
-                >
-                  {reviewSubmitting ? 'Публикация...' : 'Опубликовать'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
-  );
-};
+  )
+}
 
-export default DetailedContentPage;
+export default DetailedContentPage

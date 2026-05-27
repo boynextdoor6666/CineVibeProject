@@ -10,11 +10,24 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: #0f172a;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #fdfdfd;
+  background-color: #0d1222;
+  background-image:
+    radial-gradient(circle at 15% 12%, rgba(132, 204, 22, 0.05), transparent 28%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.06), transparent 30%),
+    radial-gradient(circle at 50% 115%, rgba(15, 23, 42, 0.08), transparent 28%),
+    linear-gradient(180deg, #111827 0%, #0d1222 44%, #080b14 100%);
+  background-attachment: fixed;
   min-height: 100vh;
-  color: #262626;
+  color: #f1f5f9;
   line-height: 1.65;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
@@ -44,22 +57,22 @@ button, .btn, a.button {
 
 /* Профессиональная цветовая палитра - Светлая тема */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --bg-card: #ffffff;
-  --bg-hover: #f3f4f6;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --bg-hover: #334155;
   
-  --text-primary: #171717;
-  --text-secondary: #525252;
-  --text-muted: #737373;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   
-  --border-subtle: #e5e5e5;
-  --border-medium: #d4d4d4;
+  --border-subtle: #334155;
+  --border-medium: #475569;
 }
 
 /* Пользовательские стили */
 .gradient-bg {
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  background: linear-gradient(135deg, #f8fbff 0%, #edf3f9 100%);
 }
 
 .text-gradient {
@@ -258,6 +271,127 @@ button, .btn, a.button {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 }
+
+  .page-light-legacy {
+    color: var(--text-primary);
+  }
+
+  .page-light-legacy .professional-card {
+    background: rgba(255, 255, 255, 0.82) !important;
+    border-color: #e5e7eb !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+  }
+
+  .page-light-legacy .professional-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.09) !important;
+  }
+
+  .page-light-legacy .bg-white\/5,
+  .page-light-legacy .bg-white\/10,
+  .page-light-legacy .bg-white\/15,
+  .page-light-legacy .bg-black\/20,
+  .page-light-legacy .bg-black\/35,
+  .page-light-legacy .bg-black\/40,
+  .page-light-legacy .bg-black\/50 {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .page-light-legacy .bg-dark-900,
+  .page-light-legacy .bg-primary-900 {
+    background-color: #fbfcfe !important;
+  }
+
+  .page-light-legacy .bg-dark-900\/50,
+  .page-light-legacy .bg-dark-900\/30,
+  .page-light-legacy .bg-dark-900\/90,
+  .page-light-legacy .bg-dark-800\/50,
+  .page-light-legacy .bg-dark-700\/50,
+  .page-light-legacy .bg-black\/40,
+  .page-light-legacy .bg-black\/35,
+  .page-light-legacy .bg-black\/20 {
+    background-color: rgba(255, 255, 255, 0.82) !important;
+  }
+
+  .page-light-legacy .bg-dark-800,
+  .page-light-legacy .bg-primary-800 {
+    background-color: #ffffff !important;
+  }
+
+  .page-light-legacy .bg-dark-700,
+  .page-light-legacy .bg-primary-700,
+  .page-light-legacy .bg-secondary-700 {
+    background-color: #f3f4f6 !important;
+  }
+
+  .page-light-legacy .bg-dark-600,
+  .page-light-legacy .bg-secondary-600 {
+    background-color: #e5e7eb !important;
+  }
+
+  .page-light-legacy .border-dark-700,
+  .page-light-legacy .border-primary-700,
+  .page-light-legacy .border-secondary-700 {
+    border-color: #e5e7eb !important;
+  }
+
+  .page-light-legacy .border-dark-600,
+  .page-light-legacy .border-secondary-600 {
+    border-color: #d4d4d4 !important;
+  }
+
+  .page-light-legacy .border-white\/10,
+  .page-light-legacy .border-white\/15 {
+    border-color: #e5e7eb !important;
+  }
+
+  .page-light-legacy .divide-dark-700 > :not([hidden]) ~ :not([hidden]),
+  .page-light-legacy .divide-secondary-700 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #e5e7eb !important;
+  }
+
+  .page-light-legacy .text-white,
+  .page-light-legacy .text-dark-100,
+  .page-light-legacy .text-dark-900,
+  .page-light-legacy .text-secondary-100 {
+    color: #111827 !important;
+  }
+
+  .page-light-legacy .text-dark-200,
+  .page-light-legacy .text-secondary-200 {
+    color: #1f2937 !important;
+  }
+
+  .page-light-legacy .text-dark-300,
+  .page-light-legacy .text-secondary-300 {
+    color: #374151 !important;
+  }
+
+  .page-light-legacy .text-dark-400,
+  .page-light-legacy .text-secondary-400 {
+    color: #6b7280 !important;
+  }
+
+  .page-light-legacy .text-dark-500,
+  .page-light-legacy .text-secondary-500 {
+    color: #9ca3af !important;
+  }
+
+  .page-light-legacy .hover\:text-white:hover {
+    color: #111827 !important;
+  }
+
+  .page-light-legacy .hover\:bg-dark-700:hover,
+  .page-light-legacy .hover\:bg-primary-700:hover,
+  .page-light-legacy .hover\:bg-secondary-700:hover {
+    background-color: #f3f4f6 !important;
+  }
+
+  .page-light-legacy .hover\:bg-dark-600:hover,
+  .page-light-legacy .hover\:bg-primary-600:hover,
+  .page-light-legacy .hover\:bg-secondary-600:hover {
+    background-color: #e5e7eb !important;
+  }
 
 /* Hover эффекты для постеров */
 .poster-container {

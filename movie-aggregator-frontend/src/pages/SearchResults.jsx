@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import { Search, Film, Tv, Gamepad2, Star, Calendar } from 'lucide-react'
+import PosterFrame from '../components/PosterFrame'
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams()
@@ -56,8 +57,8 @@ const SearchResults = () => {
   if (!query) {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
-        <Search className="h-16 w-16 text-dark-400 mx-auto mb-4" />
-        <p className="text-dark-300 text-lg">Введите запрос для поиска</p>
+        <Search className="h-16 w-16 text-slate-400 mx-auto mb-4" />
+        <p className="text-slate-300 text-lg">Введите запрос для поиска</p>
       </div>
     )
   }
@@ -66,13 +67,13 @@ const SearchResults = () => {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-dark-100 mb-2">
+        <h1 className="text-3xl font-display font-bold text-white mb-2">
           Результаты поиска
         </h1>
-        <p className="text-dark-300">
+        <p className="text-slate-300">
           По запросу: <span className="text-imdb font-medium">"{query}"</span>
         </p>
-        <p className="text-dark-400 text-sm mt-1">
+        <p className="text-slate-400 text-sm mt-1">
           Найдено: {filteredResults.length} {filteredResults.length === 1 ? 'результат' : 'результатов'}
         </p>
       </div>
@@ -86,7 +87,7 @@ const SearchResults = () => {
             className={`px-4 py-2 rounded-lg font-medium text-sm transition-all whitespace-nowrap ${
               filter === type
                 ? 'bg-imdb text-dark-900'
-                : 'bg-dark-700 text-dark-300 hover:bg-dark-600'
+                : 'bg-slate-800 text-slate-300 hover:bg-dark-600'
             }`}
           >
             {type === 'ALL' ? 'Всё' : getContentTypeLabel(type)}
@@ -101,9 +102,9 @@ const SearchResults = () => {
         </div>
       ) : filteredResults.length === 0 ? (
         <div className="text-center py-12">
-          <Search className="h-16 w-16 text-dark-400 mx-auto mb-4" />
-          <p className="text-dark-300 text-lg mb-2">Ничего не найдено</p>
-          <p className="text-dark-400">Попробуйте изменить запрос или фильтры</p>
+          <Search className="h-16 w-16 text-slate-400 mx-auto mb-4" />
+          <p className="text-slate-300 text-lg mb-2">Ничего не найдено</p>
+          <p className="text-slate-400">Попробуйте изменить запрос или фильтры</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -111,43 +112,35 @@ const SearchResults = () => {
             <Link
               key={item.id}
               to={`/content/${item.id}`}
-              className="group bg-dark-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-imdb transition-all"
+              className="group relative bg-slate-800/80 rounded-lg overflow-hidden hover:ring-2 hover:ring-imdb transition-all"
             >
-              <div className="relative aspect-[2/3] bg-dark-700">
-                {item.poster_url ? (
-                  <img
-                    src={item.poster_url}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-dark-500">
-                    {getContentTypeIcon(item.content_type)}
-                  </div>
-                )}
-                <div className="absolute top-2 left-2 flex gap-2">
-                  <span className="px-2 py-1 bg-dark-900/90 backdrop-blur-sm rounded text-xs font-medium text-dark-100 flex items-center gap-1">
-                    {getContentTypeIcon(item.content_type)}
-                    {getContentTypeLabel(item.content_type)}
+              <PosterFrame
+                src={item.poster_url}
+                alt={item.title}
+                title={item.title}
+                type={item.content_type === 'MOVIE' ? 'movie' : item.content_type === 'TV_SERIES' ? 'series' : 'game'}
+                className="aspect-[2/3] rounded-none"
+                imageClassName="group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-2 left-2 flex gap-2">
+                <span className="px-2 py-1 bg-slate-900/50/90 backdrop-blur-sm rounded text-xs font-medium text-white flex items-center gap-1">
+                  {getContentTypeIcon(item.content_type)}
+                  {getContentTypeLabel(item.content_type)}
+                </span>
+              </div>
+              {item.avg_rating > 0 && (
+                <div className="absolute top-2 right-2">
+                  <span className="px-2 py-1 bg-imdb/90 backdrop-blur-sm rounded text-xs font-bold text-dark-900 flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-current" />
+                    {Number(item.avg_rating).toFixed(1)}
                   </span>
                 </div>
-                {item.avg_rating > 0 && (
-                  <div className="absolute top-2 right-2">
-                    <span className="px-2 py-1 bg-imdb/90 backdrop-blur-sm rounded text-xs font-bold text-dark-900 flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-current" />
-                      {Number(item.avg_rating).toFixed(1)}
-                    </span>
-                  </div>
-                )}
-              </div>
+              )}
               <div className="p-3">
-                <h3 className="font-medium text-dark-100 line-clamp-2 group-hover:text-imdb transition-colors">
+                <h3 className="font-medium text-white line-clamp-2 group-hover:text-imdb transition-colors">
                   {item.title}
                 </h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-dark-400">
+                <div className="flex items-center gap-2 mt-2 text-xs text-slate-400">
                   {item.release_year && (
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />

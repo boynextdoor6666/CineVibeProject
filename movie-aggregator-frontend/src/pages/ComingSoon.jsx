@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, Bell, Play, ExternalLink, Star } from 'lucide-react';
 import MetascoreBadge from '../components/MetascoreBadge';
+import PosterFrame from '../components/PosterFrame';
 import axios from 'axios';
 
 const ComingSoon = () => {
@@ -105,7 +106,7 @@ const ComingSoon = () => {
             <Calendar className="text-accent-400" size={32} />
             Скоро выйдет
           </h1>
-          <p className="text-secondary-300 text-lg">
+          <p className="text-slate-300 text-lg">
             Следите за предстоящими релизами и добавляйте их в watchlist
           </p>
         </div>
@@ -166,7 +167,7 @@ const ComingSoon = () => {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 timeframe === tf
                   ? 'bg-accent-500/20 text-accent-400 border border-accent-500/50'
-                  : 'bg-black/20 text-gray-400 hover:text-gray-200 hover:bg-black/40 border border-white/5'
+                  : 'bg-black/20 text-slate-500 hover:text-gray-200 hover:bg-black/40 border border-white/5'
               }`}
             >
               {tf === 'all' ? 'Все даты' : tf === 'week' ? 'Эта неделя' : tf === 'month' ? 'Этот месяц' : tf === 'quarter' ? 'Этот квартал' : 'Этот год'}
@@ -177,13 +178,13 @@ const ComingSoon = () => {
 
       {/* Список релизов */}
       {loading ? (
-        <div className="text-center py-12 text-secondary-400">Загрузка...</div>
+        <div className="text-center py-12 text-slate-400">Загрузка...</div>
       ) : error ? (
         <div className="text-center py-12 text-red-400">{error}</div>
       ) : (
       <div className="space-y-6">
         {filteredReleases.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-slate-500">
             Нет предстоящих релизов в выбранном периоде
           </div>
         ) : (
@@ -198,11 +199,14 @@ const ComingSoon = () => {
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Постер с эффектами */}
-                  <div className="w-full md:w-56 flex-shrink-0 bg-primary-800 relative overflow-hidden">
-                    <img
+                  <div className="w-full md:w-56 flex-shrink-0 relative overflow-hidden">
+                    <PosterFrame
                       src={item.poster_url || 'https://placehold.co/300x450?text=Coming+Soon'}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      title={item.title}
+                      type={item.content_type === 'MOVIE' ? 'movie' : item.content_type === 'TV_SERIES' ? 'series' : 'game'}
+                      className="h-full w-full rounded-none"
+                      imageClassName="group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                     {/* Expected Metascore */}
@@ -226,7 +230,7 @@ const ComingSoon = () => {
                       {/* Информация */}
                       <div className="flex-1 space-y-4">
                         <div>
-                          <h3 className="text-xl md:text-2xl font-bold text-secondary-100 mb-2 group-hover:text-accent-400 transition-colors">
+                          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-accent-400 transition-colors">
                             {item.title}
                           </h3>
                           <div className="flex items-center gap-3 text-sm">
@@ -235,7 +239,7 @@ const ComingSoon = () => {
                               {formatDate(item.release_date)}
                             </span>
                             {daysUntil > 0 && (
-                              <span className="text-secondary-400 bg-primary-700 px-3 py-1.5 rounded-lg">
+                              <span className="text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg">
                                 Через {daysUntil} {daysUntil === 1 ? 'день' : daysUntil < 5 ? 'дня' : 'дней'}
                               </span>
                             )}
@@ -246,36 +250,36 @@ const ComingSoon = () => {
                         <div className="flex flex-wrap gap-2 text-sm">
                             {item.content_type === 'GAME' && (
                             <>
-                                {item.developer && <span className="text-secondary-300 bg-primary-700 px-3 py-1 rounded-lg">{item.developer}</span>}
+                                {item.developer && <span className="text-slate-300 bg-slate-800 px-3 py-1 rounded-lg">{item.developer}</span>}
                               <span className="text-secondary-500">•</span>
-                                {Array.isArray(item.platforms) && <span className="text-secondary-400">{item.platforms.join(', ')}</span>}
+                                {Array.isArray(item.platforms) && <span className="text-slate-400">{item.platforms.join(', ')}</span>}
                             </>
                           )}
                             {item.content_type === 'MOVIE' && (
                             <>
-                                {item.director && <span className="text-secondary-300 bg-primary-700 px-3 py-1 rounded-lg">{item.director}</span>}
+                                {item.director && <span className="text-slate-300 bg-slate-800 px-3 py-1 rounded-lg">{item.director}</span>}
                               <span className="text-secondary-500">•</span>
-                                {item.studio && <span className="text-secondary-400">{item.studio}</span>}
+                                {item.studio && <span className="text-slate-400">{item.studio}</span>}
                             </>
                           )}
                             {item.content_type === 'TV_SERIES' && (
                             <>
-                                {item.creator && <span className="text-secondary-300 bg-primary-700 px-3 py-1 rounded-lg">{item.creator}</span>}
+                                {item.creator && <span className="text-slate-300 bg-slate-800 px-3 py-1 rounded-lg">{item.creator}</span>}
                               <span className="text-secondary-500">•</span>
-                                {item.network && <span className="text-secondary-400">{item.network}</span>}
+                                {item.network && <span className="text-slate-400">{item.network}</span>}
                             </>
                           )}
                         </div>
 
                         {/* Описание */}
-                        <p className="text-secondary-300 text-sm leading-relaxed">
+                        <p className="text-slate-300 text-sm leading-relaxed">
                           {item.description}
                         </p>
 
                         {/* Watchlist статистика с иконкой */}
-                        <div className="flex items-center gap-2 text-sm text-secondary-400 bg-primary-700/50 px-3 py-2 rounded-lg w-fit">
+                        <div className="flex items-center gap-2 text-sm text-slate-400 bg-slate-800/50 px-3 py-2 rounded-lg w-fit">
                           <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                          <span className="font-semibold text-secondary-200">
+                          <span className="font-semibold text-slate-100">
                             {formatWatchlistCount(item.watchlist_count || 0)}
                           </span>
                           <span>отслеживают</span>

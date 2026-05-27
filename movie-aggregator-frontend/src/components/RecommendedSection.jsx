@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Sparkles } from 'lucide-react'
-import ContentHoverCard from './ContentHoverCard'
-import MetascoreBadge from './MetascoreBadge'
-import UserScoreBadge from './UserScoreBadge'
+import PosterFrame from './PosterFrame'
 import { useAuth } from '../context/AuthContext'
 
 const RecommendedSection = () => {
@@ -34,55 +32,54 @@ const RecommendedSection = () => {
   if (loading || recommendations.length === 0) return null
 
   return (
-    <section className="mb-12">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-indigo-50 ring-1 ring-indigo-100 rounded-lg">
-            <Sparkles className="w-6 h-6 text-indigo-500" />
+    <section className="mb-16 rounded-3xl border border-slate-800 bg-slate-900/50 p-6 shadow-sm sm:p-8">
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="rounded-2xl bg-indigo-50 p-3 ring-1 ring-indigo-100">
+            <Sparkles className="h-6 w-6 text-indigo-400" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Рекомендовано для вас</h2>
-            <p className="text-sm text-gray-500">На основе ваших оценок и предпочтений</p>
+            <h2 className="text-2xl font-black text-slate-100">Рекомендовано для вас</h2>
+            <p className="text-sm text-slate-400">Подборка на основе ваших оценок и истории просмотров</p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {recommendations.filter(rec => rec.content).slice(0, 5).map((rec) => {
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        {recommendations.filter((rec) => rec.content).slice(0, 5).map((rec) => {
           const item = rec.content
-          const linkPath = item?.type === 'movie' ? `/movie/${item.id}` 
-            : item?.type === 'series' ? `/series/${item.id}` 
-            : `/game/${item.id}`
+          const linkPath = item?.type === 'movie'
+            ? `/movie/${item.id}`
+            : item?.type === 'series'
+              ? `/series/${item.id}`
+              : `/game/${item.id}`
 
           return (
-            <div key={rec.id} className="group relative">
-              <Link to={linkPath} className="block w-full">
-                <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 bg-gray-100 shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1">
-                  <img
-                    src={item.poster_url}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  
-                  {/* Баджи перенесены так, чтобы выглядели чище */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-2">
-                    <span className="inline-flex items-center px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-semibold text-indigo-700 shadow-sm">
-                      {Math.round(rec.score * 100)}% Match
-                    </span>
-                  </div>
-                </div>
-                
-                <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors truncate">
+            <Link key={rec.id} to={linkPath} className="group block">
+              <PosterFrame
+                src={item.poster_url}
+                alt={item.title}
+                title={item.title}
+                type={item.type}
+                className="aspect-[2/3] shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg"
+                badge={(
+                  <span className="inline-flex items-center rounded-full bg-slate-900 px-2.5 py-1 text-xs font-bold text-indigo-300 shadow-sm ring-1 ring-white/10 backdrop-blur">
+                    {Math.round(rec.score * 100)}% match
+                  </span>
+                )}
+              />
+
+              <div className="mt-3 space-y-1">
+                <h3 className="truncate font-semibold text-slate-100 transition-colors group-hover:text-indigo-400">
                   {item.title}
                 </h3>
-                <div className="flex items-center text-sm text-gray-500 mt-1 space-x-2">
+                <div className="flex items-center gap-2 text-sm text-slate-400">
                   <span>{item.release_year}</span>
                   <span>•</span>
                   <span className="capitalize">{item.type}</span>
                 </div>
-              </Link>
-            </div>
+              </div>
+            </Link>
           )
         })}
       </div>
