@@ -26,8 +26,14 @@ let RecommendationsController = class RecommendationsController {
     async getMyRecommendations(req) {
         return this.recommendationsService.getRecommendationsForUser(req.user.id);
     }
+    async getMlLogs() {
+        return this.recommendationsService.getMlLogs();
+    }
     async generateRecommendations() {
         return this.recommendationsService.generateRecommendations();
+    }
+    async predictRatings() {
+        return this.recommendationsService.predictRatings();
     }
 };
 exports.RecommendationsController = RecommendationsController;
@@ -42,11 +48,27 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
+    (0, common_1.Get)('ml-logs'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], RecommendationsController.prototype, "getMlLogs", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, common_1.Post)('generate'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], RecommendationsController.prototype, "generateRecommendations", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
+    (0, common_1.Post)('predict-ratings'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], RecommendationsController.prototype, "predictRatings", null);
 exports.RecommendationsController = RecommendationsController = __decorate([
     (0, common_1.Controller)('api/recommendations'),
     __metadata("design:paramtypes", [recommendations_service_1.RecommendationsService])

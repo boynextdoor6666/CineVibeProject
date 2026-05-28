@@ -1837,7 +1837,37 @@ export default function AdminPanel() {
           <div className="bg-slate-800/80 p-6 rounded-lg border border-white/10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white flex items-center gap-2"><Server /> ML Задачи & Автоматизация</h2>
-              <button onClick={fetchMlTasks} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100">Обновить</button>
+              <div className="space-x-2">
+                <button 
+                  onClick={async () => {
+                    try {
+                      await axios.post('/api/recommendations/predict-ratings', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+                      alert('Запущен ML скрипт прогнозирования рейтинга (NLP)');
+                      fetchMlTasks();
+                    } catch (e) {
+                      console.error(e);
+                      alert('Ошибка запуска NLP ML');
+                    }
+                  }} 
+                  className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold">
+                  Запустить NLP Прогноз
+                </button>
+                <button 
+                  onClick={async () => {
+                    try {
+                      await axios.post('/api/recommendations/generate', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+                      alert('Запущен ML скрипт гибридных рекомендаций');
+                      fetchMlTasks();
+                    } catch (e) {
+                      console.error(e);
+                      alert('Ошибка запуска Hybrid Recommender ML');
+                    }
+                  }} 
+                  className="px-3 py-2 bg-accent-600 hover:bg-accent-700 rounded text-white font-semibold">
+                  Сгенерировать рекомендации
+                </button>
+                <button onClick={fetchMlTasks} className="px-3 py-2 bg-slate-800 hover:bg-dark-600 rounded text-slate-100 border border-slate-700">Обновить статус</button>
+              </div>
             </div>
             
             {mlLoading ? (

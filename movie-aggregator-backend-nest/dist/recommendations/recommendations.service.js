@@ -54,8 +54,9 @@ const recommendation_entity_1 = require("./entities/recommendation.entity");
 const child_process_1 = require("child_process");
 const path = __importStar(require("path"));
 let RecommendationsService = RecommendationsService_1 = class RecommendationsService {
-    constructor(recommendationsRepository) {
+    constructor(recommendationsRepository, dataSource) {
         this.recommendationsRepository = recommendationsRepository;
+        this.dataSource = dataSource;
         this.logger = new common_1.Logger(RecommendationsService_1.name);
     }
     async getRecommendationsForUser(userId, limit = 10) {
@@ -66,9 +67,18 @@ let RecommendationsService = RecommendationsService_1 = class RecommendationsSer
             take: limit,
         });
     }
+    async getMlLogs() {
+        try {
+            const logs = await this.dataSource.query('SELECT * FROM ml_task_logs ORDER BY updated_at DESC');
+            return logs;
+        }
+        catch (e) {
+            return [];
+        }
+    }
     async generateRecommendations() {
         this.logger.log('Starting recommendation generation process...');
-        const scriptPath = path.resolve(__dirname, '../../../../analytics/ml/recommender.py');
+        const scriptPath = '../analytics/ml/recommender.py';
         return new Promise((resolve, reject) => {
             (0, child_process_1.exec)(`python "${scriptPath}"`, (error, stdout, stderr) => {
                 if (error) {
@@ -84,11 +94,30 @@ let RecommendationsService = RecommendationsService_1 = class RecommendationsSer
             });
         });
     }
+    async predictRatings() {
+        this.logger.log('Starting NLP rating predictor process...');
+        const scriptPath = path.resolve(process.cwd(), '../analytics/ml/predict_rating.py');
+        return new Promise((resolve, reject) => {
+            (0, child_process_1.exec)(`python "${scriptPath}"`, (error, stdout, stderr) => {
+                if (error) {
+                    this.logger.error(`Error executing NLP script: ${error.message}`);
+                    reject(error);
+                    return;
+                }
+                if (stderr) {
+                    this.logger.warn(`NLP Script Stderr: ${stderr}`);
+                }
+                this.logger.log(`NLP Script Output: ${stdout}`);
+                resolve({ message: 'NLP Predictor finished successfully', output: stdout });
+            });
+        });
+    }
 };
 exports.RecommendationsService = RecommendationsService;
 exports.RecommendationsService = RecommendationsService = RecommendationsService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(recommendation_entity_1.Recommendation)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.DataSource])
 ], RecommendationsService);
 //# sourceMappingURL=recommendations.service.js.map

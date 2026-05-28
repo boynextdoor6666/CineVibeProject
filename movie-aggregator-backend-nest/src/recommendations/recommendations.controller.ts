@@ -17,8 +17,22 @@ export class RecommendationsController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @Get('ml-logs')
+  async getMlLogs() {
+    return this.recommendationsService.getMlLogs();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Post('generate')
   async generateRecommendations() {
     return this.recommendationsService.generateRecommendations();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @Post('predict-ratings')
+  async predictRatings() {
+    return this.recommendationsService.predictRatings();
   }
 }
